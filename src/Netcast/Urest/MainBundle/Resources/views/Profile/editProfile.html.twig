@@ -1,0 +1,112 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div id="basic-info">
+        <div class="container">
+            <h2 class="header-title">{{ 'site.base_info'|trans({},'NetcastUrestMainBundle') }}</h2>
+            <div class="block-info clearfix">
+                <form method="POST" id="jsUserForm" action="{{ path('netcast_urest_profile_update') }}" enctype="multipart/form-data">
+                <div class="col-sm-3 col-xs-12 no-padd">
+                    <div class="cell inner inner-nav">
+                        {{ form_row(form.avatar) }}
+                        <div class="clearfix"></div>
+                        <div class="col-sm-12 no-padd padd-xs">
+                            <div class="block-date">
+                                <div class="inner-date">
+                                    <p>{{ 'site.reg_date'|trans({},'NetcastUrestMainBundle') }}</p>
+                                    <p class="date">{{ app.user.createdAt|date('d.m.Y') }}</p>
+                                </div>
+                                <div class="inner-date">
+                                    <p>{{ 'site.last_login_date'|trans({},'NetcastUrestMainBundle') }}</p>
+                                    <p class="date">{{ app.user.lastLogin|date('d.m.Y') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9 col-xs-12 no-padd">
+                    <div class="cell inner inner-info">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    {{ form_row(form.firstname) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    {{ form_row(form.lastname) }}
+                                </div>
+                            </div>
+                            <div class="clearfix visible-sm"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ form_label(form.gender) }}
+                                    <div class="box-radio">
+                                    {{ form_widget(form.gender,{'attr': {'class': 'rating-input'}}) }}
+                                    </div>
+                                    {#<label for="sex">Пол</label>
+
+                                        <label class="radio-inline">
+                                            <input type="radio" class="btn-radio" name="radio" id="men" checked  value="option1"> муж
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" class="btn-radio" name="radio" id="women" value="option2"> жен
+                                        </label>
+                                    </div>#}
+                                </div>
+                            </div>
+                            <div class="clearfix big-spacer"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {{ form_row(form.email) }}
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="box-select">
+                                        {{ form_row(form.dateOfBirth) }}
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="clearfix big-spacer"></div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    {{ form_row(form.country) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    {{ form_row(form.city) }}
+                                </div>
+                            </div>
+                            <div class="clearfix big-spacer"></div>
+                            <div class="col-md-4 col-sm-6">
+                                {#<div class="form-group">
+                                    <label for="password">Пароль</label>
+                                    <input type="password" class="form-control" id="password" placeholder="******">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="btn-checkbox"> Показать пароль
+                                        </label>
+                                    </div>
+                                </div>#}
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <a onclick="$('#jsUserForm').submit()" class="btn btn-grey btn-password"><i class="fa fa-angle-right"></i> {{ 'form.label.save'|trans({},'NetcastUrestMainBundle') }}</a>
+                            </div>
+                            {{ form_rest(form) }}
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block pageScripts %}
+    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+    {% javascripts
+    '@NetcastUrestMainBundle/Resources/public/js/user.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock pageScripts %}

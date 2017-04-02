@@ -1,0 +1,29 @@
+Netcast\Urest\MainBundle\Entity\CurrencyRate:
+    type: entity
+    table: currency_rate
+    indexes:
+        currency_rate_curr_code_idx:
+            columns: [ currency_code ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\CurrencyRateRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        currency_code:
+            type: string
+            length: '5'
+        currency_icon:
+            type: string
+            length: '50'
+        display:
+            type: boolean
+            default: 0
+        rate:
+            type: float
+

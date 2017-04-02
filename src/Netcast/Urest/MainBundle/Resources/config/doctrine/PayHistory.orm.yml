@@ -1,0 +1,54 @@
+Netcast\Urest\MainBundle\Entity\PayHistory:
+    type: entity
+    table: pay_history
+    repositoryClass: Netcast\Urest\MainBundle\Entity\PayHistoryRepository
+    indexes:
+        order_idx:
+            columns: [ order_id ]
+        tour_idx:
+            columns: [ tour_order_id ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        data:
+            type: text
+        sign:
+            type: string
+            length: '255'
+        sign_sys:
+            type: string
+            length: '255'
+        status:
+            type: string
+            length: '255'
+        amount:
+            type: string
+            length: '255'
+            default: ''
+        created:
+            type: datetime
+            nullable: false
+    manyToOne:
+         order:
+              targetEntity: CustomTourOrder
+              inversedBy: pay_history
+              joinColumn:
+                 name: order_id
+                 referencedColumnName: id
+         tour_order:
+              targetEntity: TourOrder
+              inversedBy: pay_history
+              joinColumn:
+                  name: tour_order_id
+                  referencedColumnName: id
+         user:
+              targetEntity: Application\Sonata\UserBundle\Entity\User
+              joinColumn:
+                name: user_id
+                referenceColumnName: id
+              nullable: true
+    lifecycleCallbacks: {  }

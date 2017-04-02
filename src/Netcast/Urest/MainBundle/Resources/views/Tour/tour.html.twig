@@ -1,0 +1,145 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div class="main-content bg-white">
+        <div class="block-tour">
+            <div class="container width-970">
+                <h2 class="header-title"> {{ tour.title }} </h2>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        {% for image in tour.tourImages %}
+                            {% if image.main %}
+                                {% media image.media,'reference' with {'class' : "img_responsive"} %}
+                            {% endif %}
+                        {% endfor %}
+                        <div class="col-md-4 col-sm-4 no-padd-left no-padd-xs">
+                            <div class="info-tour clearfix">
+                                <div class="cell icon"><i class="fa fa-map-marker"></i> </div>
+                                <div class="cell txt">{{ tour.city.title }}, {{ tour.city.region.country.title }}</div>
+								<span class="input-date">
+								<select id="tourDateSelect" data-href="{{ url('netcast_urest_tour_price',{id:'__id__'}) }}">
+                                    {% for date in tour.tourDates %}
+                                        <option value="{{ date.id }}">{{ date.dateFrom|date('Y-m-d') }} - {{ date.dateTo|date('Y-m-d') }}</option>
+                                    {% endfor %}
+                                </select>
+							</span>
+                                <hr/>
+                                <div class="cell icon"><i class="fa fa-building-o"></i>  </div>
+                                <div class="cell txt">
+                                    {{ tour.accommodation }}
+                                </div>
+                                <div class="box-center">
+                                    <p class="price" id="jsPrice">{{ getPrice(tour.tourDates[0].price) }}</p>
+                                    <p id="jsFormWrapper" style="display: none"></p>
+                                    {% if app.user %}
+                                        <a style="cursor: pointer" id="jsPayTour" data-href="{{ url('netcast_urest_tour_pay',{id:'__id__'}) }}" class="btn btn-grey"><i class="fa fa-angle-right"></i> Купить</a>
+                                    {% else %}
+                                        <p>Только авторизированные пользователи могут покупать туры</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix big-spacer visible-xs"></div>
+                        <div class="col-md-8 col-sm-8 no-padd">
+                            <div class="block-map">
+                                <div id="map"></div>
+                            </div>
+                            <div class="infobox-wrapper">
+                                <div id="infobox">
+                                    <div class="cell icon-tour">
+                                        <img src="../assets/img/img-thumb-small.png" alt="">
+                                    </div>
+                                    <div class="cell description-tour">
+                                        <p class="title">Phasellus ut tempor urna</p>
+                                        <p class="name-hotel">Отель «АТЛАНТ»</p>
+                                        <hr/>
+                                        <p class="description">Dolor sit amet, consectetur adipiscing elit. Phasellus ut tempor urna, id vestibulum lacus. </p>
+                                    </div>
+                                    <div class="cleafrix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix big-spacer visible-sm visible-xs"></div>
+                    <div class="col-md-4">
+                       {{ tour.description|raw }}
+                    </div>
+                </div>
+                <div class="clearfix big-spacer"></div>
+                <div class="clearfix big-spacer"></div>
+            </div>
+            <div class="container">
+                <h2 class="header-title"> ФОТОГРАФИИ И ВИДЕО</h2>
+                <div class="scroll-img-box">
+                    <div id="thumb-scroller" class="thumb-scroller">
+                        <ul class="ts-list">
+                            {% for image in tour.tourImages %}
+                                {% if image.main %}
+                                    <li>
+                                        <a href="" target="_parent">
+                                            {% media image.media,'reference' with {'class' : "img_responsive"} %}
+                                        </a>
+                                    </li>
+
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <h2 class="header-title"> ПОХОЖИЕ ТУРЫ</h2>
+            <div class="row">
+                {% for key, tour in tourAdd %}
+                    <div class="col-md-3 col-sm-4 no-padd-xs">
+                        <div class="thumbnail thumbnail-small">
+                            {% media tour.tourImages[0].media,'reference' with {'class' : "img_responsive"} %}
+                            <div class="caption">
+                                <div class="inner-block">
+                                    <h4>{{ tour.title }}</h4>
+                                </div>
+                                <div class="inner-block">
+                                    <ul class="list-item">
+                                        <li>
+                                            <div class="cell icon"><i class="fa fa-map-marker"></i></div>
+                                            <div class="cell txt">{{ tour.city.title }}, {{ tour.city.region.country.title }}</div>
+                                        </li>
+                                        <li>
+                                            <div class="cell icon"><i class="fa fa-calendar"></i></div>
+                                            <div class="cell txt">
+                                                {{ tour.tourDates[0].dateFrom|date('d.m.y') }} - {{ tour.tourDates[0].dateTo|date('d.m.y') }}
+                                                <span class="little-txt">  доступны другие даты</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="cell icon"><i class="fa fa-building-o"></i></div>
+                                            <div class="cell txt">
+                                                {{ tour.accommodation }}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="inner-block">
+                                    <p>{{ tour.announcement }}</p>
+                                </div>
+                                <div class="block-btn">
+                                    <span class="price pull-left">{{ getPrice(tour.tourDates[0].price) }}</span>
+                                    <a href="{{ url('netcast_urest_tour_view',{ id : tour.id }) }}" class="btn btn-grey pull-right"><i class="fa fa-angle-right"></i> Подробнее</a>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if key+1%4 == 0 %}
+                        <div class="clearfix big-spacer hidden-sm hidden-xs"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="clearfix big-spacer"></div>
+        </div>
+    </div>
+{% endblock content %}

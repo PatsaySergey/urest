@@ -1,0 +1,48 @@
+Netcast\Urest\MainBundle\Entity\Review:
+    type: entity
+    table: review
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        nickname:
+            type: string
+            length: '255'
+            nullable: true
+        review:
+            type: text
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+        on_main:
+            type: boolean
+        new:
+            type: boolean
+        active:
+            type: boolean
+        deleted:
+            type: boolean
+            options:
+              default: 0
+    manyToOne:
+         avatar:
+             targetEntity: Application\Sonata\MediaBundle\Entity\Media
+             joinColumn:
+                name: media_id
+                referencedColumnName: id
+             cascade: ['persist', 'remove']
+         user:
+             targetEntity: Application\Sonata\UserBundle\Entity\User
+             joinColumn:
+                 name: user_id
+                 referenceColumnName: id
+

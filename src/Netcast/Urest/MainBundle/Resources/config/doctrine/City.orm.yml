@@ -1,0 +1,76 @@
+Netcast\Urest\MainBundle\Entity\City:
+    type: entity
+    table: city
+    indexes:
+        city_region_idx:
+            columns: [ region_id ]
+        city_user_idx:
+            columns: [ user_id ]
+        city_lang_idx:
+            columns: [ lang ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\CityRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        coordinates:
+            type: string
+            length: '255'
+            options:
+              default: ''
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+        in_builder:
+            type: boolean
+            nullable: true
+    manyToOne:
+         region:
+             targetEntity: Region
+             inversedBy: cities
+             joinColumn:
+                name: region_id
+                referencedColumnName: id
+         user:
+             targetEntity: Application\Sonata\UserBundle\Entity\User
+             joinColumn:
+                 name: user_id
+                 referenceColumnName: id
+    oneToMany:
+        tours:
+          targetEntity: Tour
+          mappedBy: city
+          cascade: ["all"]
+          orphanRemoval: true
+        apartments:
+          targetEntity: Netcast\Urest\MainBundle\Entity\Apartment
+          mappedBy: city
+          cascade: ["all"]
+          orphanRemoval: true
+        contacts:
+          targetEntity: Netcast\Urest\MainBundle\Entity\Contact
+          mappedBy: city
+          cascade: ["all"]
+          orphanRemoval: true
+        services:
+          targetEntity: Netcast\Urest\MainBundle\Entity\Service
+          mappedBy: city
+          cascade: ["all"]
+          orphanRemoval: true
+        hotels:
+          targetEntity: Netcast\Urest\MainBundle\Entity\Hotel
+          mappedBy: city
+          cascade: ["all"]
+          orphanRemoval: true

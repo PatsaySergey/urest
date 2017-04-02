@@ -1,0 +1,89 @@
+Netcast\Urest\MainBundle\Entity\LocationInfo:
+    type: entity
+    table: location_info
+    repositoryClass: Netcast\Urest\MainBundle\Entity\LocationInfoRepository
+    indexes:
+        locinfo_user_idx:
+            columns: [ user_id ]
+        locinfo_lang_idx:
+            columns: [ lang ]
+        locinfo_alias_idx:
+            columns: [ alias ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+        lang:
+            type: string
+            length: '2'
+            nullable: false
+        alias:
+            type: string
+            unique: true
+            length: 255
+        content:
+            type: text
+        preview_text:
+              type: string
+              length: 255
+              options:
+                default: ''
+        coordinates:
+            type: string
+            length: '255'
+            options:
+              default: ''
+        active:
+            type: boolean
+            options:
+              default: 1
+        datePublish:
+          type: date
+          nullable: false
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: false
+    manyToOne:
+          user:
+            targetEntity: Application\Sonata\UserBundle\Entity\User
+            joinColumn:
+              name: user_id
+              referenceColumnName: id
+          parent:
+            targetEntity: LocationInfo
+            inversedBy: children
+
+          icon:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            joinColumn:
+              name: icon_id
+              referenceColumnName: id
+            cascade: ["persist"]
+
+    oneToMany:
+        locationinfo_image:
+          targetEntity: LocationInfoImage
+          mappedBy: location_info
+          cascade: ['persist', 'remove']
+          orphanRemoval: true
+        children:
+          targetEntity: LocationInfo
+          mappedBy: parent
+          fetch: EXTRA_LAZY
+          cascade: [ refresh, remove ]
+    manyToMany:
+        video:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            inversedBy: locations
+            cascade: ['persist', 'remove']
+
+    lifecycleCallbacks: {  }

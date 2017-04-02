@@ -1,0 +1,49 @@
+Netcast\Urest\MainBundle\Entity\BlogCategory:
+    type: entity
+    table: blog_category
+    indexes:
+        blogcategory_user_idx:
+            columns: [ user_id ]
+        blogcategory_lang_idx:
+            columns: [ lang ]
+        blogcategory_alias_idx:
+            columns: [ alias ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\BlogCategoryRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+        userId:
+            type: integer
+            column: user_id
+        lang:
+            type: string
+            length: '2'
+            nullable: false
+        alias:
+            type: string
+            unique: true
+            length: 255
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: false
+    oneToMany:
+         posts:
+             targetEntity: BlogPost
+             mappedBy: category
+    manyToOne:
+          user:
+            targetEntity: Application\Sonata\UserBundle\Entity\User
+            joinColumn:
+              name: user_id
+              referenceColumnName: id
+    lifecycleCallbacks: {  }

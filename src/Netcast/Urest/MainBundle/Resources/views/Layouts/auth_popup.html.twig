@@ -1,0 +1,197 @@
+<!-- Modal -->
+<div class="modal fade modal-primary" id="signup-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times-circle"></i></button>
+                <h4 class="modal-title">{{ 'site.auth'|trans({},'NetcastUrestMainBundle') }}</h4>
+            </div>
+            <div class="modal-body">
+                <form id="enterForm" action="{{ path('fos_user_security_check') }}">
+                    <div class="box-input">
+                        <label class="title" for="login">{{ 'site.login_name'|trans({},'NetcastUrestMainBundle') }}</label>
+                        <input type="text" id="login" name="_username" class="form-control">
+                    </div>
+                    <div class="box-input box-password">
+                        <label class="title" for="password">{{ 'site.password'|trans({},'NetcastUrestMainBundle') }}</label>
+                        <input type="password" id="password" name="_password" class="form-control">
+                    </div>
+                </form>
+                <div class="box-question">
+                    <div class="col-md-6 no-padd">
+                        <a href="">{{ 'site.no_accaunt'|trans({},'NetcastUrestMainBundle') }}</a>
+                    </div>
+                    <div class="col-md-6 no-padd">
+                        <a href="" class="pull-right">{{ 'site.forgot_pass'|trans({},'NetcastUrestMainBundle') }}</a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="box-social text-center">
+                    <span>{{ 'site.login_from'|trans({},'NetcastUrestMainBundle') }}:</span>
+                    <a href="//loginza.ru/api/widget?provider=facebook" class="loginza"><i class="fa fa-facebook icon-rounded"></i></a>
+                    <a href="//loginza.ru/api/widget?provider=google" class="loginza"><i class="fa fa-google-plus icon-rounded"></i></a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn" id="enterBtn"><i class="fa fa-chevron-right"></i> {{ 'site.login'|trans({},'NetcastUrestMainBundle') }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-primary" id="login-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times-circle"></i></button>
+                <h4 class="modal-title">{{ 'site.registration'|trans({},'NetcastUrestMainBundle') }}</h4>
+            </div>
+            <div class="modal-body">
+            {% set reg_form = reg_form() %}
+            <form action="{{ path(reg_form.vars.action) }}" {{ form_enctype(reg_form) }} method="POST" id="regForm" autocapitalize="off" autocomplete="off">
+                    <div class="box-input">
+                        {{ form_label(reg_form.first_name) }}
+                        {{ form_widget(reg_form.first_name) }}
+                    </div>
+                    <div class="sex">
+                        {{ form_label(reg_form.gender) }}
+                        <div class="box-radio">
+                            {{ form_widget(reg_form.gender) }}
+                        </div>
+                    </div>
+                    <div class="birthday clearfix">
+                        {{ form_label(reg_form.dateOfBirth) }}
+                        <div class="box-select">
+                            {{ form_widget(reg_form.dateOfBirth.day, { 'attr': {'class': 'day'} }) }}
+                            {{ form_widget(reg_form.dateOfBirth.month, { 'attr': {'class': 'month'} }) }}
+                            {{ form_widget(reg_form.dateOfBirth.year, { 'attr': {'class': 'year'} }) }}
+                        </div>
+                    </div>
+                    <div class="box-input">
+                        {{ form_label(reg_form.email) }}
+                        {{ form_widget(reg_form.email) }}
+                    </div>
+                    {{ form_widget(reg_form.plainPassword) }}
+                {{ form_rest(reg_form) }}
+{#                <input type="submit" value="ok">#}
+                </form>
+                <div class="clearfix"></div>
+                <div class="box-social text-center">
+                    <span>{{ 'site.registered_from'|trans({},'NetcastUrestMainBundle') }}:</span>
+                    <a href="//loginza.ru/api/widget?provider=facebook" class="loginza"><i class="fa fa-facebook icon-rounded"></i></a>
+                    <a href="//loginza.ru/api/widget?provider=google" class="loginza"><i class="fa fa-google-plus icon-rounded"></i></a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn" id="regBtn"><i class="fa fa-chevron-right"></i> {{ 'site.registered'|trans({},'NetcastUrestMainBundle') }}</a>
+            </div>t
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-primary" id="login-modal-mobile">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="switch-block">
+                    <div class="switch-wrapper">
+                        <input id="inp-1" type="checkbox" class="register switch-toggle">
+                        <label for="inp-1" class="switch-button-background">
+                            <span class="switch-button-button"></span>
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-6 no-padd">
+                        <span class="switch-label-on active pull-right">{{ 'site.auth'|trans({},'NetcastUrestMainBundle') }}</span>
+                    </div>
+                    <div class="col-xs-6 no-padd">
+                        <span class="switch-label-off pull-left">{{ 'site.registration'|trans({},'NetcastUrestMainBundle') }}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="registration switch-tab-off">
+                    <form action="{{ path('netcast_urest_register') }}" method="POST" id="regFormMob" autocapitalize="off" autocomplete="off">
+                        <div class="box-input">
+                            <label class="title" for="name">{{ 'site.name'|trans({},'NetcastUrestMainBundle') }}</label>
+                            <input type="text" id="name" class="form-control">
+                        </div>
+                        <div class="col-sm-7 no-padd-left-sm no-padd-xs">
+                            <div class="birthday clearfix">
+                                <label class="title">{{ 'site.birdth'|trans({},'NetcastUrestMainBundle') }}</label>
+                                <div class="box-select">
+                                    <div class="col-xs-4 no-padd-left">
+                                        {{ form_widget(reg_form.dateOfBirth.day, { 'attr': {'class': 'day'} }) }}
+                                    </div>
+                                    <div class="col-xs-4 no-padd">
+                                        {{ form_widget(reg_form.dateOfBirth.month, { 'attr': {'class': 'month'} }) }}
+                                    </div>
+                                    <div class="col-xs-4 no-padd-right">
+                                        {{ form_widget(reg_form.dateOfBirth.year, { 'attr': {'class': 'year'} }) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 no-padd-xs">
+                            <div class="sex form-inline">
+                                <label class="title">Пол</label>
+                                <div class="box-radio">
+                                    <label class="radio-inline">
+                                        <input type="radio" class="btn-radio" name="radio" id="men"  value="m"> муж
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" class="btn-radio" name="radio" id="women" checked value="f"> жен
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="box-input">
+                            <label class="title" for="login1">{{ 'site.login_name'|trans({},'NetcastUrestMainBundle') }}</label>
+                            <input type="text" id="login1" class="form-control">
+                        </div>
+                        <div class="box-input">
+                            <label class="title" for="password1">{{ 'site.password'|trans({},'NetcastUrestMainBundle') }}</label>
+                            <input type="password" id="password1" class="form-control">
+                        </div>
+                        <div class="box-input no-margin-bot">
+                            <label class="title" for="password2">{{ 'site.re_password'|trans({},'NetcastUrestMainBundle') }}</label>
+                            <input type="password" id="password2" class="form-control">
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                    <div class="box-social text-center">
+                        <span>{{ 'site.registered_from'|trans({},'NetcastUrestMainBundle') }}:</span>
+                        <a href=""><i class="fa fa-facebook icon-rounded"></i></a>
+                        <a href=""><i class="fa fa-google-plus icon-rounded"></i></a>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn" id="regBtnMob"><i class="fa fa-chevron-right"></i> {{ 'site.registered'|trans({},'NetcastUrestMainBundle') }}</a>
+                    </div>
+                </div>
+                <div class="authorization switch-tab-on" style="display:none;">
+                    <form id="enterFormMob" action="{{ path('fos_user_security_check') }}">
+                        <div class="box-input">
+                            <label class="title" for="login">{{ 'site.login_name'|trans({},'NetcastUrestMainBundle') }}</label>
+                            <input type="text" id="login" class="form-control">
+                        </div>
+                        <div class="box-input box-password">
+                            <label class="title" for="password">{{ 'site.password'|trans({},'NetcastUrestMainBundle') }}</label>
+                            <input type="password" id="password" class="form-control">
+                        </div>
+                    </form>
+                    <div class="clearfix"></div>
+                    <div class="box-social text-center no-padd">
+                        <span>{{ 'site.login_from'|trans({},'NetcastUrestMainBundle') }}:</span>
+                        <a href="//loginza.ru/api/widget?provider=facebook&mobile=true" class="loginza"><i class="fa fa-facebook icon-rounded"></i></a>
+                        <a href="//loginza.ru/api/widget?provider=google&mobile=true" class="loginza"><i class="fa fa-google-plus icon-rounded"></i></a>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn" id="enterBtnMob"><i class="fa fa-chevron-right"></i> {{ 'site.login'|trans({},'NetcastUrestMainBundle') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

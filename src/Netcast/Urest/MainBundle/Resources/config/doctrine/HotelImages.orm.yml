@@ -1,0 +1,28 @@
+Netcast\Urest\MainBundle\Entity\HotelImages:
+  type: entity
+  table: hotel_images
+  indexes:
+      location_info_idx:
+          columns: [ hotel_id ]
+      image_idx:
+          columns: [ media_id ]
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    main:
+      type: boolean
+      options:
+          default: false
+  manyToOne:
+    hotel:
+      targetEntity: Hotel
+      inversedBy: images
+    media:
+      targetEntity: Application\Sonata\MediaBundle\Entity\Media
+      joinColumn:
+        name: media_id
+        referenceColumnName: id
+      cascade: ['persist', 'remove']

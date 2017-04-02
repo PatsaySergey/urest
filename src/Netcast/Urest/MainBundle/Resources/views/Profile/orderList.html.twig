@@ -1,0 +1,33 @@
+<div class="table-header table-row">
+    <div class="cell">{{ 'site.order_num'|trans({},'NetcastUrestMainBundle') }}</div>
+    <div class="cell">{{ 'site.tour_type'|trans({},'NetcastUrestMainBundle') }}</div>
+    <div class="cell">{{ 'site.amount'|trans({},'NetcastUrestMainBundle') }}</div>
+    <div class="cell">{{ 'site.create_date'|trans({},'NetcastUrestMainBundle') }}</div>
+    <div class="cell">{{ 'site.pay_to'|trans({},'NetcastUrestMainBundle') }}</div>
+    <div class="cell">{{ 'site.status'|trans({},'NetcastUrestMainBundle') }}</div>
+</div>
+{% for order in orders %}
+<div class="table-row">
+    <div class="cell"><a href="{{ url('netcast_urest_profile_order_view',{id:order.id}) }}">{{ order.id }}</a></div>
+    <div class="cell"><a href="{{ url('netcast_urest_profile_order_view',{id:order.id}) }}">{{ 'site.individual'|trans({},'NetcastUrestMainBundle') }}</a></div>
+    <div class="cell">
+        <a href="{{ url('netcast_urest_profile_order_view',{id:order.id}) }}">
+            {% if order.status > 1 %}
+                {{ getPrice(order.price) }}
+            {% else %}
+                не установлено
+            {% endif %}
+        </a></div>
+    <div class="cell"><a href="{{ url('netcast_urest_profile_order_view',{id:order.id}) }}">{{ order.created|date('d.m.Y') }}</a></div>
+    <div class="cell">
+        <a href="{{ url('netcast_urest_profile_order_view',{id:order.id}) }}">
+            {% if order.status > 1 %}
+                {{ order.payTo|date('d.m.Y') }}
+            {% else %}
+                {{ 'site.not_set'|trans({},'NetcastUrestMainBundle') }}
+            {% endif %}
+        </a>
+    </div>
+    <div class="cell"><a href="{{ url('netcast_urest_profile_order_view',{id:order.id}) }}">{{ order.statusText }}</a></div>
+</div>
+{% endfor %}

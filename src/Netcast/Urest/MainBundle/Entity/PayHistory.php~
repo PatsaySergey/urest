@@ -1,0 +1,229 @@
+<?php
+
+namespace Netcast\Urest\MainBundle\Entity;
+
+/**
+ * PayHistory
+ */
+class PayHistory
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $data;
+
+    /**
+     * @var string
+     */
+    private $sign;
+
+    /**
+     * @var string
+     */
+    private $amount;
+
+    /**
+     * @var \DateTime
+     */
+    private $created;
+
+    /**
+     * @var \Netcast\Urest\MainBundle\Entity\CustomTourOrder
+     */
+    private $order;
+
+    /**
+     * @var \Netcast\Urest\MainBundle\Entity\CustomTourOrder
+     */
+    private $tour;
+
+    /**
+     * @var \Application\Sonata\UserBundle\Entity\User
+     */
+    private $user;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set data
+     *
+     * @param string $data
+     *
+     * @return PayHistory
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return string
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Set sign
+     *
+     * @param string $sign
+     *
+     * @return PayHistory
+     */
+    public function setSign($sign)
+    {
+        $this->sign = $sign;
+
+        return $this;
+    }
+
+    /**
+     * Get sign
+     *
+     * @return string
+     */
+    public function getSign()
+    {
+        return $this->sign;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param string $amount
+     *
+     * @return PayHistory
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return string
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return PayHistory
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set order
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\CustomTourOrder $order
+     *
+     * @return PayHistory
+     */
+    public function setOrder(\Netcast\Urest\MainBundle\Entity\CustomTourOrder $order = null)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return \Netcast\Urest\MainBundle\Entity\CustomTourOrder
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Set tour
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\CustomTourOrder $tour
+     *
+     * @return PayHistory
+     */
+    public function setTour(\Netcast\Urest\MainBundle\Entity\CustomTourOrder $tour = null)
+    {
+        $this->tour = $tour;
+
+        return $this;
+    }
+
+    /**
+     * Get tour
+     *
+     * @return \Netcast\Urest\MainBundle\Entity\CustomTourOrder
+     */
+    public function getTour()
+    {
+        return $this->tour;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $user
+     *
+     * @return PayHistory
+     */
+    public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}
+

@@ -1,0 +1,157 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends base_template %}
+
+{% block title %}
+    {% if admin.id(object) is not null %}
+        {{ "title_edit"|trans({'%name%': admin.toString(object)|truncate(15) }, 'SonataAdminBundle') }}
+    {% else %}
+        {{ "title_create"|trans({}, 'SonataAdminBundle') }}
+    {% endif %}
+{% endblock%}
+
+{% block navbar_title %}
+    {{ block('title') }}
+{% endblock %}
+
+{% block actions %}
+    <li>{% include 'SonataAdminBundle:Button:show_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:history_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:acl_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:list_button.html.twig' %}</li>
+    <li>{% include 'SonataAdminBundle:Button:create_button.html.twig' %}</li>
+{% endblock %}
+
+{% block tab_menu %}{{ knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active', 'template': admin_pool.getTemplate('tab_menu_template')}, 'twig') }}{% endblock %}
+
+{% use 'NetcastUrestMainBundle:CRUD:base_edit_form.html.twig' with form as parentForm %}
+{% import "SonataAdminBundle:CRUD:base_edit_form_macro.html.twig" as form_helper %}
+{% import "SonataAdminBundle:CRUD:base_edit_form_macro.html.twig" as form_helper %}
+
+{% block form %}
+
+    {{ block('parentForm') }}
+
+    {% if admin.childrenManager is defined %}
+    {% if admin.childrenManager is not null and admin.getSubject.getId is not null %}
+    <div style="background-color: #f5f5f6; border: 1px solid #e2e2e5; border-radius: 3px; padding: 20px">
+        <h4 style="margin-bottom: 15px">
+        {{ admin.childrenManager.getLabel|trans({},admin.childrenManager.getTranslationDomain) }}
+        </h4>
+        {% set childAdmin = admin.initChildren %}
+        <div style="margin-bottom: 15px">
+            <a href="{{ childAdmin.generateUrl('create') }}?parent={{ admin.getSubject.getId }}" class="btn btn-primary btn-icon icon-left">
+                {{ 'form.label.add'|trans({},'NetcastUrestMainBundle') }}
+                <i class="entypo-list-add"></i>
+            </a>
+        </div>
+        <table id="childTable" class="table table-bordered table-striped datatable dataTable" aria-describedby="table-2_info">
+        <thead>
+            <tr class="replace-inputs">
+                {% for listel in childAdmin.list.getElements %}
+                {% if listel.getName != '_action' %}
+                    <th>
+                        {{ listel.getLabel|trans({},listel.getTranslationDomain) }}
+                    </th>
+                {% endif %}
+                {% endfor %}
+                <th>
+                    {{ 'list.label__action'|trans({},'NetcastUrestMainBundle') }}
+                </th>
+            </tr>
+            <tr>
+                {% for listel in childAdmin.list.getElements %}
+                {% if listel.getName != '_action' %}
+                    <th>
+                        {{ listel.getLabel|trans({},listel.getTranslationDomain) }}
+                    </th>
+                {% endif %}
+                {% endfor %}
+                <th>
+                    {{ 'list.label__action'|trans({},'NetcastUrestMainBundle') }}
+                </th>
+            </tr>
+        </thead>
+        {% for object in admin.childrenObject %}
+            <tr>
+            {% for listel in childAdmin.list.getElements %}
+                {% if listel.getName != '_action' %}
+                <td>
+                    {% if object[listel.getName]|getType == 'DateTime' %}
+                        {{ object[listel.getName]|date('Y-m-d') }}
+                    {% else %}
+                        {{ object[listel.getName] }}
+                    {% endif %}
+                </td>
+                {% endif %}
+            {% endfor %}
+                <td>
+                    <a href="{{ childAdmin.generateUrl('edit',{id : object.id }) }}?&parent={{ admin.getSubject.getId }}" class="btn btn-default btn-sm btn-icon icon-left" title="{{ 'action_edit'|trans({}, 'SonataAdminBundle') }}">
+                        <i class="entypo-pencil"></i>
+                        {{ 'action_edit'|trans({}, 'SonataAdminBundle') }}
+                    </a>
+                    <a href="{{ childAdmin.generateUrl('delete', {id : object.id }) }}" class="btn btn-danger btn-sm btn-icon icon-left" title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}">
+                        <i class="entypo-cancel"></i>
+                        {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        {% block addit_scripts  %}
+            <script src="{{ asset('bundles/netcasturestmain/js/fileinput.js') }}"></script>
+            <script src="{{ asset('bundles/netcasturestmain/js/jquery.dataTables.min.js') }}"></script>
+            <script src="{{ asset('bundles/netcasturestmain/js/datatables/TableTools.min.js') }}"></script>
+            <script src="{{ asset('bundles/netcasturestmain/js/dataTables.bootstrap.js') }}"></script>
+            <script src="{{ asset('bundles/netcasturestmain/js/datatables/jquery.dataTables.columnFilter.js') }}"></script>
+            <script src="{{ asset('bundles/netcasturestmain/js/datatables/lodash.min.js') }}"></script>
+            <script src="{{ asset('bundles/netcasturestmain/js/datatables/responsive/js/datatables.responsive.js') }}"></script>
+        {% endblock addit_scripts %}
+        <script type="text/javascript">
+            jQuery(document).ready(function($)
+            {
+                var table = $("#childTable").dataTable({
+                    "sPaginationType": "bootstrap",
+                    "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    "bStateSave": true
+                });
+
+                table.columnFilter({
+                    "sPlaceHolder" : "head:after"
+                });
+            });
+        </script>
+    </div>
+    {% endif %}
+    {% endif %}
+    <script src="{{ asset('bundles/netcasturestmain/js/admin/service.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/admin/addHome.js') }}"></script>
+    <script type="text/javascript">
+        var TourServices = new TourServices();
+        var addHome = new addHome();
+        TourServices.init({
+            formName         : '{{ form.vars.name }}',
+            getOptionUrl     : '{{ path('netcast_urest_admin_get_options') }}',
+            getOptionInfoUrl : '{{ path('netcast_urest_admin_get_option_info') }}'
+        });
+
+        addHome.init({
+            getRoomsUrl     : '{{ path('netcast_urest_admin_get_rooms') }}',
+            getApartmentsUrl : '{{ path('netcast_urest_admin_get_apartments') }}'
+        });
+    </script>
+
+{% endblock %}
+
+
+
+

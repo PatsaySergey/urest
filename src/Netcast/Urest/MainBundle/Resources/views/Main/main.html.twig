@@ -1,0 +1,122 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+
+{% block content %}
+    <div id="main-carousel" class="owl-carousel owl-theme">
+        {{ include('NetcastUrestMainBundle:Main:mainSlider.html.twig',{ sliders : sliders }, with_context = false) }}
+    </div>
+
+    <div class="block-info">
+        <div class="container">
+            <div class="row">
+                {{ include('NetcastUrestMainBundle:Main:servisesBlock.html.twig',{ services : services }, with_context = false) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="block-article">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 no-padd-xs no-padd-sm">
+                    <h2 class="text-uppercase">{{ 'site.hot_tours'|trans({},'NetcastUrestMainBundle') }}</h2>
+                    {% for tour in lastTours %}
+                    <div class="thumbnail">
+                        {% if tour.tourImages[0] is defined %}
+                            {% media tour.tourImages[0].media,'reference' with {'class' : "img_responsive"} %}
+                        {% endif %}
+                        <div class="caption clearfix">
+                            <div class="caption-header">
+                                <h4>{{ tour.title }}</h4>
+                                <p>{{ tour.announcement }}</p>
+                                <hr/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 no-padd">
+                                <div class="location pull-left">
+                                    <p class="text-uppercase"><i class="fa fa-map-marker"></i> {{ tour.city.title }}, {{ tour.city.region.country.title }}</p>
+                                    <p><i class="fa fa-building-o"></i> {{ tour.accommodation }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 no-padd">
+                                <div class="price-block">
+                                    <span class="price">{{ getPrice(tour.tourDates[0].price) }}</span>
+                                    <a href="{{ url('netcast_urest_tour_view',{ id : tour.id }) }}" class="btn btn-grey pull-right" role="button">
+                                        <i class="fa fa-chevron-right"></i> {{ 'site.addit'|trans({},'NetcastUrestMainBundle') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6 no-padd-xs no-padd-sm">
+                    <div class="new-articles">
+                        <h2 class="text-uppercase">{{ 'site.new_article'|trans({},'NetcastUrestMainBundle') }}</h2>
+                        {% for post in lastPosts %}
+                        <div class="thumbnail">
+                            <div class="image-holder">
+                                {% if post.images[0] is defined %}
+                                    {% media post.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                                {% endif %}
+                                <div class="img-caption">
+                                    <span class="pull-left">{{ post.category.title }}</span>
+                                    <span>
+                                        {% for key, tag in post.tags %}
+                                            {{ tag.title }}{% if key < post.tags|length-1 %},{% endif %}
+                                        {% endfor %}
+                                    </span>
+                                    <span class="pull-right">{{ post.created|date('d.m.y') }}</span>
+
+                                </div>
+                            </div>
+                            <div class="caption clearfix">
+                                <h4>{{ post.title }}</h4>
+                                <hr/>
+                                <p>{{ post.previewText }} </p>
+                                <p><a href="{{ url('netcast_urest_post_view', { category : post.category.alias, alias : post.alias }) }}" class="btn btn-grey pull-right" role="button"><i class="fa fa-chevron-right"></i> {{ 'site.next'|trans({},'NetcastUrestMainBundle') }}<</a></p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="testimonials">
+        <div class="container">
+            <h2 class="text-uppercase">{{ 'site.reviews'|trans({},'NetcastUrestMainBundle') }}<br class="visible-xs"> {{ 'site.clients'|trans({},'NetcastUrestMainBundle') }}</h2>
+            <div class="row">
+                {% for review in reviews %}
+                <div class="item col-md-4">
+                    <div class="quote-box">
+                        <blockquote class="quote">
+                            {{ review.review|raw }}
+                        </blockquote>
+                    </div>
+                    <div class="people">
+                        <div class="cell">
+                            {% if review.avatar is not empty %}
+                                {% media review.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
+                            {% else %}
+                                {% media review.user.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
+                            {% endif %}
+                        </div>
+                        <div class="cell">
+                            <p class="details">
+                                <span class="name">
+                                    {% if review.nickname is not empty %}
+                                        {{ review.nickname }}
+                                    {% else %}
+                                        {{ review.user.nickname }}
+                                    {% endif %}
+                                </span>
+                                <span class="title">@kfriedson</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

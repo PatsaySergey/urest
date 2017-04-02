@@ -1,0 +1,67 @@
+Netcast\Urest\MainBundle\Entity\Apartment:
+    type: entity
+    table: apartment
+    indexes:
+        apartment_city_idx:
+            columns: [ city_id ]
+        apartment_user_idx:
+            columns: [ user_id ]
+        apartment_lang_idx:
+            columns: [ lang ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\ApartmentRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        rooms_count:
+           type: string
+           length: '255'
+        price:
+             type: string
+             length: '100'
+        description:
+            type: text
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+
+    manyToOne:
+         city:
+             targetEntity: City
+             inversedBy: apartments
+             joinColumn:
+                name: city_id
+                referencedColumnName: id
+         user:
+             targetEntity: Application\Sonata\UserBundle\Entity\User
+             joinColumn:
+                 name: user_id
+                 referenceColumnName: id
+         types:
+              targetEntity: ApartmentType
+              inversedBy: apartments
+
+    oneToMany:
+            images:
+                targetEntity: ApartmentImages
+                mappedBy: apartment
+                cascade: ['persist', 'remove']
+                orphanRemoval: true
+
+    manyToMany:
+            video:
+                targetEntity: Application\Sonata\MediaBundle\Entity\Media
+                inversedBy: apartment
+                cascade: ['persist', 'remove']

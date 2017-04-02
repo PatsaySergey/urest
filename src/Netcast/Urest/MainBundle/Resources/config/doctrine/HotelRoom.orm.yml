@@ -1,0 +1,48 @@
+Netcast\Urest\MainBundle\Entity\HotelRoom:
+    type: entity
+    table: hotel_rooms
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        price:
+            type: string
+            length: '255'
+        description:
+            type: text
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+
+    manyToOne:
+         user:
+             targetEntity: Application\Sonata\UserBundle\Entity\User
+             joinColumn:
+                 name: user_id
+                 referenceColumnName: id
+         hotel:
+             targetEntity: Hotel
+             inversedBy: rooms
+    oneToMany:
+             images:
+                targetEntity: RoomImages
+                mappedBy: room
+                cascade: ['persist', 'remove']
+                orphanRemoval: true
+    manyToMany:
+            video:
+                targetEntity: Application\Sonata\MediaBundle\Entity\Media
+                inversedBy: room
+                cascade: ['persist', 'remove']

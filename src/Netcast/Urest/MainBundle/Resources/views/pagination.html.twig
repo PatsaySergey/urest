@@ -1,0 +1,25 @@
+{% if pagination.last > 1 %}
+    <div class="pagination">
+        <a href="{{ path('netcast_urest_post_category_view', { 'category': category.alias, 'page': 1 }) }}"></a>
+        <a href="{{ path('netcast_urest_post_category_view', { 'category': category.alias, 'page': pagination.previous }) }}"></a>
+
+        {% for page in 1..pagination.last %}
+            {% if page == pagination.current %}
+                {{ page }}
+            {% else %}
+                <a href="{{ path('netcast_urest_post_category_view', { 'category': category.alias, 'page': page }) }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+        <a href="{{ path('netcast_urest_post_category_view', { 'category': category.alias, 'page': pagination.next }) }}"></a>
+        <a href="{{ path('netcast_urest_post_category_view', { 'category': category.alias, 'page': pagination.last }) }}"></a>
+    </div>
+{% endif %}
+
+<div class="pagination_desc">
+    {{ "total" | trans({},"NetcastUrestMainBundle") }}: <strong>{{ pagination.total }}</strong> {{ "records" | trans({},"NetcastUrestMainBundle") }}
+
+    {% if pagination.last > 1 %}
+        - {{ "page" | trans({},"NetcastUrestMainBundle") }} <strong>{{ pagination.current }}/{{ pagination.last }}</strong>
+    {% endif %}
+</div>

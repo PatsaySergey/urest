@@ -1,0 +1,280 @@
+netcast_urest_main_page_default:
+    pattern:  /
+    defaults: { _controller: NetcastUrestMainBundle:Main:index, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_register:
+    pattern:  /{_locale}/register
+    defaults: { _controller: NetcastUrestMainBundle:Registration:register }
+    methods: [POST]
+
+netcast_urest_main_page:
+    pattern:  /{_locale}/
+    defaults: { _controller: NetcastUrestMainBundle:Main:index, _locale: "%locale%" }
+    requirements:
+        _locale: ru|en|fr
+    methods: [GET]
+
+netcast_urest_post_categories:
+    pattern:  /{_locale}/blog
+    defaults: { _controller: NetcastUrestMainBundle:Post:categories, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_post_category_view:
+    pattern:  /{_locale}/blog/{category}/
+    defaults: { _controller: NetcastUrestMainBundle:Post:viewCategory, _locale: "%locale%" }
+    methods: [GET]
+
+
+netcast_urest_post_view:
+    pattern:  /{_locale}/blog/{category}/{alias}/
+    defaults: { _controller: NetcastUrestMainBundle:Post:viewPost, _locale: "%locale%" }
+    methods: [GET]
+
+
+netcast_urest_contact_view:
+    pattern:  /{_locale}/contact
+    defaults: { _controller: NetcastUrestMainBundle:Contact:index, _locale: "%locale%" }
+    methods: [GET]
+
+
+netcast_urest_about_as_view:
+    pattern:  /{_locale}/about_as
+    defaults: { _controller: NetcastUrestMainBundle:AboutUs:index, _locale: "%locale%" }
+    methods: [GET]
+
+
+netcast_urest_add_review:
+    pattern:  /{_locale}/add/review
+    defaults: { _controller: NetcastUrestMainBundle:AboutUs:addReview, _locale: "%locale%" }
+    methods: [POST]
+
+
+netcast_urest_get_office:
+    pattern:  /{_locale}/get/office/{countryId}
+    defaults: { _controller: NetcastUrestMainBundle:Contact:getOffice, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_admin_tour_city:
+    pattern:  /{_locale}/admin/urest/main/tour_city/add
+    defaults: { _controller: NetcastUrestMainBundle:AjaxAdmin:addTourCity, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_admin_tour_city:
+    pattern:  /{_locale}/admin/urest/main/tour_city/add
+    defaults: { _controller: NetcastUrestMainBundle:AjaxAdmin:addTourCity, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_admin_add_pay_order:
+    pattern:  /{_locale}/admin/urest/main/pay_order/add
+    defaults: { _controller: NetcastUrestMainBundle:AjaxAdmin:addPayOrder, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_admin_get_options:
+    pattern:  /{_locale}/admin/urest/main/tour_options/get
+    defaults: { _controller: NetcastUrestMainBundle:AjaxAdmin:getOptions, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_admin_get_option_info:
+    pattern:  /{_locale}/admin/urest/main/tour_options/get_info
+    defaults: { _controller: NetcastUrestMainBundle:AjaxAdmin:getOptionInfo, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_faq_view:
+    pattern:  /{_locale}/faq
+    defaults: { _controller: NetcastUrestMainBundle:Faq:list, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_tour_list:
+    pattern:  /{_locale}/tour/list
+    defaults: { _controller: NetcastUrestMainBundle:Tour:index, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_tour_view:
+    pattern:  /{_locale}/tour/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Tour:view, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_tour_price:
+    pattern:  /{_locale}/tour/price/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Tour:getPrice, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_tour_pay:
+    pattern:  /{_locale}/tour/pay/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Tour:pay, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_help_list:
+    pattern:  /{_locale}/help/list
+    defaults: { _controller: NetcastUrestMainBundle:Help:index, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_help_country_view:
+    pattern:  /{_locale}/help/country/view/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Help:view, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_help_city_view:
+    pattern:  /{_locale}/help/city/view/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Help:viewCity, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_register:
+    pattern:  /register
+    defaults: { _controller: NetcastUrestMainBundle:Registration:register }
+    methods: [POST]
+
+fos_user_registration_register:
+    pattern:  /register
+    defaults: { _controller: NetcastUrestMainBundle:Registration:register }
+    methods: [POST]
+
+urest_user_registration_confirmed:
+    pattern:  /confirmed-email
+    defaults: { _controller: NetcastUrestMainBundle:Registration:confirmed }
+    methods: [GET]
+
+urest_user_registration_confirm:
+    pattern:  /confirm-email/{token}
+    defaults: { _controller: NetcastUrestMainBundle:Registration:confirm }
+    methods: [GET]
+
+fos_user_registration_loginza_check:
+    pattern:  /loginza_check
+    defaults: { _controller: NetcastUrestMainBundle:Registration:loginzaCheck }
+
+netcast_urest_tour_builder:
+    pattern:  /{_locale}/tour_builder
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:index, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_tour_builder_get_hotels:
+    pattern:  /{_locale}/tour_builder/get_hotels
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getHotels, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_hotel_rooms:
+    pattern:  /{_locale}/tour_builder/get_hotel_rooms
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getHotelRooms, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_city:
+    pattern:  /{_locale}/tour_builder/get_city
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getCity, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_services:
+    pattern:  /{_locale}/tour_builder/get_services
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getServices, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_services_options:
+    pattern:  /{_locale}/tour_builder/get_services_options
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getServiceOptions, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_services_option:
+    pattern:  /{_locale}/tour_builder/get_option
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getOptionInfo, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_apartments:
+    pattern:  /{_locale}/tour_builder/get_apartments
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getApartments, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_apartments_list:
+    pattern:  /{_locale}/tour_builder/get_apartments_list
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getApartmentsList, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_price:
+    pattern:  /{_locale}/tour_builder/get_price
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getPrice, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_service:
+    pattern:  /{_locale}/tour_builder/get_service
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getServiceInfo, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_room:
+    pattern:  /{_locale}/tour_builder/get_room
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getRoomInfo, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_get_apartment:
+    pattern:  /{_locale}/tour_builder/get_apartment
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getApartmentInfo, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_tour_builder_add:
+    pattern:  /{_locale}/tour_builder/add
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:addTour, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_profile_order_view:
+    pattern:  /{_locale}/profile/order/view/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Profile:viewOrder, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_profile_order_approve:
+    pattern:  /{_locale}/profile/order/approve/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Profile:approveOrder, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_profile_order_cancel:
+    pattern:  /{_locale}/profile/order/cancel/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Profile:cancelOrder, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_profile_order_reorder:
+    pattern:  /{_locale}/profile/order/reorder/{id}
+    defaults: { _controller: NetcastUrestMainBundle:Profile:reOrder, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_profile_view:
+    pattern:  /{_locale}/profile
+    defaults: { _controller: NetcastUrestMainBundle:Profile:view, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_profile_edit:
+    pattern:  /{_locale}/profile/edit
+    defaults: { _controller: NetcastUrestMainBundle:Profile:edit, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_profile_update:
+    pattern:  /{_locale}/profile/update
+    defaults: { _controller: NetcastUrestMainBundle:Profile:update, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_profile_order_list:
+    pattern:  /{_locale}/profile/order/list/{status}
+    defaults: { _controller: NetcastUrestMainBundle:Profile:orderList, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_profile_order_pay:
+    pattern:  /{_locale}/profile/order/pay
+    defaults: { _controller: NetcastUrestMainBundle:Pay:payOrder, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_profile_tour_order_pay:
+    pattern:  /{_locale}/profile/tour/pay
+    defaults: { _controller: NetcastUrestMainBundle:Pay:payTour, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_admin_get_rooms:
+    pattern:  /{_locale}/admin/urest/main/tour_options/get_rooms
+    defaults: { _controller: NetcastUrestMainBundle:AjaxAdmin:getRooms, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_admin_get_apartments:
+    pattern:  /{_locale}/admin/urest/main/tour_options/get_apartments
+    defaults: { _controller: NetcastUrestMainBundle:AjaxAdmin:getApartments, _locale: "%locale%" }
+    methods: [POST]
+
+netcast_urest_search:
+    pattern:  /{_locale}/search
+    defaults: { _controller: NetcastUrestMainBundle:Search:index, _locale: "%locale%" }
+    methods: [GET]

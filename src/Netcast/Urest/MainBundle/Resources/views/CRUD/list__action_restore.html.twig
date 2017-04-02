@@ -1,0 +1,6 @@
+{% if admin.isGranted('restore', object) and admin.hasRoute('restore') and object.deleted %}
+    <a href="{{ admin.generateObjectUrl('restore', object) }}" class="btn btn-default btn-sm btn-icon icon-left" title="{{ 'action_restore'|trans({}, 'NetcastUrestMainBundle') }}">
+        <i class="entypo-back"></i>
+        {{ 'action_restore'|trans({}, 'NetcastUrestMainBundle') }}
+    </a>
+{% endif %}

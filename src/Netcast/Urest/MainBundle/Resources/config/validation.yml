@@ -1,0 +1,44 @@
+
+Netcast\Urest\MainBundle\Entity\BlogPost:
+    properties:
+      #alias:
+        #- UniqueEntity:
+           # groups: [Admin]
+
+Netcast\Urest\MainBundle\Entity\MainGallery:
+    properties:
+      link:
+        - Url: ~
+
+Netcast\Antiq\MainBundle\Entity\User:
+    constraints:
+        - Callback:
+            methods: [termsConfirmed, checkPassEqualName]
+            groups: [Registration]
+    properties:
+      email:
+        - Email:
+            groups: [Registration, Profile]
+        - NotBlank:
+            groups: [Registration, Profile]
+        - Length:
+            max: 255
+            groups: [Registration, Profile]
+      userName:
+        - NotBlank:
+            groups: [Registration, Profile]
+        - Length:
+            max: 255
+            groups: [Registration, Profile]
+      dateOfBirth:
+        - NotBlank:
+            groups: [Registration, Profile]
+      plainPassword:
+        - NotBlank:
+            groups: [Registration]
+        - Length:
+            min: 6
+            max: 255
+            groups: [Registration, Profile]
+            maxMessage: 'reg.form.max_password'
+            minMessage: 'reg.form.min_password'

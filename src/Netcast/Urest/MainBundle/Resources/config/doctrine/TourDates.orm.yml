@@ -1,0 +1,28 @@
+Netcast\Urest\MainBundle\Entity\TourDates:
+    type: entity
+    table: tour_dates
+    indexes:
+        tour_idx:
+            columns: [ tour_id ]
+    id:
+      id:
+        type: integer
+        generator:
+          strategy: AUTO
+    fields:
+      date_from:
+          type: date
+          nullable: false
+      date_to:
+          type: date
+          nullable: false
+      price:
+          type: integer
+          nullable: false
+          default: 0
+    manyToOne:
+      tour:
+        targetEntity: Netcast\Urest\MainBundle\Entity\Tour
+        joinColumn:
+          name: tour_id
+          referenceColumnName: id

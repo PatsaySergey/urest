@@ -1,0 +1,61 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    {% include 'NetcastUrestMainBundle:Map:map.html.twig' with {'top': 1} only %}
+<div class="main-content">
+    <div class="block-help">
+        <div class="menu-content clearfix">
+            {{ include('NetcastUrestMainBundle:Post:category.menu.html.twig',{ categories : categories, currCategory : currCategory }, with_context = false) }}
+        </div>
+        <div class="clearfix big-spacer big-spacer"></div>
+        <div class="container width-970">
+            {% for post in posts %}
+            <div class="thumbnail thumbnail-big">
+                <h3 class="header-title">{{ post.title }}</h3>
+                {% if post.images[0] is defined %}
+                    {% media post.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                {% endif %}
+                <div class="caption clearfix">
+                    <div class="inner-caption">
+                        <div class="col-sm-6 no-padd">
+                            <h4 class="pull-left"><i class="fa fa-bookmark"></i>{{ post.category.title }}</h4>
+                        </div>
+                        <div class="col-sm-6 no-padd">
+                            <span class="color-green pull-right">{{ post.created|date('d.m.y') }}</span>
+                        </div>
+                        <div class="clearfix spacer"></div>
+                        <p>{{ post.previewText }}</p>
+                        <div class="col-sm-6 no-padd">
+                            <div class="tags">
+                                {% for key,tag in post.tags %}
+                                    <span class="text-uppercase color-green marg-right"><i class="fa fa-tag"></i>{{ tag.title }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="clearfix spacer visible-xs"></div>
+                        <div class="col-sm-6 no-padd">
+                            <a href="{{ url('netcast_urest_post_view', { category : post.category.alias, alias : post.alias }) }}" class="btn btn-grey pull-right"><i class="fa fa-angle-right"></i> {{ 'site.next'|trans({},'NetcastUrestMainBundle') }}</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pageScripts %}
+    {% javascripts
+    '@NetcastUrestMainBundle/Resources/public/js/google.maps.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var GoogleMaps = new GoogleMaps();
+        GoogleMaps.setMarkers({{ mapOptions|raw }});
+    </script>
+{% endblock pageScripts %}
+
+
+

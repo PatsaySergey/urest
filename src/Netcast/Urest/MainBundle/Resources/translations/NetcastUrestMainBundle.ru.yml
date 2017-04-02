@@ -1,0 +1,368 @@
+admin:
+    dataTable:
+        zeroRecords: Нет данных для отображения
+        records_per_page: _MENU_ записей на странице
+        sSearch: Поиск
+        sInfo: Показано _START_ по _END_ из _TOTAL_ записей
+        sInfoEmpty: Показано 0 по 0 из 0 записей
+        sInfoFiltered: (отфильтровано из _MAX_ записей)
+        sZeroRecords: Совпадений не найдено
+    layout:
+        date_create: Дата заказа
+        dashboard: "Приборная панель"
+        currency: "Курсы валют"
+        language: "Язык"
+        accommodation: "Проживание"
+        tour: "Тур"
+        tour_builder: "Тур Билдер"
+        appartmens: "Апартаменты"
+        add_services: "Дополнительные услуги"
+        hotels: "Отели"
+        hotel: "Отель"
+        city: "Город"
+        cities: "Города"
+        country: "Страна"
+        countries: "Страны"
+        blog: "Блог"
+        posts: "Записи блога"
+        blog_categories: "Категории блога"
+        dictionary: "Справочник"
+        dictionaries: "Справочник"
+        faq: "FAQ"
+        about: "О нас"
+        review: "Отзывы"
+        reviews: "Отзывы"
+        contacts: "Контакты"
+        customer: "Клиент"
+        customers: "Клиенты"
+        user: "Пользователь"
+        users: "Пользователи"
+        tag: "Тег"
+        tags: "Теги"
+        gallery: "Галерея"
+        content: "Контент"
+        geo: "Географическое положение"
+        location_info: "Справочник"
+        wellcome_msg: "Текст приветствия"
+        main_page: "Главная"
+        contact: "Контакты"
+        orders: "Заказы"
+form:
+    error:
+        alias_exist: Не уникальный алиас
+    label:
+        pay_history: "Поступила оплата"
+        take: "Взять заказ"
+        tour: Название тура
+        invoice_add: "Сгенерировать счет"
+        invoice_update: "Обновить счет"
+        fromCountry: "Из страны"
+        toCountry: "В страну"
+        currency_code: "Код  валюты"
+        currency_icon: "Иконка валюты"
+        rate: "Курс относительно Евро"
+        dateStart: "Дата начала"
+        isCancel: "Недоступно"
+        dateEnd: "Дата окончания"
+        room: "Номер"
+        status: "Статус"
+        service: "Услуга"
+        options: "Опции"
+        isModerated: "Требуется подтверждение"
+        userApprove: "Подтверждено пользователем"
+        prePay: "Сумма предоплаты"
+        prePayDefault: "Сумма предоплаты по умолчанию"
+        services: "Услуги"
+        active: "Активно"
+        on_main: "На главную"
+        genderы: "Пол"
+        images: "Галерея"
+        stars: "Звезды"
+        hotel: "Отель"
+        firstname: "Имя"
+        lastname: "Фамилия"
+        icon: "Иконка для карты"
+        service_icon: "Иконка услуги"
+        announcement: "Краткое описание"
+        description: "Контент"
+        date_publish: "Дата публикации"
+        title: "Название"
+        show_in_builder: "Отображать в ТурБилдере"
+        active_lang: "Включить в админке"
+        show_lang: "Включить на сайте"
+        alias: "Алиас"
+        question: "Вопрос"
+        answer: "Ответ"
+        lang: "Язык"
+        coordinates: "Координаты"
+        accommodation: "Проживание"
+        hot_offer: 'Отображать как "Горячее предложение"'
+        created: "Создано"
+        updated: "Изменено"
+        date_start: "Начало"
+        date_end: "Конец"
+        price: "Стоимость"
+        dates: "Даты"
+        add: "Добавить"
+        coordinates: "Координаты"
+        country: "Страна"
+        region: "Регион"
+        city: "Город"
+        link: "Ссылка"
+        video: "Видео"
+        image: "Картинка"
+        main: "Основное"
+        blog_category: "Категория блога"
+        blog_content: "Текст записи блога"
+        blog_locator_icon: "Иконка для позиционирования на карте"
+        blog_preview_image: "Картинка для превью"
+        blog_preview_video: "Видео для превью"
+        blog_tags: "Теги блога"
+        blog_preview_text: "Краткое описание"
+        message_guest: "Текст для гостя"
+        message_user: "Текст для пользователя"
+        content: "Содержимое"
+        dateOfBirth: "День рождения"
+        gender: "Пол"
+        apartment: "Апартаменты"
+        add_home: "Альтернативное жилье"
+        type: "Выберите тип"
+        text: "Текст"
+        icon: "Иконка"
+        cost: "Стоимость"
+        rooms: "Комнаты"
+        apartment_type: "Тип апартаментов"
+        author: Автор
+        avatar: Аватарка
+        nickname: Отображаемое имя на сайте
+        number: №
+        adress: Адрес
+        fax: Факс
+        phone: Телефон
+        email: E-mail
+        work_time: Режим работы
+        save: Сохранить
+breadcrumb:
+  link_tour_order_list: Заказы туров
+  link_tour_city_list: "Управление городами"
+  link_currency_rate_list: "Курсы валют"
+  link_tour_list: "Туры"
+  link_tour_delete: "Туры удаление"
+  link_language_list: "Языки"
+  link_language_delete: "Языки удаление"
+  link_faq_list: "FAQ"
+  link_faq_delete: "FAQ удаление"
+  link_country_list: "Страны"
+  link_country_delete: "Страны удаление"
+  link_region_list: "Регионы"
+  link_region_delete: "Регионы удаление"
+  link_city_list: "Города"
+  link_city_delete: "Города удаление"
+  link_blog_category_list: "Категории блога"
+  link_blog_category_delete: "Категории блога удаление"
+  link_blog_tag_list: "Теги записей блога"
+  link_blog_tag_delete: "Теги записей блога удаление"
+  link_blog_post_list: "Записи блога"
+  link_blog_post_delete: "Записи блога удаление"
+  link_location_info_list: "Справочник"
+  link_location_info_delete: "Справочник удаление"
+  link_location_info_country_list: "Справочник стран"
+  link_locationinfo_country_list: "Справочник стран"
+  link_location_info_country_delete: "Справочник стран удаление"
+  link_locationinfo_country_delete: "Справочник стран удаление"
+  link_location_info_city_list: "Справочник городов"
+  link_locationinfo_city_list: "Справочник городов"
+  link_location_info_city_delete: "Справочник городов удаление"
+  link_locationinfo_city_delete: "Справочник городов удаление"
+  link_hotel_list: Отели
+  link_custom_tour_list: Новые заказы
+  link_custom_tour_order_list: Новые заказы
+  link_my_custom_tour_list: Мои заказы
+  link_mytours_list: Мои заказы
+  link_hotel_delete: Отели удаление
+  link_hotel_room_list: Номера
+  link_hotel_room_delete: Номера удаление
+  link_hotels_list: Отели
+  link_hotels_delete: Отели удаление
+  link_hotel_rooms_list: Номера
+  link_hotel_rooms_delete: Номера удаление
+  link_wellcome_msg_list: "Текст приветствия в ТурБилдере"
+  link_wellcome_msg_delete: "Текст приветствия в ТурБилдере удаление"
+  link_main_gallery_list: "Галерея"
+  link_main_gallery_delete: "Галерея удаление"
+  link_main_block_list: "Услуги"
+  link_main_block_delete: "Услуги удаление"
+  link_apartment_list: "Апартаменты"
+  link_apartment_delete: "Апартаменты удаление"
+  link_service_list: Услуги
+  link_service_delete: Услуги удаление
+  link_options_list: Опции услуг
+  link_options_delete: Опции услуг удаление
+  link_review_list: Отзывы
+  link_review_delete: Отзывы удаление
+  link_about_us_list: О нас
+  link_about_us_delete: О нас удаление
+  link_partner_list: Партнеры
+  link_partner_delete: Партнеры удаление
+  link_contact_list: Контакты
+  link_contact_delete: Контакты удаление
+  link_contact_tour_city: Управление городами
+  service: Услуга
+  type: Тип услуги
+list:
+  label__action: "Действия"
+no_data: "Нет данных для отображения."
+no_photo: "Фото отсутствует"
+date_publish: "Дата публикации"
+read_more: "Читать"
+category: "Категория"
+
+btn_create_and_show_parent: Создать и вернуться назад
+btn_update_and_show_parent: Сохранить и вернуться назад
+urest_admin_dashboard: Приборная панель
+tags: "Тэги"
+records: "записей"
+total: "Всего"
+page: "Страница"
+page404: "Ой! А у нас нет такой страницы."
+
+admin.tour.left: ' '
+admin.tour.right: ' '
+admin.empty: ' '
+admin.tour.end: ' '
+admin.tour.center: ' '
+admin.contact.data: 'Контактные данные'
+
+action_delete_forever: Удалить навсегда
+action_restore: Восстановить
+admin.label.show_deleted: Показать удаленные записи
+
+admin.btn.select_img: Выбрать изображение
+admin.btn.change_img: Изменить
+admin.btn.remove_img: Удалить
+breadcrumb.link_currency_list: Курсы валют
+registration:
+    messages:
+      password:
+        mismatch: Пароли не совпадают
+    form:
+      label:
+        gender: Пол
+        email: E-mail
+        username: Имя
+        password: Пароль
+        password_repeat: Повторите пароль
+
+
+show:
+  label_from_country: Из страны
+  label_to_country: В страну
+  label_to_city: В город
+  label_date_start: Дата начала
+  label_date_end: Дата окончания
+  label_add_info: Дополнительная информация
+  label_room: Проживание
+  label_services: Услуги
+  label_tour_date: Дата тура
+  label_tour_date_tour: Название тура
+  label_date_create: Дата заказа
+  label_user: Заказал тур
+
+
+site:
+  search: Поиск по сайту
+  search_f: Поиск
+  search_g: Искать
+  search_all: По всему сайту
+  search_tour: По турам
+  search_blog: По блогам
+  search_info: По справочнику
+  hello: здравствуйте
+  logout: Выйти
+  login: Войти
+  registration: Регистрация
+  choice_language: Выбрать язык
+  choice_currency: Выбрать валюту
+  about_as: О нас
+  tours: Туры
+  bloug: Блог
+  info: Справочник
+  next: Далее
+  FAQ: FAQ
+  hot_tours: Горящие предложения
+  contacts: Контакты
+  registered: Зарегистрироваться
+  registered_from: Зарегистрироваться через
+  auth: Авторизация
+  login_name: Логин / Email
+  password: Пароль
+  re_password: Повторите пароль
+  no_accaunt: Нет аккаунта
+  forgot_pass: Забыли пароль?
+  name: Имя
+  birdth: День Рождение
+  login_from: Войти через
+  partners: ПАРТНЕРЫ
+  reviews: Отзывы
+  clients: наших клиентов
+  read_also: ЧИТАЙТЕ  ТАКЖЕ
+  day_out: дней назад
+  send: Отправить
+  country: СТРАНА
+  faq_text: ВОПРОСЫ И ОТВЕТЫ
+  addit: Подробнее
+  selected_option_available: ВЫБРАННЫЙ ВАРИАНТ ДОСТУПЕН
+  selected_option_not_available: ВЫБРАННЫЙ ВАРИАНТ НЕ ДОСТУПЕН
+  manager_recomend: РЕКОМЕНДАЦИИ ВАШЕГО МЕНЕДЖЕРА
+  new_article: Новые Статьи
+  auth_to_review: ЧТОБЫ ОСТАВИТЬ ОТЗЫВ, ПОЖАЛУЙСТА, АВТОРИЗИРУЙТЕСЬ
+  base_info: БАЗОВАЯ ИНФОРМАЦИЯ
+  reg_date: Дата регистрации
+  last_login_date: Дата последнего логина
+  order_num: Номер заказа
+  tour_type: Тип тура
+  amount: Сумма заказа
+  create_date: Дата создания
+  pay_to: Погасить счет до
+  status: Статус
+  not_set: не установлено
+  individual: Индивидуальный
+  to_order_list: К списку заказов
+  order: Заказ
+  hotel: Отель
+  apartment: Апартаменты
+  room: номер
+  cancel_order: Отменить заказ
+  approve_order: Подтвердить заказ
+  addit_info: Дополнительная информация
+  accommodation: ПРОЖИВАНИЕ
+  tour_date: Дата тура
+  addit_services: ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ
+  tour_city: Город тура
+  city: Город
+  tour_country: Страна тура
+  your_manager: Ваш менеджер
+  all: ВСЕ
+  on_maderate: НА МОДЕРАЦИИ
+  on_approve: НА УТВЕРЖДЕНИИ
+  pay: ОЖИДАЮТ ОПЛАТУ
+  no_pay: ПРОСРОЧЕННЫЕ
+  payed: ОПЛАЧЕННЫЕ
+  new_tour: Создать новый тур
+  invoice: Счет
+  open: Открытый
+  pre_pay: Предоплата
+  all_amount: Вся сумма
+  pay_to: Оплатить до
+  all_tours: Наши туры
+  any: Любая
+  every: Любой
+  tours_map: КАРТА ТУРОВ
+  other_dates: доступны другие даты
+
+
+
+breadcrumb.link_footer_gallery_v_list: Галарея видео в футере
+breadcrumb.link_footer_gallery_video_list: Галарея видео в футере
+breadcrumb.link_footer_gallery_images_list: Галарея изображений в футере
+breadcrumb.link_footer_gallery_i_list: Галарея изображений в футере

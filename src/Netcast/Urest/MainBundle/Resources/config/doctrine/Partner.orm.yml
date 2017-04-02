@@ -1,0 +1,47 @@
+Netcast\Urest\MainBundle\Entity\Partner:
+    type: entity
+    table: about_partner
+    indexes:
+        partner_user_idx:
+            columns: [ user_id ]
+        partner_lang_idx:
+            columns: [ lang ]
+        partner_image_idx:
+            columns: [ image_id ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\PartnerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        link:
+            type: string
+            length: '255'
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+
+    manyToOne:
+         user:
+              targetEntity: Application\Sonata\UserBundle\Entity\User
+              joinColumn:
+                name: user_id
+                referenceColumnName: id
+         image:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            joinColumn:
+              name: image_id
+              referenceColumnName: id
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

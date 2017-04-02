@@ -1,0 +1,20 @@
+Netcast\Urest\MainBundle\Entity\ApartmentType:
+    type: entity
+    table: apartment_type
+    indexes:
+        apartment_type_lang_idx:
+            columns: [ lang ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\ApartmentTypeRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'

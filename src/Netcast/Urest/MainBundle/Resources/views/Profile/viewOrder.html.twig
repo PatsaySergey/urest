@@ -1,0 +1,232 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div id="order-block">
+        <div class="container width-970">
+            <a style="float: right" href="{{ url('netcast_urest_profile_view') }}">{{ 'site.to_order_list'|trans({},'NetcastUrestMainBundle') }}</a>
+            <div class="clearfix"></div>
+            <h2 class="header-title">{{ 'site.order'|trans({},'NetcastUrestMainBundle') }} №{{ item.id }}К
+                <span class="date-order pull-right">
+                    от {{ item.created|date('d.m.Y') }}
+                </span>
+            </h2>
+            <div class="clearfix"></div>
+            <div class="col-md-4 col-xs-12 no-padd visible-xs">
+                {% if item.moderator %}
+                <div class="manager pull-right">
+                    <div class="cell info-manager">
+                        <p>{{ 'site.your_manager'|trans({},'NetcastUrestMainBundle') }}:</p>
+                        <p class="name">{{ item.moderator.firstname }} {{ item.moderator.lastname }}</p>
+                    </div>
+                    <div class="cell avatar">
+                        {% if item.moderator.avatar is defined %}
+                            {% media item.moderator.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
+                        {% else %}
+                            <div class="img-circle user-pic user-none img-thumbnail">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="clearfix visible-xs"></div>
+            <div class="col-md-8 col-sm-7 col-xs-12 no-padd">
+                <div class="info-order">
+                    <div class="table-row">
+                        <div class="cell first">{{ 'site.status'|trans({},'NetcastUrestMainBundle') }}:</div>
+                        <div class="cell">
+                            <div class="status">{{ status[item.status] }}</div>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="cell first">{{ 'site.tour_country'|trans({},'NetcastUrestMainBundle') }}:</div>
+                        <div class="cell"><b>{{ item.toCountry.title }}</b></div>
+                    </div>
+                    <div class="table-row">
+                        <div class="cell first">{{ 'site.tour_city'|trans({},'NetcastUrestMainBundle') }}: </div>
+                        <div class="cell"><b>{{ item.toCity.title }}</b></div>
+                    </div>
+                    <div class="table-row">
+                        <div class="cell first">{{ 'site.tour_date'|trans({},'NetcastUrestMainBundle') }}: </div>
+                        <div class="cell"> с <b>{{ item.dateStart|date('d.m.Y') }}</b> по <b>{{ item.dateEnd|date('d.m.Y') }}</b></div>
+                    </div>
+                </div>
+                <p>{{ 'site.addit_info'|trans({},'NetcastUrestMainBundle') }}:</p>
+                <p class="request-txt color-green">{{ statusText[item.status] }} </p>
+            </div>
+            <div class="col-md-4 col-sm-5 no-padd hidden-xs">
+                <div class="manager pull-right">
+                    {% if item.moderator %}
+                    <div class="cell info-manager">
+                        <p>{{ 'site.your_manager'|trans({},'NetcastUrestMainBundle') }}:</p>
+                        <p class="name">{{ item.moderator.firstname }} {{ item.moderator.lastname }}</p>
+                    </div>
+                    <div class="cell avatar">
+                        {% if item.moderator.avatar is defined %}
+                            {% media item.moderator.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
+                        {% else %}
+                            <div class="img-circle user-pic user-none img-thumbnail">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <form action="{{ url('netcast_urest_profile_order_approve',{id : item.id}) }}" method="POST" id="approveForm">
+            <div class="table-info {% if item.addHome|length > 0  %}table-approve{% endif %}">
+                <h3>{{ 'site.accommodation'|trans({},'NetcastUrestMainBundle') }}</h3>
+                {% if item.addHome|length > 0 and item.moderator %}
+                <div class="panel">
+                    <div class="panel-heading deactivate">
+                        <h4 class="panel-title">{{ 'site.selected_option_not_available'|trans({},'NetcastUrestMainBundle') }}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table">
+                            <div class="table-row">
+                                <div class="cell">
+                                    {% if item.room %}
+                                        <span>
+                                            {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.hotel.title }}</b>»
+                                            <a href="" class="info-icon">
+                                                <i class="fa fa-info"></i>
+                                            </a>
+                                        </span>
+                                                    <span class="margin-left">
+                                            {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.title }}</b>»
+                                            <a href="" class="info-icon">
+                                                <i class="fa fa-info"></i>
+                                            </a>
+                                        </span>
+                                    {% endif %}
+                                    {% if item.apartment %}
+                                        <span>
+                                            {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.apartment.title }}</b>»
+                                            <a href="" class="info-icon">
+                                                <i class="fa fa-info"></i>
+                                            </a>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <div class="cell cell-price">
+                                    <p class="price pull-right">{{ getPrice(homePrice) }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="visible-xs">scroll <i class="fa fa-hand-o-right"></i></p>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading recommended">
+                        <h4 class="panel-title">{{ 'site.manager_recomend'|trans({},'NetcastUrestMainBundle') }}:</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table">
+                        {% for addHome in item.addHome %}
+                            <div class="table-row">
+                                <div class="cell">
+                                    <span class="checkbox-new"><input type="checkbox" value="{{ addHome.id }}" name="addHomeToApprove" class="btn-checkbox jsAddHomeSelect"/></span>
+                                    {% if addHome.type == 'hotel' %}
+                                        <span>
+                                            {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.room.hotel.title }}</b>»
+                                            <a href="" class="info-icon">
+                                                <i class="fa fa-info"></i>
+                                            </a>
+                                        </span>
+                                        <span class="margin-left">
+                                            {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.room.title }}</b>»
+                                            <a href="" class="info-icon">
+                                                <i class="fa fa-info"></i>
+                                            </a>
+                                        </span>
+                                    {% endif %}
+                                    {% if addHome.type == 'apartment' %}
+                                        <span>
+                                            {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.apartment.title }}</b>»
+                                            <a href="" class="info-icon">
+                                                <i class="fa fa-info"></i>
+                                            </a>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <div class="cell cell-price">
+                                    <p class="price pull-right">
+                                        {% if addHome.type == 'hotel' %}
+                                            {{ getPrice(addHome.room.price*daysCount) }}
+                                        {% else %}
+                                            {{ getPrice(addHome.apartment.price*daysCount) }}
+                                        {% endif %}
+
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                        <p class="visible-xs">scroll <i class="fa fa-hand-o-right"></i></p>
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="table">
+                    <div class="cell">
+                        {% if item.room %}
+                            <span>
+                                {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.hotel.title }}</b>»
+                                <a href="" class="info-icon">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                            </span>
+                            <span class="margin-left">
+                                {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.title }}</b>»
+                                <a href="" class="info-icon">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                            </span>
+                        {% endif %}
+                        {% if item.apartment %}
+                            <span>
+                                {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.apartment.title }}</b>»
+                                <a href="" class="info-icon">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div class="cell cell-price">
+                        <p class="price pull-right">{{ getPrice(homePrice) }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                <p class="visible-xs">scroll <i class="fa fa-hand-o-right"></i></p>
+            </div>
+            <div class="table-info table-approve">
+                <h3>{{ 'site.addit_services'|trans({},'NetcastUrestMainBundle') }}</h3>
+                {% if item.status == 1 %}
+                    {{ include('NetcastUrestMainBundle:Profile:approveTourServices.html.twig',{ item : item }, with_context = false) }}
+                {% else %}
+                    {{ include('NetcastUrestMainBundle:Profile:tourServices.html.twig',{ item : item }, with_context = false) }}
+                {% endif %}
+            </div>
+            </form>
+            {% if item.status == 1 %}
+                <div class="block-btn pull-right">
+                    <a href="{{ url('netcast_urest_profile_order_cancel',{ id: item.id }) }}" class="btn btn-cancel color-red">{{ 'site.cancel_order'|trans({},'NetcastUrestMainBundle') }}</a>
+                    <a onclick="$('#approveForm').submit()" class="btn btn-confirm color-green">{{ 'site.approve_order'|trans({},'NetcastUrestMainBundle') }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
+{% block pageScripts %}
+    <script>
+        $('input.jsAddHomeSelect').change(function(){
+            var currVal = $(this).val();
+            $('input.jsAddHomeSelect').each(function(){
+                if($(this).val() != currVal) {
+                    $(this).removeAttr('checked').trigger('refresh');
+                }
+            });
+        })
+    </script>
+{% endblock pageScripts %}

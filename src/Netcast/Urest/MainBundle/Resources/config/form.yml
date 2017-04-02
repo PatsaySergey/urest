@@ -1,0 +1,78 @@
+parameters:
+
+
+services:
+    netcast.urest.tour_dates.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\TourDatesFormType
+        tags:
+          - {name: form.type, alias: netcast_urest_tour_dates_form}
+
+    netcast.urest.tour_services.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\TourServicesFormType
+        tags:
+          - {name: form.type, alias: netcast_urest_tour_services_form}
+        calls:
+          - [ setLang, [ %locale% ]]
+
+    netcast.urest.tour_video.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\MediaCollectionFormType
+        tags:
+          - {name: form.type, alias: netcast_urest_media_collection_form}
+
+    netcast.urest.collection.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\UrestCollectionType
+        tags:
+            - {name: form.type, alias: urest_collection}
+
+    netcast.urest.data.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\UrestDateType
+        tags:
+            - {name: form.type, alias: urest_type_date_picker}
+
+    netcast.urest.service.collection.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\UrestServiceCollectionType
+        tags:
+            - {name: form.type, alias: urest_service_collection}
+
+    netcast.urest.madia.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\UrestMediaType
+        tags:
+            - {name: form.type, alias: urest_media_type}
+
+    netcast.urest.gender.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\UrestGenderType
+        tags:
+            - {name: form.type, alias: urest_gender}
+
+    netcast.urest.user_madia.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\UrestUserMediaType
+        tags:
+            - {name: form.type, alias: urest_user_media_type}
+
+    netcast.urest.text_label.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\LabelTextType
+        tags:
+            - {name: form.type, alias: label_text}
+
+    netcast.urest.review.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\ReviewFormType
+        tags:
+          - {name: form.type, alias: netcast_urest_review_form_type}
+
+    netcast.urest.faq.form.type:
+            class: Netcast\Urest\MainBundle\Form\Type\FaqFormType
+            tags:
+              - {name: form.type, alias: netcast_urest_faq_form_type}
+
+    netcast.urest.user.form.type:
+            class: Netcast\Urest\MainBundle\Form\Type\UserFormType
+            tags:
+              - {name: form.type, alias: netcast_urest_user_form_type}
+
+    netcast.urest.add_home.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\AddHomeFormType
+        tags:
+          - {name: form.type, alias: netcast_urest_add_home_form}
+        calls:
+          - [ setLang, [ %locale% ]]
+

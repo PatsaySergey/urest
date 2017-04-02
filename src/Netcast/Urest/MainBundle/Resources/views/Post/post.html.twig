@@ -1,0 +1,170 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+{% include 'NetcastUrestMainBundle:Map:map.html.twig' with {'top': 0} only %}
+<div class="main-content">
+<div class="block-faq-2">
+<div class="menu-content clearfix">
+    {{ include('NetcastUrestMainBundle:Post:category.menu.html.twig',{ categories : categories, currCategory : currCategory }, with_context = false) }}
+</div>
+<div class="clearfix big-spacer big-spacer"></div>
+<div class="container width-970 no-padd-xs">
+    <div class="tour-info bg-white">
+        <div class="scroll-img-box">
+            <div id="thumb-scroller" class="thumb-scroller">
+                <ul class="ts-list">
+                    {% for image in post.images %}
+                        {% if not image.main %}
+                            <li>
+                                <a href="" target="_parent">{% media image.media,'reference' with {'class' : "img_responsive"} %}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <h3 class="header-title">{{ post.title }}</h3>
+        <div id="tour-carousel" class="carousel owl-carousel owl-theme">
+            {% for image in post.images %}
+                {% if not image.main %}
+                    <div class="item">
+                        {% media image.media,'reference' with {'class' : "img_responsive"} %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="clearfix"></div>
+        <div class="inner-content">
+            <div class="right-block pull-right">
+                <div class="title">
+                    <h3>consectetuer
+                        adipiscing</h3>
+                </div>
+                <div class="image">
+                    <img src="{{ asset('bundles/netcasturestmain/img/img-info-tour.png') }}" class="img-responsive" alt="image"/>
+                </div>
+            </div>
+            <div class="clearfix visible-xs"></div>
+            <div class="text-block">
+                <div class="social">
+                    <ul class="social-network">
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-facebook iconRounded"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa fa-twitter iconRounded"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-google-plus iconRounded"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-linkedin iconRounded"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-pinterest iconRounded"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                {{ post.content|raw }}
+            </div>
+            <div class="clearfix"></div>
+            <div class="block-caption">
+                <div class="inner">
+                    <span class="pull-left">{{ post.category.title }}</span>
+                    <span>
+                        {% for key, tag in post.tags %}
+                            {{ tag.title }}{% if key < post.tags|length-1 %},{% endif %}
+                        {% endfor %}
+                    </span>
+                    <span class="pull-right">{{ post.created|date('d.m.y') }}</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if otherPosts|length >= 2 %}
+    <div class="block-quote bg-white">
+        <div id="quote-carousel" class="carousel owl-carousel owl-theme">
+            <div class="carousel-slide">
+                <div class="col-md-6 col-sm-6 no-padd">
+                    <div class="item brd-right">
+                        <div class="media">
+                            <div class="col-md-3 col-sm-4 text-center no-padd">
+                                <a href="{{ url('netcast_urest_post_view', { category : otherPosts[0].category.alias, alias : otherPosts[0].alias }) }}">
+                                    {% if otherPosts[0].images[0] is defined %}
+                                        {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="clearfix visible-xs spacer"></div>
+                            <div class="col-md-9 col-sm-8 no-padd">
+                                <p>
+                                    {{ otherPosts[0].title }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 no-padd hidden-xs">
+                    <div class="item">
+                        <div class="media">
+                            <div class="col-md-9 col-sm-8 no-padd">
+                                <p>
+                                    {{ otherPosts[1].title }}
+                                </p>
+                            </div>
+                            <div class="clearfix visible-xs"></div>
+                            <div class="col-md-3 col-sm-4 text-center no-padd">
+                                <a href="{{ url('netcast_urest_post_view', { category : otherPosts[1].category.alias, alias : otherPosts[1].alias }) }}">
+                                    {% if otherPosts[1].images[0] is defined %}
+                                        {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+<div class="container">
+    <h2 class="header-title">{{ 'site.read_also'|trans({},'NetcastUrestMainBundle') }}</h2>
+    <div class="row">
+        {% for otherPost in otherPosts %}
+            <div class="col-md-4 col-sm-12 col-xs-12 no-padd-xs">
+                <div class="thumbnail thumbnail-middle">
+                    {% if otherPost.images[0] is defined %}
+                        {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                    {% endif %}
+                    <div class="caption clearfix">
+                        <h4>{{ otherPost.title }}
+                        </h4>
+                        <hr/>
+                        <p>{{ otherPost.previewText }}</p>
+                        <p><a href="{{ url('netcast_urest_post_view', { category : otherPost.category.alias, alias : otherPost.alias }) }}" class="btn btn-grey pull-right" role="button"><i class="fa fa-chevron-right"></i> Далее</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+</div>
+{% endblock content %}
+
+{% block pageScripts %}
+    {% javascripts
+    '@NetcastUrestMainBundle/Resources/public/js/google.maps.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var GoogleMaps = new GoogleMaps();
+        GoogleMaps.setMarkers({{ mapOptions|raw }});
+    </script>
+{% endblock pageScripts %}
+

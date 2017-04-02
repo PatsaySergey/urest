@@ -1,0 +1,50 @@
+Netcast\Urest\MainBundle\Entity\PayOrders:
+    type: entity
+    table: pay_orders
+    repositoryClass: Netcast\Urest\MainBundle\Entity\PayOrdersRepository
+    indexes:
+        order_idx:
+            columns: [ order_id ]
+        tour_idx:
+            columns: [ tour_order_id ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        amount:
+            type: string
+            length: '255'
+            default: ''
+        pre_amount:
+            type: string
+            length: '255'
+            default: ''
+        created:
+            type: datetime
+            nullable: false
+        pay_date:
+            type: datetime
+            nullable: false
+    manyToOne:
+         order:
+              targetEntity: CustomTourOrder
+              inversedBy: pay_order
+              joinColumn:
+                 name: order_id
+                 referencedColumnName: id
+         tour_order:
+              targetEntity: TourOrder
+              inversedBy: pay_order
+              joinColumn:
+                  name: tour_order_id
+                  referencedColumnName: id
+         user:
+              targetEntity: Application\Sonata\UserBundle\Entity\User
+              joinColumn:
+                name: user_id
+                referenceColumnName: id
+              nullable: true
+    lifecycleCallbacks: {  }

@@ -1,0 +1,47 @@
+
+    {% for service in item.services %}
+        {% if service.isModerated != 1 and service.isCancel != 1 %}
+            {% set statusClass = 'activate' %}
+            {% set statusTexts = 'site.selected_option_available'|trans({},'NetcastUrestMainBundle') %}
+        {% endif %}
+        {% if service.isCancel == 1 %}
+            {% set statusClass = 'deactivate' %}
+            {% set statusTexts = 'site.selected_option_available'|trans({},'NetcastUrestMainBundle') %}
+        {% endif %}
+        {% if service.isModerated == 1 %}
+            {% set statusClass = 'recommended' %}
+            {% set statusTexts = 'site.manager_recomend'|trans({},'NetcastUrestMainBundle') %}
+        {% endif %}
+        <div class="panel">
+            <div class="panel-heading {{ statusClass }}">
+                <h4 class="panel-title">{{ statusTexts }}</h4>
+            </div>
+            <div class="panel-body">
+                <div class="table">
+                    <div class="table-row">
+                        <div class="cell">
+						<span>
+                            {% if statusClass == 'recommended' %}
+                                <span class="checkbox-new"><input type="checkbox" name="serviceToApprove[]" value="{{ service.id }}" class="btn-checkbox"/></span>
+                            {% endif %}
+                            {{ service.service.title }}
+                            {% if service.option %}
+                                - {{ service.option.title }}
+                            {% endif %}
+                            {% if service.dateStart %}
+                                [ c {{ service.dateStart|date('d.m.Y') }} по {{ service.dateEnd|date('d.m.Y') }} ]
+                            {% endif %}
+                            <a href="" class="info-icon">
+                                <i class="fa fa-info"></i>
+                            </a>
+						</span>
+                        </div>
+                        <div class="cell cell-price">
+                            <p class="price pull-right">{{ getPrice(servicePrice(service)) }}</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="visible-xs">scroll <i class="fa fa-hand-o-right"></i></p>
+            </div>
+        </div>
+    {% endfor %}

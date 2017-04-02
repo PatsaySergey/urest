@@ -1,0 +1,193 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div id="order-block">
+        <div class="container">
+            <a style="float: right" href="{{ url('netcast_urest_profile_view') }}">{{ 'site.to_order_list'|trans({},'NetcastUrestMainBundle') }}</a>
+            <div class="clearfix"></div>
+            <h2 class="header-title">
+                ЗАКАЗ №{{ item.id }}К
+                <span class="date-order pull-right">
+                    от {{ item.created|date('d.m.Y') }}
+                </span>
+            </h2>
+            <div class="clearfix"></div>
+            <div class="col-md-8 col-sm-12 no-padd">
+                <div class="col-md-4 col-xs-12 no-padd visible-xs">
+                    {% if item.moderator %}
+                        <div class="manager pull-right">
+                            <div class="cell info-manager">
+                                <p>{{ 'site.your_manager'|trans({},'NetcastUrestMainBundle') }}:</p>
+                                <p class="name">{{ item.moderator.firstname }} {{ item.moderator.lastname }}</p>
+                            </div>
+                            <div class="cell avatar">
+                                {% if item.moderator.avatar is defined %}
+                                    {% media item.moderator.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
+                                {% else %}
+                                    <div class="img-circle user-pic user-none img-thumbnail">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="clearfix visible-xs"></div>
+                <div class="col-md-7 col-sm-7 col-xs-12 no-padd">
+                    <div class="info-order">
+                        <div class="table-row">
+                            <div class="cell first">{{ 'site.status'|trans({},'NetcastUrestMainBundle') }}:</div>
+                            <div class="cell">
+                                <div class="status">{{ status[item.status] }}</div>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="cell first">{{ 'site.tour_country'|trans({},'NetcastUrestMainBundle') }}:</div>
+                            <div class="cell"><b>{{ item.toCountry.title }}</b></div>
+                        </div>
+                        <div class="table-row">
+                            <div class="cell first">{{ 'site.tour_city'|trans({},'NetcastUrestMainBundle') }}: </div>
+                            <div class="cell"><b>{{ item.toCity.title }}</b></div>
+                        </div>
+                        <div class="table-row">
+                            <div class="cell first">{{ 'site.tour_date'|trans({},'NetcastUrestMainBundle') }}: </div>
+                            <div class="cell"> с <b>{{ item.dateStart|date('d.m.Y') }}</b> по <b>{{ item.dateEnd|date('d.m.Y') }}</b></div>
+                        </div>
+                    </div>
+                    <p>{{ 'site.addit_info'|trans({},'NetcastUrestMainBundle') }}:</p>
+
+                    {% if isOverdue %}
+                        <p class="request-txt txt-red">{{ statusText[3] }}</p>
+                    {% else %}
+                        <p class="request-txt color-green">{{ statusText[item.status] }}</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-5 col-sm-5 no-padd hidden-xs">
+                    <div class="manager pull-right">
+                        {% if item.moderator %}
+                            <div class="cell info-manager">
+                                <p>{{ 'site.your_manager'|trans({},'NetcastUrestMainBundle') }}:</p>
+                                <p class="name">{{ item.moderator.firstname }} {{ item.moderator.lastname }}</p>
+                            </div>
+                            <div class="cell avatar">
+                                {% if item.moderator.avatar is defined %}
+                                    {% media item.moderator.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
+                                {% else %}
+                                    <div class="img-circle user-pic user-none img-thumbnail">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="table-info">
+                    <h3>{{ 'site.accommodation'|trans({},'NetcastUrestMainBundle') }}</h3>
+                    <div class="table">
+                        <div class="cell">
+                            {% if item.room %}
+                                <span>
+                                {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.hotel.title }}</b>»
+                                <a href="" class="info-icon">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                            </span>
+                                <span class="margin-left">
+                                {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.title }}</b>»
+                                <a href="" class="info-icon">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                            </span>
+                            {% endif %}
+                            {% if item.apartment %}
+                                <span>
+                                {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.apartment.title }}</b>»
+                                <a href="" class="info-icon">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="cell cell-price">
+                            <p class="price pull-right">{{ getPrice(homePrice) }}</p>
+                        </div>
+                    </div>
+                    <p class="visible-xs">scroll <i class="fa fa-hand-o-right"></i></p>
+                </div>
+                <div class="table-info">
+                    <h3>{{ 'site.addit_services'|trans({},'NetcastUrestMainBundle') }}</h3>
+                    {{ include('NetcastUrestMainBundle:Profile:tourServices.html.twig',{ item : item }, with_context = false) }}
+                    <p class="visible-xs">scroll <i class="fa fa-hand-o-right"></i></p>
+                </div>
+                <div class="block-btn pull-right">
+                    <a href="{{ url('netcast_urest_profile_order_cancel',{ id: item.id }) }}" class="btn btn-cancel color-red">{{ 'site.cancel_order'|trans({},'NetcastUrestMainBundle') }}</a>
+                </div>
+                <div class="clearfix visible-xs visible-sm spacer"></div>
+            </div>
+            <div class="col-md-4 col-sm-12 no-padd-right no-padd-sm no-padd-xs">
+                <div class="table-info table-bill">
+                    <h3>Счет</h3>
+                    <div class="table">
+                        <div class="table-row">
+                            <div class="cell">
+                                {{ 'site.invoice'|trans({},'NetcastUrestMainBundle') }}
+                            </div>
+                            <div class="cell">
+                                <span class="pull-right">№{{ item.id }}</span>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="cell">
+                                {{ 'site.pay_to'|trans({},'NetcastUrestMainBundle') }}
+                            </div>
+                            <div class="cell">
+                                <span class="pull-right">{{ item.payTo|date('d.m.Y') }}</span>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="cell">
+                                {{ 'site.status'|trans({},'NetcastUrestMainBundle') }}
+                            </div>
+                            <div class="cell">
+                                <span class="pull-right">{{ 'site.open'|trans({},'NetcastUrestMainBundle') }}</span>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="cell">
+                                {{ 'site.pre_pay'|trans({},'NetcastUrestMainBundle') }}
+                            </div>
+                            <div class="cell">
+                                <p class="price pull-right">
+                                    {% if item.prePay %}
+                                        {{ getPrice(item.prePay) }}
+                                    {% else %}
+                                        {{ getPrice((item.price/100)*10) }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="table-row">
+                            <div class="cell">
+                                {{ 'site.all_amount'|trans({},'NetcastUrestMainBundle') }}
+                            </div>
+                            <div class="cell">
+                                <p class="price pull-right">{{ getPrice(item.price) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-nav clearfix">
+                        {% if isOverdue %}
+                            <a href="{{ url('netcast_urest_profile_order_reorder',{id:item.id}) }}" class="btn btn-grey btn-repeate">
+                                <i class="fa fa-angle-right"></i>
+                                Запросить счет повторно
+                            </a>
+                        {% else %}
+                            {{ form1|raw }}
+                            {{ form2|raw }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

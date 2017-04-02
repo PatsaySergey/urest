@@ -1,0 +1,37 @@
+/**
+ *
+ * Apply Here your Custom CSS
+ *
+*/
+
+body {
+    
+}
+
+.form-group {
+    clear: both;
+}
+
+.sonata-ba-list-field-actions .btn-group .btn {
+    margin-left: 2px;
+}
+
+section.content-filter {
+    margin-bottom: 17px;
+    clear: both;
+}
+
+section.content-filter .form-group {
+    display: inline-block;
+    margin-right: 20px;
+    width: 150px;
+    vertical-align: middle;
+}
+
+.select2-container, .select2-drop, .select2-search, .select2-search input {
+    min-width: 150px;
+}
+
+.page-body .select2-drop .select2-search {
+    padding: 10px 0 10px 0;
+}

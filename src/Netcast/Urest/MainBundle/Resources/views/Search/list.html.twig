@@ -1,0 +1,132 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div class="main-content">
+    <div class="block-search">
+    <div class="container width-970">
+    <h2 class="header-title">{{ 'site.search_f'|trans({},'NetcastUrestMainBundle') }}</h2>
+    <div class="row">
+    <div class="col-xs-12">
+        <div class="search-nav-box bg-white">
+            <form action="{{ url('netcast_urest_search') }}" method="GET">
+            <ul class="search-group">
+                <li class="field-search">
+                    <i class="fa fa-search"></i>
+                    <input type="hidden" class="jsTypeInput" name="type" value="{{ app.request.query.get('type') }}">
+                    <input class="searchbox-inputtext" type="text" name="search" value="{{ app.request.query.get('search') }}" placeholder="{{ 'site.search_f'|trans({},'NetcastUrestMainBundle') }}"/>
+                </li>
+                <li class="select-box dropdown search-dropdown">
+                    <a href="" class="search-txt" data-toggle="dropdown">
+                        <span class="btn-label">
+                            {% if app.request.query.get('type') == 'all' or app.request.query.get('type') == NULL %}
+                                {{ 'site.search_all'|trans({},'NetcastUrestMainBundle') }}
+                            {% endif %}
+                            {% if app.request.query.get('type') == 'tour' %}
+                                {{ 'site.search_tour'|trans({},'NetcastUrestMainBundle') }}
+                            {% endif %}
+                            {% if app.request.query.get('type') == 'blog' %}
+                                {{ 'site.search_blog'|trans({},'NetcastUrestMainBundle') }}
+                            {% endif %}
+                            {% if app.request.query.get('type') == 'info' %}
+                                {{ 'site.search_info'|trans({},'NetcastUrestMainBundle') }}
+                            {% endif %}
+                        </span>
+                        <i class="fa fa-angle-down"></i></a>
+                    <ul class="dropdown-menu jsSearchType">
+                        <li><a href="#" data-type="all">{{ 'site.search_all'|trans({},'NetcastUrestMainBundle') }}</a></li>
+                        <li><a href="#" data-type="tour">{{ 'site.search_tour'|trans({},'NetcastUrestMainBundle') }}</a></li>
+                        <li><a href="#" data-type="blog">{{ 'site.search_blog'|trans({},'NetcastUrestMainBundle') }}</a></li>
+                        <li><a href="#" data-type="info">{{ 'site.search_info'|trans({},'NetcastUrestMainBundle') }}</a></li>
+                    </ul>
+                </li>
+            </ul>
+            </form>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="clearfix big-spacer"></div>
+    {% for item in allResults %}
+    <div class="col-xs-12">
+        <div class="media {{ item.type }} bg-white">
+            <a class="img-holder" href="#">
+                <div class="img-caption">
+									<span>
+										<i class="fa {{ item.icon }}"></i>
+                                        {{ item.title }}
+									</span>
+                </div>
+                <div class="box-img">
+                    {% if item.type == 'blog' %}
+                        {% if item.item.images is defined %}
+                            {% media item.item.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                        {% endif %}
+                    {% endif %}
+                    {% if item.type == 'tour' %}
+                        {% if item.item.tourImages is defined %}
+                            {% media item.item.tourImages[0].media,'reference' with {'class' : "img_responsive"} %}
+                        {% endif %}
+                    {% endif %}
+                    {% if item.type == 'city' or item.type == 'country' %}
+                        {% if item.item.locationinfoImage[0] is defined %}
+                            {% media item.item.locationinfoImage[0].media,'reference' with {'class' : "img_responsive"} %}
+                        {% endif %}
+                    {% endif %}
+
+                </div>
+            </a>
+            <div class="clearfix visible-xs"></div>
+
+            <div class="media-body">
+                <h4 class="media-heading">{{ item.item.title }}</h4>
+                <p>
+                    {% if item.type == 'tour' %}
+                        {{ item.item.announcement }}
+                    {% else %}
+                        {{ item.item.previewText }}
+                    {% endif %}
+                </p>
+                <hr/>
+                <div class="col-md-6 col-sm-6 col-xs-12 no-padd">
+                    {% if item.type == 'tour' %}
+                    <div class="location pull-left">
+                        <p class="text-uppercase"><i class="fa fa-map-marker"></i> {{ item.item.city.title }}, {{ item.item.city.region.country.title }}</p>
+                        <p><i class="fa fa-building-o"></i> {{ item.item.accommodation }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 no-padd">
+                    <div class="price-block">
+                        {% if item.type == 'tour' %}
+                            <span class="price">{{ getPrice(item.item.tourDates[0].price) }}</span>
+                        {% endif %}
+                        <a href="
+                        {% if item.type == 'blog' %}
+                            {{ url('netcast_urest_post_view',{ category : item.item.category.alias, alias : item.item.alias }) }}
+                        {% endif %}
+                        {% if item.type == 'tour' %}
+                            {{ url('netcast_urest_tour_view',{ id : item.item.id }) }}
+                        {% endif %}
+                        {% if item.type == 'city' %}
+                            {{ url('netcast_urest_help_city_view',{ id : item.item.id }) }}
+                        {% endif %}
+                        {% if item.type == 'country' %}
+                            {{ url('netcast_urest_help_country_view',{ id : item.item.id }) }}
+                        {% endif %}
+
+                        " class="btn btn-grey pull-right" role="button">
+                            <i class="fa fa-chevron-right"></i> {{ 'site.addit'|trans({},'NetcastUrestMainBundle') }}
+                        </a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+    <div class="block-btn-more">
+        {#<a href="" class="btn btn-grey btn-more"><i class="fa fa-angle-double-down"></i> Загрузить еще</a>#}
+    </div>
+    </div>
+    </div>
+    </div>
+{% endblock content %}

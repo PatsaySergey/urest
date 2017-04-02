@@ -1,0 +1,66 @@
+Netcast\Urest\MainBundle\Entity\Hotel:
+    type: entity
+    table: hotels
+    indexes:
+        city_region_idx:
+            columns: [ city_id ]
+        city_user_idx:
+            columns: [ user_id ]
+        city_lang_idx:
+            columns: [ lang ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\HotelRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        stars_count:
+            type: integer
+        description:
+            type: text
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+
+    manyToOne:
+         city:
+             targetEntity: City
+             inversedBy: hotels
+             joinColumn:
+                name: city_id
+                referencedColumnName: id
+         user:
+             targetEntity: Application\Sonata\UserBundle\Entity\User
+             joinColumn:
+                 name: user_id
+                 referenceColumnName: id
+
+    oneToMany:
+            rooms:
+                targetEntity: HotelRoom
+                mappedBy: hotel
+                cascade: ['persist', 'remove']
+                orphanRemoval: true
+
+            images:
+                targetEntity: HotelImages
+                mappedBy: hotel
+                cascade: ['persist', 'remove']
+                orphanRemoval: true
+
+    manyToMany:
+            video:
+                targetEntity: Application\Sonata\MediaBundle\Entity\Media
+                inversedBy: hotel
+                cascade: ['persist', 'remove']

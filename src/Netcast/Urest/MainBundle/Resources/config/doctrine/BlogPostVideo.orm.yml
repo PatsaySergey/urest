@@ -1,0 +1,28 @@
+Netcast\Urest\MainBundle\Entity\BlogPostVideo:
+    type: entity
+    table: blog_post_video
+    indexes:
+        video_post_idx:
+            columns: [ post_id ]
+        video_media_idx:
+            columns: [ media_id ]
+    id:
+      id:
+        type: integer
+        generator:
+          strategy: AUTO
+    fields:
+      main:
+        type: boolean
+        options:
+          default: false
+    manyToOne:
+      post:
+        targetEntity: BlogPost
+        inversedBy: video
+      media:
+        targetEntity: Application\Sonata\MediaBundle\Entity\Media
+        joinColumn:
+          name: media_id
+          referenceColumnName: id
+        cascade: ['persist', 'remove']

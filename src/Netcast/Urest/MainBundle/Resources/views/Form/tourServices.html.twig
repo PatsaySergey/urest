@@ -1,0 +1,121 @@
+<div class="table" id="jsServiceListWr">
+    {% for service in services %}
+        {% if service.type == 'line' %}
+            <div class="table-row" data-type="{{ service.type }}">
+                <div class="cell">
+                    <span class="checkbox-new">
+                        <input type="checkbox" value="{{ service.id }}" name="services[{{ service.id }}][id]" class="btn-checkbox jsServiceId"/>
+                    </span>
+                </div>
+                <div class="cell">
+                    <span>
+                        <span class="jsServiceTitle">{{ service.title }}</span>
+                        <a class="info-icon" onclick="TourBuilder.showServiceInfo($(this))" style="cursor: pointer" data-toggle="modal" data-target="#modal-choice" id="{{ service.id }}">
+                            <i class="fa fa-info"></i>
+                        </a>
+                    </span>
+                </div>
+                <div class="cell cell-price">
+                    <p class="price pull-right"> {{ getPrice(service.price) }}</p>
+                </div>
+            </div>
+        {% endif %}
+        {% if service.type == 'day' %}
+            <div class="table-row" data-type="{{ service.type }}">
+                <div class="cell">
+                    <span class="checkbox-new">
+                        <input type="checkbox" value="{{ service.id }}" name="services[{{ service.id }}][id]" class="btn-checkbox jsServiceId"/>
+                    </span>
+                </div>
+                <div class="cell">
+                    <span>
+                        <span class="jsServiceTitle">{{ service.title }}</span>
+                        <span class="input-date">
+                            <input type="text" name="services[{{ service.id }}][reservation]" class="reservationdate" placeholder="Выберите дни" />
+                        </span>
+                        <a class="info-icon" onclick="TourBuilder.showServiceInfo($(this))" style="cursor: pointer" data-toggle="modal" data-target="#modal-choice" id="{{ service.id }}">
+                            <i class="fa fa-info"></i>
+                        </a><br>
+                        <span class="serviceError"></span>
+                    </span>
+                </div>
+                <div class="cell cell-price">
+                    <p class="price pull-right">{{ getPrice(service.price) }}</p>
+                </div>
+            </div>
+        {% endif %}
+        {% if service.type == 'option' %}
+            <div class="table-row" data-type="{{ service.type }}">
+                <div class="cell">
+                    <span class="checkbox-new">
+                        <input type="checkbox" value="{{ service.id }}" name="services[{{ service.id }}][id]" class="btn-checkbox jsServiceId"/>
+                    </span>
+                </div>
+                <div class="cell">
+                    <span>
+                        <span class="jsServiceTitle">{{ service.title }}</span>
+                        <span class="jsOptionsInput" style="display: none">
+                            <input type="hidden" class="jsOptionId" name="services[{{ service.id }}][option]" >
+                        </span>
+                        <input type="button" value="..." onclick="TourBuilder.getServiceOption($(this),'{{ service.title }}')" id="{{ service.id }}">
+                        <a class="info-icon jsServiceInfo" style="cursor: pointer; display: none" data-toggle="modal" data-target="#modal-choice">
+                            <i class="fa fa-info"></i>
+                        </a><br>
+                        <span class="serviceError"></span>
+                    </span>
+                </div>
+                <div class="cell cell-price">
+                    <p class="price pull-right"><span class="price">{{ getPrice(service.price) }}</span></p>
+                </div>
+            </div>
+        {% endif %}
+        {% if service.type == 'day_option' %}
+            <div class="table-row" data-type="{{ service.type }}">
+                <div class="cell">
+                    <span class="checkbox-new">
+                        <input type="checkbox"  value="{{ service.id }}" name="services[{{ service.id }}][id]" class="btn-checkbox jsServiceId"/>
+                    </span>
+                </div>
+                <div class="cell">
+                    <span>
+                        <span class="jsServiceTitle">{{ service.title }}</span>
+                        <span class="input-date">
+                            <input type="text" name="services[{{ service.id }}][reservation]" class="reservationdate" placeholder="Выберите дни" />
+                        </span>
+                        <span class="jsOptionsInput" style="display: none">
+                            <input type="hidden" class="jsOptionId" name="services[{{ service.id }}][option]" >
+                        </span>
+                        <input type="button" value="..." onclick="TourBuilder.getServiceOption($(this),'{{ service.title }}')" id="{{ service.id }}" >
+                        <a class="info-icon jsServiceInfo" style="cursor: pointer; display: none" data-toggle="modal" data-target="#modal-choice">
+                            <i class="fa fa-info"></i>
+                        </a><br>
+                        <span class="serviceError"></span>
+                    </span>
+                </div>
+                <div class="cell cell-price">
+                    <p class="price pull-right"> <span class="price">{{ getPrice(service.price) }}</span></p>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="block-choice bg-white" id="serviceInfoBlock" style="display: none; position: absolute; top:0px;left:0px; z-index: 100;">
+    <button type="button" class="close" onclick="$(this).parent().hide()" style="position: absolute;  right: 0px; z-index: 100"><i class="fa fa-times-circle"></i></button>
+    <h4 class="header-title" id="jsServiceTitle"></h4>
+    <div class="table box-table">
+        <div class="table">
+            <div class="table-header table-row">
+                <div class="cell cell-photo">Фото</div>
+                <div class="cell cell-title">Название</div>
+                <div class="cell cell-price">Цена</div>
+                <div class="cell cell-info"></div>
+            </div>
+        </div>
+        <div class="table-body">
+            <div class="table" id="jsServiceOptionSelect">
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+Netcast\Urest\MainBundle\Entity\Region:
+    type: entity
+    table: region
+    indexes:
+        region_parent_idx:
+            columns: [ country_id ]
+        country_user_idx:
+            columns: [ user_id ]
+        country_lang_idx:
+            columns: [ lang ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\RegionRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        coordinates:
+            type: string
+            length: '255'
+            default: ''
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+
+    oneToMany:
+         cities:
+             targetEntity: City
+             mappedBy: region
+             cascade: ['persist', 'remove']
+    manyToOne:
+         country:
+             targetEntity: Country
+             inversedBy: regions
+             joinColumn:
+                 name: country_id
+                 referencedColumnName: id
+         user:
+              targetEntity: Application\Sonata\UserBundle\Entity\User
+              joinColumn:
+                name: user_id
+                referenceColumnName: id
+    lifecycleCallbacks: {  }

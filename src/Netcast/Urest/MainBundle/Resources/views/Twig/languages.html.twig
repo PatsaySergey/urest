@@ -1,0 +1,16 @@
+{% if not isMobil%}
+    <a href="#" data-toggle="dropdown">
+        <span class="btn-label">{{ currentLang }}</span>
+        <i class="fa fa-angle-down"></i>
+    </a>
+{% endif %}
+{% if not isMobil%}
+    <ul class="dropdown-menu">
+{% endif %}
+        {% for alias,url in LangsToDisplay %}
+            <li><a href="{{ url }}">{{ alias }}</a></li>
+        {% endfor %}
+        {#<li><a href=""><i class="fa fa-angle-double-down"></i></a></li>#}
+{% if not isMobil%}
+    </ul>
+{% endif %}

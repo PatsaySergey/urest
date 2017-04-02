@@ -1,0 +1,106 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div class="main-content">
+    <div class="block-ourtours">
+    <div class="container">
+    <h2 class="header-title"> {{ 'site.all_tours'|trans({},'NetcastUrestMainBundle') }}</h2>
+    <div class="col-xs-12 no-padd">
+        <div class="form-inline box-select">
+            <div class="form-group">
+                <form method="GET" id="tourFilterForm">
+                <label>{{ 'site.country'|trans({},'NetcastUrestMainBundle') }}</label>
+                <select name="tourCountry" onchange="$('#tourFilterForm').submit()">
+                    <option value="">{{ 'site.any'|trans({},'NetcastUrestMainBundle') }}</option>
+                    {% for country in tourCountries %}
+                        <option {% if app.request.get("tourCountry") == country.id %} selected {% endif %} value="{{ country.id }}">{{ country.title }}</option>
+                    {% endfor %}
+                </select>
+                </form>
+            </div>
+            <div class="form-group">
+                <form method="GET" id="tourFilterFormCity">
+                    <input type="hidden" name="tourCountry" value="{{ app.request.get("tourCountry") }}">
+                <label>{{ 'site.city'|trans({},'NetcastUrestMainBundle') }}</label>
+                <select name="tourCity" onchange="$('#tourFilterFormCity').submit()">
+                    <option value="">{{ 'site.every'|trans({},'NetcastUrestMainBundle') }}</option>
+                    {% for city in tourCities %}
+                        <option {% if app.request.get("tourCity") == city.id %} selected {% endif %} value="{{ city.id }}">{{ city.title }}</option>
+                    {% endfor %}
+                </select>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+    {% for key, tour in tours %}
+        <div class="col-md-3 col-sm-4 no-padd-xs">
+            <div class="thumbnail thumbnail-small">
+                {% if tour.tourImages[0] is defined %}
+                    {% media tour.tourImages[0].media,'reference' with {'class' : "img_responsive"} %}
+                {% endif %}
+                <div class="caption">
+                    <div class="inner-block">
+                        <h4>{{ tour.title }}</h4>
+                    </div>
+                    <div class="inner-block">
+                        <ul class="list-item">
+                            <li>
+                                <div class="cell icon"><i class="fa fa-map-marker"></i></div>
+                                <div class="cell txt">{{ tour.city.title }}, {{ tour.city.region.country.title }}</div>
+                            </li>
+                            <li>
+                                <div class="cell icon"><i class="fa fa-calendar"></i></div>
+                                <div class="cell txt">
+                                    {{ tour.tourDates[0].dateFrom|date('d.m.y') }} - {{ tour.tourDates[0].dateTo|date('d.m.y') }}
+                                    <span class="little-txt">  {{ 'site.other_dates'|trans({},'NetcastUrestMainBundle') }}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="cell icon"><i class="fa fa-building-o"></i></div>
+                                <div class="cell txt">
+                                    {{ tour.accommodation }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="inner-block">
+                        <p>{{ tour.announcement }}</p>
+                    </div>
+                    <div class="block-btn">
+                        <span class="price pull-left">{{ getPrice(tour.tourDates[0].price) }}</span>
+                        <a href="{{ url('netcast_urest_tour_view',{ id : tour.id }) }}" class="btn btn-grey pull-right"><i class="fa fa-angle-right"></i> {{ 'site.addit'|trans({},'NetcastUrestMainBundle') }}</a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        {% if key+1%4 == 0 %}
+            <div class="clearfix big-spacer hidden-sm hidden-xs"></div>
+        {% endif %}
+    {% endfor %}
+    </div>
+   {# <div class="col-xs-12">
+        <div class="block-btn-more">
+            <a href="" class="btn btn-grey btn-more"><i class="fa fa-angle-double-down"></i> Загрузить еще</a>
+        </div>
+    </div>#}
+    <h2 class="header-title">{{ 'site.tours_map'|trans({},'NetcastUrestMainBundle') }}</h2>
+    </div>
+        {% include 'NetcastUrestMainBundle:Map:map.html.twig' with {'top': 0} only %}
+    </div>
+    </div>
+{% endblock content %}
+
+{% block pageScripts %}
+    {% javascripts
+    '@NetcastUrestMainBundle/Resources/public/js/google.maps.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var GoogleMaps = new GoogleMaps();
+        GoogleMaps.setMarkers({{ mapOptions|raw }});
+    </script>
+{% endblock pageScripts %}

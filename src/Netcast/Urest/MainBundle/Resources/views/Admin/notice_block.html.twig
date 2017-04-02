@@ -1,0 +1,105 @@
+<ul class="user-info pull-left pull-right-xs pull-none-xsm">
+
+<!-- Message Notifications -->
+<li class="notifications dropdown">
+
+    {% if newOrderNotice is defined %}
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+        <i class="entypo-mail"></i>
+        <span class="badge badge-secondary">{{ newOrderNotice.count }}</span>
+    </a>
+    {% if newOrderNotice.count > 0 %}
+    <ul class="dropdown-menu">
+        <li>
+            <ul class="dropdown-menu-list scroller">
+                {% for notice in newOrderNotice.notice %}
+                    <li class="active">
+                        <a href="{{ notice.showUrl }}">
+                            <span class="line">
+                                <strong>{{ notice.order }}</strong>
+                                {{ notice.created|dateDiff() }}
+                            </span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+
+        <li class="external">
+            <a href="{{ newOrderNotice.listUrl }}">View all orders</a>
+        </li>
+    </ul>
+    {% endif %}
+    {% endif %}
+
+</li>
+
+<!-- Task Notifications -->
+<li class="notifications dropdown">
+
+    {% if editOrderNotice is defined %}
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+            <i class="entypo-list"></i>
+            <span class="badge badge-warning">{{ editOrderNotice.count }}</span>
+        </a>
+        {% if editOrderNotice.count > 0 %}
+            <ul class="dropdown-menu">
+                {% for notice in editOrderNotice.notice %}
+                    <li>
+                        <a href="{{ notice.editUrl }}">
+                            <span class="line">
+                                <strong>{{ notice.order }}</strong>
+                                {{ notice.created|dateDiff() }}
+                            </span>
+                        </a>
+                    </li>
+                {% endfor %}
+                <li class="external">
+                    <a href="{{ editOrderNotice.listUrl }}">View all orders</a>
+                </li>
+            </ul>
+        {% endif %}
+    {% endif %}
+
+
+</li>
+
+    <!-- Raw Notifications -->
+    <li class="notifications dropdown">
+
+        {% if reviewNotice is defined %}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                <i class="entypo-comment"></i>
+                <span class="badge badge-info">{{ reviewNotice.count }}</span>
+            </a>
+            {% if reviewNotice.count > 0 %}
+                <ul class="dropdown-menu">
+                    <li>
+                        <ul class="dropdown-menu-list scroller">
+                            {% for notice in reviewNotice.notice %}
+                                <li class="unread notification-success">
+                                    <a href="{{ notice.editUrl }}">
+                                        <i class="entypo-comment pull-right"></i>
+                        <span class="line">
+                            <strong>{{ notice.review }}</strong>
+                        </span>
+                        <span class="line small">
+                            {{ notice.created|dateDiff() }}
+                        </span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="external">
+                        <a href="{{ reviewNotice.listUrl }}">View all notifications</a>
+                    </li>
+                </ul>
+            {% endif %}
+        {% endif %}
+
+    </li>
+
+
+</ul>

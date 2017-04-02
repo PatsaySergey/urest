@@ -1,0 +1,51 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+<div id="profile">
+    <div class="main-info">
+        <div class="container">
+            <h2 class="header-title">Profile</h2>
+            <div class="block-profile clearfix">
+                <a href="{{ url('netcast_urest_profile_edit') }}" class="btn-edit"><i class="fa fa-pencil"></i></a>
+                <div class="col-sm-5 col-xs-12 no-padd">
+                    <div class="cell avatar border-right">
+                        {% if app.user.avatar is defined %}
+                            {% media app.user.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
+                        {% else %}
+                            <div class="img-circle user-pic user-none img-thumbnail">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-sm-7 col-xs-12 no-padd">
+                    <div class="cell info">
+                        <h3>{{ app.user.firstname }} {{ app.user.lastname }}</h3>
+                        <p>{{ app.user.dateOfBirth|date('d.m.Y') }}</p>
+                        <p>{{ app.user.email }}</p>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="menu-content clearfix">
+        <ul class="nav nav-pills nav-justified">
+            <li role="presentation" {% if status is not defined  %}class="active"{% endif %}><a href="{{ url('netcast_urest_profile_view') }}">{{ 'site.all'|trans({},'NetcastUrestMainBundle') }}</a></li>
+            <li role="presentation" {% if status is defined and status == 'moderation' %}class="active"{% endif %}><a href="{{ url('netcast_urest_profile_order_list',{status:'moderation'}) }}">{{ 'site.on_maderate'|trans({},'NetcastUrestMainBundle') }} {% if counts[0] %}<span class="badge">{{ counts[0] }}</span>{% endif %}</a></li>
+            <li role="presentation" {% if status is defined and status == 'for_approval' %}class="active"{% endif %}><a href="{{ url('netcast_urest_profile_order_list',{status:'for_approval'}) }}">{{ 'site.on_approve'|trans({},'NetcastUrestMainBundle') }} {% if counts[1] %}<span class="badge">{{ counts[1] }}</span>{% endif %}</a></li>
+            <li role="presentation" {% if status is defined and status == 'pending_payments' %}class="active"{% endif %}><a href="{{ url('netcast_urest_profile_order_list',{status:'pending_payments'}) }}">{{ 'site.pay'|trans({},'NetcastUrestMainBundle') }} {% if counts[2] %}<span class="badge">{{ counts[2] }}</span>{% endif %}</a></li>
+            <li role="presentation" {% if status is defined and status == 'overdue' %}class="active"{% endif %}><a href="{{ url('netcast_urest_profile_order_list',{status:'overdue'}) }}">{{ 'site.no_pay'|trans({},'NetcastUrestMainBundle') }} {% if counts[3] %}<span class="badge">{{ counts[3] }}</span>{% endif %}</a></li>
+            <li role="presentation" {% if status is defined and status == 'paid' %}class="active"{% endif %}><a href="{{ url('netcast_urest_profile_order_list',{status:'paid'}) }}">{{ 'site.payed'|trans({},'NetcastUrestMainBundle') }} {% if counts[4] %}<span class="badge">{{ counts[4] }}</span>{% endif %}</a></li>
+        </ul>
+    </div>
+    <div class="block-table">
+        <div class="container width-970">
+            <div class="table">
+                {{ include('NetcastUrestMainBundle:Profile:orderList.html.twig',{ orders : orders }, with_context = false) }}
+            </div>
+            <a href="{{ url('netcast_urest_tour_builder') }}" class="btn btn-new-trip pull-right"><i class="fa fa-angle-right"></i> {{ 'site.new_tour'|trans({},'NetcastUrestMainBundle') }}</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

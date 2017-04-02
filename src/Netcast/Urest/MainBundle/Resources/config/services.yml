@@ -1,0 +1,112 @@
+parameters:
+    netcast_urest_main.notice.class: Netcast\Urest\MainBundle\Notice\AdminNotice
+    netcast_urest_main.review_notice.class: Netcast\Urest\MainBundle\Notice\ReviewNotice
+    netcast_urest_main.new_order_notice.class: Netcast\Urest\MainBundle\Notice\NewOrderNotice
+    netcast_urest_main.edit_order_notice.class: Netcast\Urest\MainBundle\Notice\EditOrderNotice
+    netcast.urest.registration.form.type.class: Netcast\Urest\MainBundle\Form\Type\RegistrationFormType
+
+    impar.loginza.provider.class:                                               Netcast\Urest\MainBundle\Security\LoginzaUserProvider
+
+services:
+    netcast_urest_main.notice:
+        class: %netcast_urest_main.notice.class%
+        calls:
+            - [ setReviewNotice,   [ @netcast_urest_main.review_notice ]]
+            - [ setNewOrderNotice, [ @netcast_urest_main.new_order_notice ]]
+            - [ setEditOrderNotice, [ @netcast_urest_main.edit_order_notice ]]
+
+    netcast_urest_main.edit_order_notice:
+        class: %netcast_urest_main.edit_order_notice.class%
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ]]
+            - [ setSecurityContext, [ @security.context ] ]
+
+    netcast_urest_main.review_notice:
+        class: %netcast_urest_main.review_notice.class%
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ]]
+            - [ setSecurityContext, [ @security.context ] ]
+
+    netcast_urest_main.new_order_notice:
+        class: %netcast_urest_main.new_order_notice.class%
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ]]
+            - [ setSecurityContext, [ @security.context ] ]
+
+    netcast.urest.registration.form.type:
+        class: %netcast.urest.registration.form.type.class%
+        arguments:
+          - "@doctrine.orm.entity_manager"
+          - %fos_user.model.group.class%
+          -  Application\Sonata\UserBundle\Entity\User
+        tags:
+          - {name: form.type, alias: netcast_urest_user_registration}
+          - {name: netcast.urest.registration.form.type}
+
+    netcast.urest.auth.handler:
+        class: "Netcast\\Urest\\MainBundle\\Security\\AuthHandler"
+        arguments:
+          - @router
+          - @translator
+          - @fos_user.user_manager
+          - @session
+
+    urest.registration.form.handler:
+        class: Netcast\Urest\MainBundle\Form\Handler\RegistrationFormHandler
+        arguments:
+            - @fos_user.registration.form
+            - @request
+            - @fos_user.user_manager
+            - @urest.registration.mailer
+            - @fos_user.util.token_generator
+        scope: request
+
+    urest.registration.mailer:
+        class: "Netcast\\Urest\\MainBundle\\Mailer\\RegMailer"
+        arguments:
+            - @mailer
+            - @router
+            - @templating
+            -
+                confirmation.template:  NetcastUrestMainBundle:User:confirm.email.html.twig
+                resetting.template:     %fos_user.resetting.email.template%
+                from_email:
+                    confirmation:   %fos_user.registration.confirmation.from_email%
+                    resetting:      %fos_user.resetting.email.from_email%
+            - @doctrine.orm.entity_manager
+
+    netcast.urest.tour_order.form.type:
+        class: "Netcast\\Urest\\MainBundle\\Form\\Type\\TourOrderFormType"
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@service_container"
+            - "%locale%"
+        tags:
+            - {name: form.type, alias: netcast_urest_tour_order}
+            - {name: netcast_urest_tour_order}
+
+    profile.controller.listener:
+        class: Netcast\Urest\MainBundle\Listener\ProfileControllerListener
+        tags:
+          - {name: kernel.event_listener, event: kernel.controller, method: onKernelController}
+
+    impar.loginza.provider:
+        class:              %impar.loginza.provider.class%
+        factory_service:    doctrine
+        factory_method:     getRepository
+        arguments:
+            - Application\Sonata\UserBundle\Entity\User
+        calls:
+            - [ setContainer, [ @service_container ]]
+
+    LiqPay:
+        class:        Netcast\Urest\MainBundle\LiqPay\LiqPay
+        arguments:    ['i35313186901','sFVEAOgM0g75pcWdZo9FOVaMgLd2xP2xp6XJSplf']
+
+    netcast.urest.mailer:
+        class: Netcast\Urest\MainBundle\Mailer\EventMailer
+        arguments:
+          - "@mailer"
+          - "@doctrine.orm.entity_manager"
+          - "@templating"
+

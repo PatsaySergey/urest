@@ -1,0 +1,14 @@
+{% for slider in sliders %}
+    {% if slider.image is defined %}
+    <div class="item">
+        <img src="{% path slider.image, "reference"  %}" alt="">
+        <div class="carousel-caption">
+            <div class="container no-padd padd-xs">
+                <p class="title">{{ slider.title }}</p>
+                <hr/>
+                <p class="text">{{ slider.content }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}

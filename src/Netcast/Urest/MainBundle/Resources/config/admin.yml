@@ -1,0 +1,580 @@
+parameters:
+    urest.admin.locinfo.class:      Netcast\Urest\MainBundle\Admin\LocationInfoAdmin
+    urest.entity.locinfo.class:     Netcast\Urest\MainBundle\Entity\LocationInfo
+
+services:
+    sonata.admin.tour:
+        class: Netcast\Urest\MainBundle\Admin\TourAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: "breadcrumb.link_tour_list"
+              label: "breadcrumb.link_tour_list"
+              label_catalogue: "NetcastUrestMainBundle"
+              label_translator_strategy: "sonata.admin.label.strategy.underscore"
+        arguments:
+            - ~
+            - Netcast\Urest\MainBundle\Entity\Tour
+            - NetcastUrestMainBundle:UrestCRUD
+        calls:
+            - [ setTranslationDomain, [NetcastUrestMainBundle]]
+            - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.tour_order:
+        class: Netcast\Urest\MainBundle\Admin\TourOrderAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: admin.layout.orders
+              label: "breadcrumb.link_tour_order_list"
+              label_catalogue: "NetcastUrestMainBundle"
+              label_translator_strategy: "sonata.admin.label.strategy.underscore"
+        arguments:
+            - ~
+            - Netcast\Urest\MainBundle\Entity\TourOrder
+            - NetcastUrestMainBundle:UrestCRUD
+        calls:
+            - [ setTranslationDomain, [NetcastUrestMainBundle]]
+            - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.custom_tour:
+        class: Netcast\Urest\MainBundle\Admin\CustomTourAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: admin.layout.orders
+              label: "breadcrumb.link_custom_tour_list"
+              label_catalogue: NetcastUrestMainBundle
+              label_translator_strategy: "sonata.admin.label.strategy.underscore"
+        arguments:
+            - ~
+            - Netcast\Urest\MainBundle\Entity\CustomTourOrder
+            - NetcastUrestMainBundle:UrestCRUD
+        calls:
+            - [ setTranslationDomain, [NetcastUrestMainBundle]]
+            - [ setEntityManager, ["@doctrine.orm.entity_manager"]]
+            - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.my_custom_tour:
+        class: Netcast\Urest\MainBundle\Admin\MyCustomTourAdmin
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: admin.layout.orders
+              label: "breadcrumb.link_my_custom_tour_list"
+              label_catalogue: NetcastUrestMainBundle
+              label_translator_strategy: "sonata.admin.label.strategy.underscore"
+        arguments:
+            - ~
+            - Netcast\Urest\MainBundle\Entity\CustomTourOrder
+            - NetcastUrestMainBundle:UrestCRUD
+        calls:
+            - [ setTranslationDomain, [NetcastUrestMainBundle]]
+            - [ setBaseRouteName, ["urest_admin_my_custom_tour"]]
+            - [ setBaseRoutePattern, ["my-tours"]]
+            - [ setClassNameLabel, ["mytours"]]
+            - [ setEntityManager, ["@doctrine.orm.entity_manager"]]
+            - [ setSecurityContext, [ "@security.context" ] ]
+    sonata.admin.language:
+          class: Netcast\Urest\MainBundle\Admin\LanguageAdmin
+          tags:
+              - name: sonata.admin
+                manager_type: orm
+                group: "admin.layout.language"
+                label: "breadcrumb.link_language_list"
+                label_catalogue: "NetcastUrestMainBundle"
+                label_translator_strategy: "sonata.admin.label.strategy.underscore"
+          arguments:
+              - ~
+              - Netcast\Urest\MainBundle\Entity\Language
+              - NetcastUrestMainBundle:UrestCRUD
+          calls:
+              - [ setTranslationDomain, [NetcastUrestMainBundle]]
+              - [ setSecurityContext, [ "@security.context" ] ]
+    sonata.admin.faq:
+              class: Netcast\Urest\MainBundle\Admin\FaqAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.faq"
+                    label: "breadcrumb.link_faq_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\Faq
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.country:
+              class: Netcast\Urest\MainBundle\Admin\CountryAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.geo"
+                    label: "breadcrumb.link_country_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\Country
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+                  - [ setChildrenManager, [ "@sonata.admin.region" ] ]
+
+    sonata.admin.region:
+                  class: Netcast\Urest\MainBundle\Admin\RegionAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.geo"
+                        label: "breadcrumb.link_region_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\Region
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+                      - [ setChildrenManager, [ "@sonata.admin.city" ] ]
+                      - [ setParentManager, [ sonata.admin.country ] ]
+    sonata.admin.city:
+                  class: Netcast\Urest\MainBundle\Admin\CityAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.geo"
+                        label: "breadcrumb.link_city_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\City
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+                      - [ setParentManager, [ sonata.admin.region ] ]
+
+    sonata.admin.blogpost:
+                  class: Netcast\Urest\MainBundle\Admin\BlogPostAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: admin.layout.blog
+                        label: "breadcrumb.link_blog_post_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\BlogPost
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.blogcategory:
+                  class: Netcast\Urest\MainBundle\Admin\BlogCategoryAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: admin.layout.blog
+                        label: "breadcrumb.link_blog_category_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\BlogCategory
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+    sonata.admin.blogtag:
+                  class: Netcast\Urest\MainBundle\Admin\BlogTagAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: admin.layout.blog
+                        label: "breadcrumb.link_blog_tag_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\BlogTag
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+
+
+    sonata.admin.locinfo_country:
+        class: %urest.admin.locinfo.class%
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: "admin.layout.location_info"
+              label: "breadcrumb.link_location_info_country_list"
+              label_catalogue: "NetcastUrestMainBundle"
+              label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              show_in_dashboard: true
+        arguments:
+            - ~
+            - %urest.entity.locinfo.class%
+            - NetcastUrestMainBundle:UrestCRUD
+        calls:
+            - [ setTranslationDomain, [NetcastUrestMainBundle]]
+            - [ setBaseRouteName, ["locationinfo_country"]]
+            - [ setBaseRoutePattern, ["locationinfo-country"]]
+            - [ setEntityManager, ["@doctrine.orm.entity_manager"]]
+            - [ setSecurityContext, [ "@security.context" ] ]
+            - [ setClassNameLabel, ["locationinfo_country"]]
+            - [ setType, [country]]
+            - [ setChildrenManager, [ "@sonata.admin.locinfo_city" ] ]
+
+    sonata.admin.locinfo_city:
+        class: %urest.admin.locinfo.class%
+        tags:
+            - name: sonata.admin
+              manager_type: orm
+              group: "admin.layout.location_info"
+              label: "breadcrumb.link_location_info_city_list"
+              label_catalogue: "NetcastUrestMainBundle"
+              label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              show_in_dashboard: true
+        arguments:
+            - ~
+            - %urest.entity.locinfo.class%
+            - NetcastUrestMainBundle:UrestCRUD
+        calls:
+            - [ setTranslationDomain, [NetcastUrestMainBundle]]
+            - [ setMaxPerPage, [500000]]
+            - [ setBaseRouteName, ["locationinfo_city"]]
+            - [ setBaseRoutePattern, ["locationinfo-city"]]
+            - [ setEntityManager, ["@doctrine.orm.entity_manager"]]
+            - [ setSecurityContext, [ "@security.context" ] ]
+            - [ setClassNameLabel, ["locationinfo_city"]]
+            - [ setType, [city]]
+            - [ setParentManager, [ sonata.admin.locinfo_country ] ]
+
+
+    sonata.admin.tour_city:
+                  class: Netcast\Urest\MainBundle\Admin\TourCityAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.tour_builder"
+                        label: "breadcrumb.link_contact_tour_city"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\TourMedia
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.hotels:
+                  class: Netcast\Urest\MainBundle\Admin\HotelAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.tour_builder"
+                        label: "breadcrumb.link_hotels_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\Hotel
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+                      - [ setChildrenManager, [ "@sonata.admin.hotel_rooms" ] ]
+
+
+    sonata.admin.hotel_rooms:
+                  class: Netcast\Urest\MainBundle\Admin\HotelRoomsAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.tour_builder"
+                        label: "breadcrumb.link_hotel_rooms_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\HotelRoom
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+                      - [ setParentManager, [ sonata.admin.hotels ] ]
+
+    sonata.admin.apartments:
+                  class: Netcast\Urest\MainBundle\Admin\ApartmentAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.tour_builder"
+                        label: "breadcrumb.link_apartment_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\Apartment
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+
+
+    sonata.admin.main_gallery:
+              class: Netcast\Urest\MainBundle\Admin\MainGalleryAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.main_page"
+                    label: "breadcrumb.link_main_gallery_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\MainGallery
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.footer_gallery_img:
+              class: Netcast\Urest\MainBundle\Admin\FGIAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.main_page"
+                    label: "breadcrumb.link_footer_gallery_i_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\FooterGalleryImages
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.footer_gallery_video:
+              class: Netcast\Urest\MainBundle\Admin\FGVAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.main_page"
+                    label: "breadcrumb.link_footer_gallery_v_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\FooterGalleryVideo
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.main_block:
+              class: Netcast\Urest\MainBundle\Admin\MainBlockAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.main_page"
+                    label: "breadcrumb.link_main_block_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\MainBlock
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.service:
+                  class: Netcast\Urest\MainBundle\Admin\ServiceAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.tour_builder"
+                        label: "breadcrumb.link_service_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\Service
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+                      - [ setChildrenManager, [ "@sonata.admin.options" ] ]
+
+
+    sonata.admin.options:
+                  class: Netcast\Urest\MainBundle\Admin\OptionsAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.tour_builder"
+                        label: "breadcrumb.link_options_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\Options
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+                      - [ setParentManager, [ sonata.admin.service ] ]
+
+    sonata.admin.wellcome_msg:
+              class: Netcast\Urest\MainBundle\Admin\WellcomeMsgAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.tour_builder"
+                    label: "breadcrumb.link_wellcome_msg_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\WellcomeMsg
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.review:
+                  class: Netcast\Urest\MainBundle\Admin\ReviewAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.review"
+                        label: "breadcrumb.link_review_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\Review
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+                      - [ setMaxPerPage, [500000]]
+
+    sonata.admin.about:
+              class: Netcast\Urest\MainBundle\Admin\AboutUsAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.about"
+                    label: "breadcrumb.link_about_us_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\AboutUs
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+                  - [ setEntityManager, ["@doctrine.orm.entity_manager"]]
+
+    sonata.admin.partner:
+              class: Netcast\Urest\MainBundle\Admin\PartnerAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.about"
+                    label: "breadcrumb.link_partner_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\Partner
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.admin.contact:
+                  class: Netcast\Urest\MainBundle\Admin\ContactAdmin
+                  tags:
+                      - name: sonata.admin
+                        manager_type: orm
+                        group: "admin.layout.contact"
+                        label: "breadcrumb.link_contact_list"
+                        label_catalogue: "NetcastUrestMainBundle"
+                        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+                  arguments:
+                      - ~
+                      - Netcast\Urest\MainBundle\Entity\Contact
+                      - NetcastUrestMainBundle:UrestCRUD
+                  calls:
+                      - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                      - [ setSecurityContext, [ "@security.context" ] ]
+
+    sonata.user.admin.group:
+        class:  %sonata.user.admin.group.class%
+        tags:
+            - name:                      sonata.admin
+              manager_type:              orm
+              group:                     admin.layout.groups
+              label:                     groups
+              label_catalogue:           SonataUserBundle
+              label_translator_strategy: sonata.admin.label.strategy.underscore
+        arguments:
+            - ~
+            - %sonata.user.admin.group.entity%
+            - %sonata.user.admin.group.controller%
+        calls:
+            - [ setTranslationDomain, [ %sonata.user.admin.group.translation_domain% ] ]
+
+    sonata.user.admin.user:
+        class:  %sonata.user.admin.user.class%
+        tags:
+            -
+                name:                      sonata.admin
+                manager_type:              orm
+                group:                     admin.layout.users
+                label:                     users
+                label_catalogue:           SonataUserBundle
+                label_translator_strategy: sonata.admin.label.strategy.underscore
+        arguments:
+            - ~
+            - %sonata.user.admin.user.entity%
+            - %sonata.user.admin.user.controller%
+            - @service_container
+        calls:
+            - [ setTranslationDomain, [ %sonata.user.admin.user.translation_domain% ] ]
+            - [ setContainer, [ @service_container ] ]
+
+    sonata.admin.currency_rate:
+              class: Netcast\Urest\MainBundle\Admin\CurrencyRateAdmin
+              tags:
+                  - name: sonata.admin
+                    manager_type: orm
+                    group: "admin.layout.currency"
+                    label: "breadcrumb.link_currency_list"
+                    label_catalogue: "NetcastUrestMainBundle"
+                    label_translator_strategy: "sonata.admin.label.strategy.underscore"
+              arguments:
+                  - ~
+                  - Netcast\Urest\MainBundle\Entity\CurrencyRate
+                  - NetcastUrestMainBundle:UrestCRUD
+              calls:
+                  - [ setTranslationDomain, [NetcastUrestMainBundle]]
+                  - [ setSecurityContext, [ "@security.context" ] ]

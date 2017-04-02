@@ -1,0 +1,47 @@
+Netcast\Urest\MainBundle\Entity\CustomTourServices:
+    type: entity
+    table: custom_tour_services
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        dateStart:
+          type: date
+          nullable: TRUE
+        dateEnd:
+          type: date
+          nullable: TRUE
+        isCancel:
+            type: boolean
+            nullable: TRUE
+            options:
+              default: 0
+        isModerated:
+            type: boolean
+            options:
+              default: 0
+        userApprove:
+            type: boolean
+            options:
+              default: 1
+    manyToOne:
+        service:
+          targetEntity: Service
+          joinColumn:
+            name: service_id
+            referenceColumnName: id
+        tour:
+          targetEntity: CustomTourOrder
+          joinColumn:
+            name: tour_id
+            referenceColumnName: id
+        option:
+          targetEntity: Options
+          nullable: TRUE
+          joinColumn:
+            name: option_id
+            referenceColumnName: id
+

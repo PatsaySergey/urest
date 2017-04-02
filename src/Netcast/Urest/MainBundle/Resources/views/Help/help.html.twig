@@ -1,0 +1,129 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div class="block-map map-top">
+        <div id="map"></div>
+    </div>
+    <!--	<img src="../assets/img/slider-img-1.png" alt=""/>-->
+    <div class="main-content">
+    <div class="block-faq-2">
+    <div class="clearfix big-spacer big-spacer"></div>
+    <div class="container width-970 no-padd-xs">
+        <div class="tour-info bg-white">
+            <div class="scroll-img-box">
+                <div id="thumb-scroller" class="thumb-scroller">
+                    <ul class="ts-list">
+                        {% for image in locationInfoPost.locationinfoImage %}
+                            <li>
+                                <a href="" target="_parent">{% media image.media,'reference' with {'class' : "img_responsive"} %}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <h3 class="header-title">{{ locationInfoPost.title }}</h3>
+            {% for image in locationInfoPost.locationinfoImage %}
+                {% if image.main %}
+                    {% media image.media,'reference' with {'class' : "img_responsive" } %}
+                {% endif %}
+            {% endfor %}
+            <div class="clearfix"></div>
+            <div class="inner-content">
+                <div class="right-block pull-right hidden-xs">
+                    <div class="vertical-menu btn-group-vertical">
+                        {% for city in locationInfoChilds %}
+                            <a href="{{ url('netcast_urest_help_city_view',{id:city.id}) }}" class="btn {% if currCity == city.id %}active{% endif %}">{{ city.title }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="scroll-more-box text-center">
+                        <span>Scroll for more</span>
+                    </div>
+                </div>
+                <div class="clearfix visible-xs"></div>
+                <div class="text-block">
+                    <div class="social">
+                        <ul class="social-network">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-facebook iconRounded"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-vk iconRounded"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="fa fa-twitter iconRounded"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-google-plus iconRounded"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-linkedin iconRounded"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-pinterest iconRounded"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    {{ locationInfoPost.content|raw }}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix big-spacer"></div>
+    <div class="container">
+        <h2 class="header-title">{{ 'site.tours'|trans({},'NetcastUrestMainBundle') }}</h2>
+        <div class="row">
+        {% for tour in tours %}
+            <div class="col-md-3 col-sm-4 no-padd-xs">
+                <div class="thumbnail thumbnail-small">
+                    {% media tour.tourImages[0].media,'reference' with {'class' : "img_responsive"} %}
+                    <div class="caption">
+                        <div class="inner-block">
+                            <h4>{{ tour.title }}</h4>
+                        </div>
+                        <div class="inner-block">
+                            <ul class="list-item">
+                                <li>
+                                    <div class="cell icon"><i class="fa fa-map-marker"></i></div>
+                                    <div class="cell txt">{{ tour.city.title }}, {{ tour.city.region.country.title }}</div>
+                                </li>
+                                <li>
+                                    <div class="cell icon"><i class="fa fa-calendar"></i></div>
+                                    <div class="cell txt">
+                                        {{ tour.tourDates[0].dateFrom|date('d.m.y') }} - {{ tour.tourDates[0].dateTo|date('d.m.y') }}
+                                        <span class="little-txt">  доступны другие даты</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="cell icon"><i class="fa fa-building-o"></i></div>
+                                    <div class="cell txt">
+                                        {{ tour.accommodation }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="inner-block">
+                            <p>{{ tour.announcement }}</p>
+                        </div>
+                        <div class="block-btn">
+                            <span class="price pull-left">€ {{ tour.tourDates[0].price }}</span>
+                            <a href="{{ url('netcast_urest_tour_view',{ id : tour.id }) }}" class="btn btn-grey pull-right"><i class="fa fa-angle-right"></i> {{ 'site.addit'|trans({},'NetcastUrestMainBundle') }}</a>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        <div class="clearfix big-spacer"></div>
+    </div>
+    </div>
+    </div>
+{% endblock content %}

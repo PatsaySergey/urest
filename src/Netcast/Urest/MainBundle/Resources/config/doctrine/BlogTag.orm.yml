@@ -1,0 +1,49 @@
+Netcast\Urest\MainBundle\Entity\BlogTag:
+    type: entity
+    table: blog_tag
+    indexes:
+        blogtag_user_idx:
+            columns: [ user_id ]
+        blogtag_lang_idx:
+            columns: [ lang ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+        userId:
+            type: integer
+            column: user_id
+        lang:
+            type: string
+            length: '2'
+            nullable: false
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: false
+        frequency:
+            type: integer
+            options:
+              default: 0
+    manyToOne:
+        user:
+          targetEntity: Application\Sonata\UserBundle\Entity\User
+          joinColumn:
+            name: user_id
+            referenceColumnName: id
+    manyToMany:
+        posts:
+          targetEntity: BlogPost
+          mappedBy: tags
+    uniqueConstraints:
+        title_idx:
+          columns: title
+    lifecycleCallbacks: {  }

@@ -1,0 +1,28 @@
+Netcast\Urest\MainBundle\Entity\Language:
+    type: entity
+    table: lang
+    indexes:
+       lang_alias_idx:
+           columns: [ alias ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\LanguageRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        alias:
+            type: string
+            unique: true
+            length: '2'
+        title:
+            type: string
+            length: 255
+        active:
+            type: boolean
+            default: 0
+        display:
+            type: boolean
+            default: 0
+    lifecycleCallbacks: {  }

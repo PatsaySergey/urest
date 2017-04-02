@@ -1,0 +1,29 @@
+Netcast\Urest\MainBundle\Entity\ApartmentImages:
+  type: entity
+  table: apartment_images
+  indexes:
+      apartment_idx:
+          columns: [ apartment_id ]
+      image_idx:
+          columns: [ media_id ]
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    main:
+      type: boolean
+      options:
+          default: false
+  manyToOne:
+    apartment:
+      targetEntity: Apartment
+      inversedBy: images
+    media:
+      targetEntity: Application\Sonata\MediaBundle\Entity\Media
+      joinColumn:
+        name: media_id
+        referenceColumnName: id
+      cascade: ['persist', 'remove']
+

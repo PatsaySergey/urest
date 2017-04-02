@@ -1,0 +1,89 @@
+{% extends "NetcastUrestMainBundle:Admin:standard_layout.html.twig" %}
+
+{% block sonata_page_content_nav %}
+    <ol class="breadcrumb bc-3">
+        <li>
+            <a href="{{ url('sonata_admin_dashboard') }}">
+                <i class="entypo-home"></i>{{ 'admin.layout.dashboard'|trans({}, 'NetcastUrestMainBundle') }}
+            </a>
+        </li>
+        <li>
+            <a>
+                {{ 'breadcrumb.link_tour_city_list'|trans({}, 'NetcastUrestMainBundle') }}
+            </a>
+        </li>
+    </ol>
+{% endblock sonata_page_content_nav %}
+{% block sonata_admin_content %}
+    <div style="margin-bottom: 10px">
+        <input id="leftSelectSearch" class="form-control" style="width: 300px;float: left" placeholder="Поиск">
+        <input id="rightSelectSearch" class="form-control" style="width: 300px; margin-left: 25px; float: left" placeholder="Поиск">
+        <div class="clear"></div>
+    </div>
+    <select multiple="multiple" class="form-control multi-select" id="cityTour" style="position: absolute; left: -9999px;">
+        {% for oneCity in city %}
+            <option {% if oneCity.getInBuilder %}selected="selected"{% endif %} value="{{ oneCity.id }}">{{ oneCity.title }} {{ oneCity.region.country.title }}</option>
+        {% endfor %}
+    </select>
+    <script>
+        $('#rightSelectSearch').keyup(function(){
+            var searchStr = $(this).val();
+            if (searchStr == '')
+            {
+                $('.ms-selection .ms-list .ms-selected').show();
+            }
+            else
+            {
+                $('.ms-selection .ms-list .ms-selected').hide();
+                $('.ms-selection .ms-list .ms-selected span').each(function(){
+                    if ($(this).text().toUpperCase().indexOf(searchStr.toUpperCase()) != -1)
+                    {
+                        $(this).parent().show();
+                    }
+                })
+            }
+
+        });
+        $('#leftSelectSearch').keyup(function(){
+            var searchStr = $(this).val();
+            if (searchStr == '')
+            {
+                $('.ms-selectable .ms-list .ms-elem-selectable').each(function(){
+                    if(!$(this).hasClass('ms-selected'))
+                        $(this).show();
+                })
+            }
+            else
+            {
+                $('.ms-selectable .ms-list .ms-elem-selectable').hide();
+                $('.ms-selectable .ms-list .ms-elem-selectable span').each(function(){
+                    if ($(this).text().toUpperCase().indexOf(searchStr.toUpperCase()) != -1 && !$(this).parent().hasClass('ms-selected'))
+                    {
+                        $(this).parent().show();
+                    }
+                })
+            }
+
+        });
+        $('#cityTour').change(function(){
+
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '{{ path('netcast_urest_admin_tour_city') }}',
+                data: { cityIds: $(this).val() },
+                error: function() {
+                    console.log('Ошибка при загрузке отделений');
+                },
+                success: function(data) {
+                    console.log(data)
+                }
+            });
+        })
+
+    </script>
+{% endblock %}
+
+ {% block addit_scripts  %}
+     <script src="{{ asset('bundles/netcasturestmain/js/jquery.multi-select.js') }}"></script>
+ {% endblock addit_scripts %}

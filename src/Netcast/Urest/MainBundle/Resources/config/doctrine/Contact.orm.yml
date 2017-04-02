@@ -1,0 +1,61 @@
+Netcast\Urest\MainBundle\Entity\Contact:
+    type: entity
+    table: contact
+    repositoryClass: Netcast\Urest\MainBundle\Entity\ContactRepository
+    indexes:
+        city_region_idx:
+            columns: [ city_id ]
+        city_user_idx:
+            columns: [ user_id ]
+        city_lang_idx:
+            columns: [ lang ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        description:
+            type: text
+        adress:
+            type: text
+        work_time:
+            type: text
+        fax:
+            type: string
+            length: 256
+        phone:
+            type: string
+            length: 256
+        email:
+            type: string
+            length: 256
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+
+    manyToOne:
+         city:
+             targetEntity: City
+             inversedBy: contacts
+             joinColumn:
+                name: city_id
+                referencedColumnName: id
+         user:
+             targetEntity: Application\Sonata\UserBundle\Entity\User
+             joinColumn:
+                 name: user_id
+                 referenceColumnName: id
+         icon:
+             targetEntity: Application\Sonata\MediaBundle\Entity\Media
+             joinColumn:
+                name: media_id
+                referencedColumnName: id
+             cascade: ['persist', 'remove']

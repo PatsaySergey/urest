@@ -1,0 +1,27 @@
+Netcast\Urest\MainBundle\Entity\FooterGalleryVideo:
+    type: entity
+    table: gallery_video
+    repositoryClass: Netcast\Urest\MainBundle\Entity\FooterGalleryVideoRepository
+    id:
+      id:
+        type: integer
+        generator:
+          strategy: AUTO
+    fields:
+      title:
+          type: string
+          length: 255
+      active:
+          type: boolean
+          default: 1
+      lang:
+          type: string
+          length: '2'
+          nullable: false
+    manyToOne:
+      media:
+        targetEntity: Application\Sonata\MediaBundle\Entity\Media
+        joinColumn:
+          name: media_id
+          referenceColumnName: id
+        cascade: ['persist', 'remove']

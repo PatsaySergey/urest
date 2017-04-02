@@ -1,0 +1,30 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div class="main-content">
+        <div class="block-help">
+            <div class="container no-padd-md no-padd-lg">
+                <h2 class="header-title">{{ 'site.info'|trans({},'NetcastUrestMainBundle') }}</h2>
+                <div class="row">
+                    {% for location in locationInfoPosts %}
+                    <div class="col-md-4 col-sm-6 col-xs-12 no-padd-xs">
+                        <div class="thumbnail thumbnail-middle">
+                            {% media location.locationinfoImage[0].media,'reference' with {'class' : "img_responsive"} %}
+                            <div class="caption clearfix">
+                                <h4>{{ location.title }}</h4>
+                                <hr/>
+                                <p>{{ location.previewText }}</p>
+                                <p><a href="{{ url('netcast_urest_help_country_view',{id:location.id}) }}" class="btn btn-grey pull-right" role="button"><i class="fa fa-chevron-right"></i> {{ 'site.next'|trans({},'NetcastUrestMainBundle') }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="col-xs-12">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

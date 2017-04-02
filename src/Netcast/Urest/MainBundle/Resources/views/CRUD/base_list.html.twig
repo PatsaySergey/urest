@@ -1,0 +1,163 @@
+{% extends base_template %}
+
+{% block actions %}
+{% spaceless %}
+    {% if admin.hasRoute('create') and admin.isGranted('CREATE')%}
+        <li>{% include 'SonataAdminBundle:Core:create_button.html.twig' %}</li>
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block tab_menu %}
+    {{- knp_menu_render(admin.sidemenu(action), {'currentClass' : 'active', 'template': admin_pool.getTemplate('tab_menu_template')}, 'twig') -}}
+{% endblock tab_menu %}
+
+{% block list_table %}
+    <div class="box box-primary">
+        <div role="grid" class="dataTables_wrapper form-inline" id="table-2_wrapper">
+            {{ sonata_block_render_event('sonata.admin.list.table.top', { 'admin': admin }) }}
+
+            {% block list_header '' %}
+
+            {% set batchactions = admin.batchactions %}
+            {% if admin.datagrid.results|length > 0 %}
+                {% if admin.hasRoute('batch') %}
+                <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" >
+                    <input type="hidden" name="_sonata_csrf_token" value="{{ csrf_token }}">
+                {% endif %}
+                <table class="table table-bordered datatable" id="listTable">
+                    {% block table_header %}
+                        <thead>
+                        <tr class="replace-inputs">
+                            {% for field_description in admin.list.elements %}
+                                {% if admin.hasRoute('batch') and field_description.getOption('code') == '_batch' and batchactions|length > 0 %}
+                                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="">
+                                        <input type="checkbox" id="list_batch_checkbox">
+                                    </th>
+                                {% elseif field_description.getOption('code') == '_select' %}
+                                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label=""></th>
+                                {% elseif field_description.name == '_action' and app.request.isXmlHttpRequest %}
+                                    {# Action buttons disabled in ajax view! #}
+                                {% elseif field_description.getOption('ajax_hidden') == true and app.request.isXmlHttpRequest %}
+                                    {# Disable fields with 'ajax_hidden' option set to true #}
+                                {% else %}
+                                    {% set sortable = false %}
+                                    {% if field_description.options.sortable is defined and field_description.options.sortable %}
+                                        {% set sortable             = true %}
+                                        {% set sort_parameters      = admin.modelmanager.sortparameters(field_description, admin.datagrid) %}
+                                        {% set current              = admin.datagrid.values._sort_by == field_description or admin.datagrid.values._sort_by.fieldName == sort_parameters.filter._sort_by %}
+                                        {% set sort_active_class    = current ? 'sorting_' : '' %}
+                                        {% set sort_by              = current ? admin.datagrid.values._sort_order : field_description.options._sort_order %}
+                                    {% endif %}
+
+                                    {% spaceless %}
+                                        <th class="{{ field_description.type}} {% if sortable %} sorting {{ sort_active_class }}{{ sort_by|lower }}{% endif %}">
+                                            {% if sortable %}<a href="{{ admin.generateUrl('list', sort_parameters) }}">{% endif %}
+                                                {{ admin.trans(field_description.label, {}, field_description.translationDomain) }}
+                                                {% if sortable %}</a>{% endif %}
+                                        </th>
+                                    {% endspaceless %}
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            {% for field_description in admin.list.elements %}
+                                {% if admin.hasRoute('batch') and field_description.getOption('code') == '_batch' and batchactions|length > 0 %}
+                                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="">
+                                        <input type="checkbox" id="list_batch_checkbox">
+                                    </th>
+                                {% elseif field_description.getOption('code') == '_select' %}
+                                    <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label=""></th>
+                                {% elseif field_description.name == '_action' and app.request.isXmlHttpRequest %}
+                                    {# Action buttons disabled in ajax view! #}
+                                {% elseif field_description.getOption('ajax_hidden') == true and app.request.isXmlHttpRequest %}
+                                    {# Disable fields with 'ajax_hidden' option set to true #}
+                                {% else %}
+                                    {% spaceless %}
+                                        <th class="{{ field_description.type }}">
+                                            {{- admin.trans(field_description.label, {}, field_description.translationDomain)|raw -}}
+                                        </th>
+                                    {% endspaceless %}
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                    {% endblock %}
+
+                    {% block table_body %}
+                        <tbody>
+                        {% for object in admin.datagrid.results %}
+                            {% if admin.hasDeleteLabel is defined %}
+                                {% if admin.hasDeleteLabel %}
+                                    <tr {% if object.deleted %}class="deleteItem" {% endif %}>
+                                        {% include admin.getTemplate('inner_list_row') %}
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        {% include admin.getTemplate('inner_list_row') %}
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    {% endblock %}
+
+                </table>
+
+                {% if admin.hasRoute('batch') %}
+                    </form>
+                {% endif %}
+            {% else %}
+                <div class="callout callout-info">
+                    {{ 'no_result'|trans({}, 'SonataAdminBundle') }}
+                </div>
+            {% endif %}
+
+            {% block list_footer '' %}
+
+            {{ sonata_block_render_event('sonata.admin.list.table.bottom', { 'admin': admin }) }}
+            <script type="text/javascript">
+                jQuery(document).ready(function($) {
+                    var table = $("#listTable").dataTable({
+                        sPaginationType: "bootstrap",
+                        aLengthMenu:     [ [ 10, 25, 50, -1 ], [ 10, 25, 50, "All" ] ],
+                        bStateSave:      true,
+                        oLanguage:       {
+                            sLengthMenu:   "{{ 'admin.dataTable.records_per_page'|trans({},'NetcastUrestMainBundle') }}",
+                            sSearch:       "{{ 'admin.dataTable.sSearch'|trans({},'NetcastUrestMainBundle') }}",
+                            sInfo:         "{{ 'admin.dataTable.sInfo'|trans({},'NetcastUrestMainBundle') }}",
+                            sInfoEmpty:    "{{ 'admin.dataTable.sInfoEmpty'|trans({},'NetcastUrestMainBundle') }}",
+                            sEmptyTable:   "{{ 'admin.dataTable.zeroRecords'|trans({},'NetcastUrestMainBundle') }}",
+                            sInfoFiltered: "{{ 'admin.dataTable.sInfoFiltered'|trans({},'NetcastUrestMainBundle') }}",
+                            sZeroRecords:  "{{ 'admin.dataTable.sZeroRecords'|trans({},'NetcastUrestMainBundle') }}"
+                        }
+                    });
+
+                    table.columnFilter({
+                        sPlaceHolder: "head:after",
+                        aoColumns:    [
+                            {% for field_description in admin.list.elements %}
+                                {% if field_description.getOption('dis_filter') %}
+                                    { type: null },
+                                {% else %}
+                                    { type: "text" },
+                                {% endif %}
+                            {% endfor %}
+                        ]
+                    });
+                });
+            </script>
+        </div>
+    </div>
+{% endblock %}
+
+{% block list_filters '' %}
+
+{% block addit_scripts  %}
+    <script src="{{ asset('bundles/netcasturestmain/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/datatables/TableTools.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/datatables/jquery.dataTables.columnFilter.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/datatables/lodash.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/datatables/responsive/js/datatables.responsive.js') }}"></script>
+{% endblock addit_scripts %}

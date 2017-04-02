@@ -1,0 +1,250 @@
+{% extends 'SonataAdminBundle:Form:form_admin_fields.html.twig' %}
+
+{% block choice_widget %}
+{% spaceless %}
+    {% if compound %}
+        <ul {{ block('widget_container_attributes_choice_widget') }}>
+        {% for child in form %}
+            <li>
+                {% set form_widget_content %}
+                    {{ form_widget(child, {'horizontal': false, 'horizontal_input_wrapper_class': ''}) }} {# {'horizontal': false, 'horizontal_input_wrapper_class': ''} needed to avoid MopaBootstrapBundle messing with the DOM #}
+                {% endset %}
+                {{ form_label(child, child.vars.label|default(null), { 'in_list_checkbox' : true, 'widget' : form_widget_content } ) }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+    {% if sonata_admin.admin and not sonata_admin.admin.getConfigurationPool().getOption('use_select2') %}
+        {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+    {% endif %}
+    <select {% if form.vars.required is not null %}required="required" {% endif %} {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}    style="max-width: 300px">
+        {% if empty_value is not none %}
+            <option value="">
+                {% if not sonata_admin.admin %}
+                    {{- empty_value|trans({}, translation_domain) -}}
+                {% else %}
+                    {{- empty_value|trans({}, sonata_admin.field_description.translationDomain) -}}
+                {% endif%}
+            </option>
+        {% endif %}
+        {% if preferred_choices|length > 0 %}
+            {% set options = preferred_choices %}
+            {{ block('choice_widget_options') }}
+            {% if choices|length > 0 %}
+                <option disabled="disabled">{{ separator }}</option>
+            {% endif %}
+        {% endif %}
+        {% set options = choices %}
+        {% if form.vars.name == 'region' or form.vars.name == 'city' %}
+            <option value=""></option>
+            {% for choice in options %}
+                    <option parent="{% if form.vars.name == 'region' %}{{ choice.data.getCountry.getId }}{% elseif form.vars.name == 'city' %}{{ choice.data.getRegion.getId }}{% endif %}" value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+            {% endfor %}
+
+            {% else %}
+                {{ block('choice_widget_options') }}
+            {% endif %}
+    </select>
+    {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+
+{% block sonata_type_date_picker_widget %}
+    {% spaceless %}
+        <div class="form-group">
+            {% if datepicker_use_button %}
+                <div class='input-group date' id='{{ id }}' data-date-format="{{ moment_format }}" style="max-width: 300px;">
+            {% else %}
+               {% set attr = attr|merge({'data-date-format': moment_format}) %}
+            {% endif %}
+
+                {{ block('date_widget') }}
+
+            {% if datepicker_use_button %}
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            {% endif %}
+        </div>
+        <script type="text/javascript">
+            jQuery(function ($) {
+                $('#{{ id }}').datetimepicker({{ dp_options|json_encode|raw }});
+            });
+        </script>
+    {% endspaceless %}
+{% endblock sonata_type_date_picker_widget %}
+
+{% block urest_pay_order_type_widget %}
+    {% if payOrderOptions.payOrder is not null  %}
+        <div class="form-group">
+            <p>
+                {{ 'form.label.price'|trans({}, 'NetcastUrestMainBundle') }} : {{ payOrderOptions.payOrder.amount }}
+            </p>
+            <p>
+                {{ 'form.label.prePay'|trans({}, 'NetcastUrestMainBundle') }} : {{ payOrderOptions.payOrder.getPreAmount }}
+            </p>
+        </div>
+        <div class="form-group">
+            <label>{{ 'form.label.prePay'|trans({}, 'NetcastUrestMainBundle') }}</label>
+            <input type="text" id="jsPrePayAmount" class=" form-control" value="{{ payOrderOptions.payOrder.getPreAmount }}">
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-success" data-href="{{ url('netcast_urest_admin_add_pay_order') }}" data-id="{{ payOrderOptions.ctrId }}" id="jsAddPayOrder"><i class="fa fa-credit-card"></i> {{ 'form.label.invoice_update'|trans({}, 'NetcastUrestMainBundle') }}</button>
+        </div>
+    {% else %}
+        <div class="form-group">
+            <label>{{ 'form.label.prePay'|trans({}, 'NetcastUrestMainBundle') }}</label>
+            <input type="text" id="jsPrePayAmount" class=" form-control" value="{{ payOrderOptions.prePayAmount }}">
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-success" data-href="{{ url('netcast_urest_admin_add_pay_order') }}" data-id="{{ payOrderOptions.ctrId }}" id="jsAddPayOrder"><i class="fa fa-credit-card"></i> {{ 'form.label.invoice_add'|trans({}, 'NetcastUrestMainBundle') }}</button>
+        </div>
+    {% endif %}
+    <script>
+        $('#jsAddPayOrder').click(function(){
+            var id = $(this).data('id');
+            var href = $(this).data('href');
+            var amount = $('#jsPrePayAmount').val();
+            $.ajax({
+                type: "POST",
+                url: href,
+                data: {id:id, amount:amount},
+                success: function(response){
+                    if(response.status == 'success') {
+                        location.reload();
+                    }
+                },
+                dataType: 'json'
+            });
+        });
+    </script>
+{% endblock urest_pay_order_type_widget %}
+
+{% block checkbox_widget %}
+    {% spaceless %}
+        {% if label is not sameas(false) and label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        {% if form.parent != null and 'choice' not in form.parent.vars.block_prefixes %}
+        <div class="checkbox" style="{% if form.vars.label is defined and form.vars.label ==  'form.label.main' %}padding-left: 15px{% else %}padding-left: 0px{% endif %}">
+        {% endif %}
+        <label class="{% if inline is defined and inline %}checkbox-inline{% endif %}">
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
+            {% set urest_trans_domen = 'NetcastUrestMainBundle' %}
+
+            {{ label|trans({}, urest_trans_domen) }}
+        </label>
+
+        {% if form.parent != null and 'choice' not in form.parent.vars.block_prefixes %}
+        </div>
+        {{ block('form_message') }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock checkbox_widget %}
+
+
+{% block form_row %}
+    {% set label_class = "" %}
+    {% set div_class = "" %}
+    {% if sonata_admin.admin and sonata_admin.admin.getConfigurationPool().getOption('form_type') == 'horizontal' %}
+        {% set label_class = "control-label col-sm-3" %}
+        {% set div_class = "col-sm-9 col-md-9" %}
+    {% else %}
+        {% set label_class = "control-label" %}
+    {% endif%}
+
+    {% if sonata_admin is not defined or not sonata_admin_enabled or not sonata_admin.field_description %}
+        <div class="form-group {% if errors|length > 0%} has-error{% endif %}">
+            {{ form_label(form, label|default(null)) }}
+            <div class="{% if label is sameas(false) %}sonata-collection-row-without-label{% endif %}">
+                {{ form_widget(form, {'horizontal': false, 'horizontal_input_wrapper_class': ''}) }} {# {'horizontal': false, 'horizontal_input_wrapper_class': ''} needed to avoid MopaBootstrapBundle messing with the DOM #}
+                {% if errors|length > 0 %}
+                    <div class="help-block sonata-ba-field-error-messages">
+                        {{ form_errors(form) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="form-group{% if errors|length > 0%} has-error{%endif%}" id="sonata-ba-field-container-{{ id }}">
+            {% block label %}
+                {% if sonata_admin.field_description.options.name is defined %}
+                    {{ form_label(form, sonata_admin.field_description.options.name, { 'attr' : {'class' : label_class} }) }}
+                {% else %}
+                    {{ form_label(form, label|default(null), { 'attr' : {'class' : label_class} }) }}
+                {% endif %}
+            {% endblock %}
+
+            {% set has_label = sonata_admin.field_description.options.name is defined or label is not sameas(false) %}
+            <div class="{{ div_class }} sonata-ba-field sonata-ba-field-{{ sonata_admin.edit }}-{{ sonata_admin.inline }} {% if errors|length > 0 %}sonata-ba-field-error{% endif %} {% if not has_label %}sonata-collection-row-without-label{% endif %}">
+
+                {{ form_widget(form, {'horizontal': false, 'horizontal_input_wrapper_class': ''}) }}
+
+                {% if errors|length > 0 %}
+                    <div class="help-block sonata-ba-field-error-messages">
+                        {{ form_errors(form) }}
+                    </div>
+                {% endif %}
+
+                {% if sonata_admin.field_description.help %}
+                    <span class="help-block sonata-ba-field-help">{{ sonata_admin.admin.trans(sonata_admin.field_description.help, {}, sonata_admin.field_description.translationDomain)|raw }}</span>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock form_row %}
+
+{# Labels #}
+{% block form_label %}
+    {% spaceless %}
+
+        {% set label_class = "" %}
+        {% if sonata_admin.admin and sonata_admin.admin.getConfigurationPool().getOption('form_type') == 'horizontal' %}
+            {% set label_class = " control-label col-sm-3" %}
+        {% else %}
+            {% set label_class = " control-label" %}
+        {% endif%}
+
+        {#{{ sonata_admin.admin.getConfigurationPool().getOption('form_type') }}#}
+        {% if label is not sameas(false) %}
+            {% set label_attr = label_attr|merge({'class': label_attr.class|default('') ~ label_class }) %}
+
+            {% if not compound %}
+                {% set label_attr = label_attr|merge({'for': id}) %}
+            {% endif %}
+            {% if required %}
+                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% endif %}
+
+            {% if label is empty %}
+                {% set label = name|humanize %}
+            {% endif %}
+
+            {% if in_list_checkbox is defined and in_list_checkbox and widget is defined %}
+                <label{% for attrname,attrvalue in attr %} {{attrname}}="{{attrvalue}}"{% endfor %}>
+                {{ widget|raw }}
+                <span>
+                    {% if not sonata_admin.admin %}
+                        {{- label|trans({}, translation_domain) -}}
+                    {% else %}
+                        {{- label|trans({}, sonata_admin.field_description.translationDomain) -}}
+                    {% endif%}
+                </span>
+                </label>
+            {% else %}
+                {% if label != 'form.label.main' %}
+                    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+                    {% if not sonata_admin.admin%}
+                            {{- label|trans({}, translation_domain) -}}
+                    {% else %}
+                        {% if sonata_admin.field_description.type !=  'checkbox' %}
+                            {{ sonata_admin.admin.trans(label, {}, sonata_admin.field_description.translationDomain) }}
+                        {% endif %}
+                    {% endif %}
+                    </label>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_label %}
+

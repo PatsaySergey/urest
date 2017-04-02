@@ -1,0 +1,81 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div class="main-content">
+        <div class="block-faq">
+            <div class="container">
+                <h2 class="header-title"> {{ 'site.faq_text'|trans({},'NetcastUrestMainBundle') }}</h2>
+                <div class="clearfix big-spacer"></div>
+                <div class="row">
+                    <div class="col-md-7 col-sm-7 no-padd-left padd-xs">
+                        <div class="search-nav-box">
+                            <ul class="search-group">
+                                <li class="field-search">
+                                    <i class="fa fa-search"></i>
+                                    <input class="searchbox-inputtext" type="text" placeholder="{{ 'site.search_f'|trans({},'NetcastUrestMainBundle') }}"/>
+                                </li>
+                                <li class="select-box">
+                                    <a href="" class="btn btn-grey pull-right"><i class="fa fa-angle-right"></i> {{ 'site.search_g'|trans({},'NetcastUrestMainBundle') }}</a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        {% for faq in faqs %}
+                        <div class="box-question bg-white">
+                            <div class="name-question">
+                                <h4>{{ faq.question }}</h4>
+                            </div>
+                            <div class="question toggle-box">
+                                <hr/>
+                                {{ faq.answer }}
+                            </div>
+                            <a href="" class="dropdown" data-for=".toggle-box"><i class="fa fa-angle-down"></i></a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-5 col-sm-5 no-padd-right no-padd-xs">
+                        <form>
+                            <div class="ask-questions bg-white">
+                                <h3>Задать вопрос</h3>
+                                <hr/>
+                                <div class="col-md-5 col-sm-12 no-padd-left no-padd-sm no-padd-xs">
+                                    <div class="form-group">
+                                        <label for="name">Имя</label>
+                                        <input type="text" class="form-control" id="name" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="clearfix visible-sm"></div>
+                                <div class="col-md-7 col-sm-12 no-padd-right no-padd-sm no-padd-xs">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="clearfix spacer"></div>
+                                <div class="col-md-12 no-padd">
+                                    <textarea></textarea>
+                                </div>
+                                <div class="clearfix big-spacer"></div>
+                                <div class="col-md-8 no-padd">
+                                    <div class="box-simbol pull-left">
+                                        <div class="col-sm-4 col-xs-4 no-padd">
+                                            <input type="text" maxlength="6" name="captcha" id="captcha" placeholder="37JMA87"/>
+                                        </div>
+                                        <div class="col-sm-8 col-xs-8 no-padd-right">
+                                            <input type="text" placeholder="Введите символы"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix visible-sm visible-xs spacer"></div>
+                                <div class="col-md-4 no-padd">
+                                    <a href="" class="btn btn-grey pull-right"><i class="fa fa-angle-right"></i> {{ 'site.send'|trans({},'NetcastUrestMainBundle') }}</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix big-spacer"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

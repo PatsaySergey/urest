@@ -1,0 +1,44 @@
+{% for option in options %}
+<div class="table-row">
+    <div class="cell cell-photo">
+        {% if option.images[0] is defined %}
+            {% media option.images[0].media,'reference' with {'style' : "height:auto"} %}
+        {% endif %}
+    </div>
+    <div class="cell cell-title">
+        {{ option.title }}
+    </div>
+    <div class="cell cell-price">
+        {{ getPrice(option.price) }}
+    </div>
+    <div class="cell cell-info">
+        {% if type == 'option' %}
+            <a class="info-icon" onclick="TourBuilder.showOptionInfo($(this))" id="{{ option.id }}" data-toggle="modal" data-target="#modal-choice" style="color: grey; border: 1px solid #808080">
+                <i class="fa fa-info"></i>
+            </a>
+        {% endif %}
+        {% if type == 'hotel' %}
+            <a class="info-icon" onclick="TourBuilder.showRoomInfo({{ option.id }})"  data-toggle="modal" data-target="#modal-choice" style="color: grey; border: 1px solid #808080">
+                <i class="fa fa-info"></i>
+            </a>
+        {% endif %}
+
+        {% if type == 'apartment' %}
+            <a class="info-icon" onclick="TourBuilder.showApartmentInfo({{ option.id }})"  data-toggle="modal" data-target="#modal-choice" style="color: grey; border: 1px solid #808080">
+                <i class="fa fa-info"></i>
+            </a>
+        {% endif %}
+
+        <input type="hidden" class="jsOptionName" value="{{ option.title }}">
+        {% if type == 'option' %}
+            <input type="button" onclick="TourBuilder.selectOption($(this))" value="ok" data-icon='{{ getIcon() }}' data-price="{{ getPrice(option.price,true) }}"  id="{{ option.id }}">
+        {% endif %}
+        {% if type == 'hotel' %}
+            <input type="button" onclick="TourBuilder.selectRoom($(this))" value="ok" data-name="{{ option.title }}" id="{{ option.id }}">
+        {% endif %}
+        {% if type == 'apartment' %}
+            <input type="button" onclick="TourBuilder.selectApartment($(this))" value="ok" data-name="{{ option.title }}" id="{{ option.id }}">
+        {% endif %}
+    </div>
+</div>
+{% endfor %}

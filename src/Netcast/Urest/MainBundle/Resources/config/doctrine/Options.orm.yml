@@ -1,0 +1,50 @@
+Netcast\Urest\MainBundle\Entity\Options:
+    type: entity
+    table: options
+    repositoryClass: Netcast\Urest\MainBundle\Entity\OptionsRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        price:
+            type: string
+            length: '255'
+            nullable: true
+        description:
+            type: text
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+
+    manyToOne:
+         user:
+             targetEntity: Application\Sonata\UserBundle\Entity\User
+             joinColumn:
+                 name: user_id
+                 referenceColumnName: id
+         service:
+             targetEntity: Service
+             inversedBy: options
+    oneToMany:
+         images:
+             targetEntity: OptionImages
+             mappedBy: option
+             cascade: ['persist', 'remove']
+             orphanRemoval: true
+    manyToMany:
+            video:
+                targetEntity: Application\Sonata\MediaBundle\Entity\Media
+                inversedBy: option
+                cascade: ['persist', 'remove']

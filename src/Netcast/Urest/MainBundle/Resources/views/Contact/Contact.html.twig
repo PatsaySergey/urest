@@ -1,0 +1,70 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div class="main-content bg-white">
+        <div class="block-contacts">
+            <div class="container width-970">
+                <h2 class="header-title">контакты</h2>
+                <div class="block-map">
+                    <div class="box-search-map form-inline bg-white">
+                        <div class="form-group">
+                            <label for="country">СТРАНА</label>
+                            <div class="box-select">
+                                <select id="contactsCountrySelect">
+                                    {% for country in countries %}
+                                        <option value="{{ country.id }}">{{ country.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="map"></div>
+                </div>
+                <div class="clearfix big-spacer"></div>
+                <div class="clearfix big-spacer"></div>
+                <div class="row" id="officesInfoWrap">
+                    {{ include('NetcastUrestMainBundle:Contact:ofiices_block.html.twig',{ contacts : contacts }, with_context = false) }}
+                    <div class="clearfix big-spacer hidden-xs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block pageScripts %}
+    {% javascripts
+    '@NetcastUrestMainBundle/Resources/public/js/site/maps.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+
+        var markers = {};
+        {% for contact in contacts %}
+        markers[{{ contact.id }}] = {};
+        markers[{{ contact.id }}] =
+        {
+            'LatLng' : '{{ contact.city.coordinates }}'.split(','),
+            'icon' : '{% path contact.icon, 'reference' %}',
+            'title' : '{{ contact.adress }}',
+            'description' : '{{ contact.description|raw }}'
+        }
+        {% endfor %}
+
+        var Map = new Maps({
+            'container' : 'map',
+            'mapOptions' : {
+                'center' : '{{ countries[0].coordinates }}'.split(',')
+            },
+            'markers' : markers,
+            'path' : '{{ path('netcast_urest_get_office',{ countryId : '__id__' }) }}'
+        })
+
+
+        Map.Init();
+        Map.addMarkers();
+
+
+
+</script>
+{% endblock pageScripts %}
+

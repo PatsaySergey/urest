@@ -1,0 +1,22 @@
+{% block sonata_security_roles_widget %}
+{% spaceless %}
+    {% for label, choices in mainChoices %}
+        <fieldset>
+            <legend class=" control-label">{{ label ~ (label ? ':') }}</legend>
+            <ul class="list-unstyled sonata-medium">
+                {% for key, value in choices %}
+                    <li>
+                        <label>
+                            <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                <input type="checkbox"{% if key in form.parent.vars.data.roles %} checked{% endif %} name="{{ form.parent.vars.name }}[roles][]" value="{{ key }}" style="position: absolute; opacity: 0;">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                            </div>
+                            {{- ' ' ~ value -}}
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+    {% endfor %}
+{% endspaceless %}
+{% endblock sonata_security_roles_widget %}

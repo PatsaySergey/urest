@@ -1,0 +1,41 @@
+Netcast\Urest\MainBundle\Entity\MainBlock:
+    type: entity
+    table: main_block
+    indexes:
+        block_user_idx:
+            columns: [ user_id ]
+        block_lang_idx:
+            columns: [ lang ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\MainBlockRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        content:
+            type: text
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+        icon:
+             type: string
+             length: '255'
+
+    manyToOne:
+         user:
+              targetEntity: Application\Sonata\UserBundle\Entity\User
+              joinColumn:
+                name: user_id
+                referenceColumnName: id
+    lifecycleCallbacks: {  }

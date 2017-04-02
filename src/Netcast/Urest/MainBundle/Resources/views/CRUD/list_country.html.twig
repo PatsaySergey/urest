@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+    {% block field%}
+        <div>
+            {% if object.city is not null %}
+            <strong>{{ object.city.getRegion.getCountry }}</strong> <br />
+            {% endif %}
+        </div>
+    {% endblock %}

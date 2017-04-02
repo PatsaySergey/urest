@@ -1,0 +1,26 @@
+<div class="col-xs-12 no-padd">
+    <h4 class="header-title">{{ item.title }}</h4>
+    {% if item.images[0] is defined %}
+    <div class="scroll-img-box">
+        <div id="thumb-scroller" class="thumb-scroller">
+            <ul class="ts-list">
+                {% for image in item.images %}
+                    {% if not image.main %}
+                        <li>
+                            <a href="" target="_parent">{% media image.media,'reference' with {'class' : "img_responsive"} %}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% if item.images is defined %}
+{% for image in item.images %}
+    {% if image.main %}
+        {% media image.media,'reference' with {'style' : "width:100%; height:auto;"} %}
+    {% endif %}
+{% endfor %}
+{% endif %}
+{{ item.description|raw }}

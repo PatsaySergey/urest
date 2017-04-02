@@ -1,0 +1,31 @@
+Netcast\Urest\MainBundle\Entity\AddTourHome:
+    type: entity
+    table: add_tour_homes
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        type:
+          type: string
+          length: '20'
+    manyToOne:
+        room:
+          targetEntity: HotelRoom
+          joinColumn:
+            name: room_id
+            referenceColumnName: id
+        apartment:
+          targetEntity: Apartment
+          joinColumn:
+            name: apartment_id
+            referenceColumnName: id
+        tour:
+          targetEntity: CustomTourOrder
+          joinColumn:
+            name: tour_id
+            referenceColumnName: id
+
+

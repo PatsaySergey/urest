@@ -1,0 +1,30 @@
+{% for key, contact in contacts %}
+    <div class="col-sm-6 col-xs-12">
+        <div class="contact-info padd-right">
+            <h3>{{ contact.city.title }}</h3>
+            <hr/>
+            {{ contact.description|raw }}
+            <ul class="contact-adress">
+                <li>
+                    <div class="cell name">Адрес:</div>
+                    <div class="cell value">{{ contact.adress }}</div>
+                </li>
+                <li>
+                    <div class="cell name">Тел.:</div>
+                    <div class="cell value">{{ contact.phone }}</div>
+                </li>
+                <li>
+                    <div class="cell name">Факс:</div>
+                    <div class="cell value">{{ contact.fax }}</div>
+                </li>
+                <li>
+                    <div class="cell name">Время работы: </div>
+                    <div class="cell value">{{ contact.workTime }}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% if key % 2 == 2 %}
+        <div class="clearfix big-spacer hidden-xs"></div>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,95 @@
+Netcast\Urest\MainBundle\Entity\BlogPost:
+    type: entity
+    table: blog_post
+    repositoryClass: Netcast\Urest\MainBundle\Entity\BlogPostRepository
+    indexes:
+        blogpost_category_idx:
+            columns: [ category_id ]
+        blogpost_user_idx:
+            columns: [ user_id ]
+        blogpost_lang_idx:
+            columns: [ lang ]
+        blogpost_alias_idx:
+            columns: [ alias ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+
+        lang:
+            type: string
+            length: '2'
+            nullable: false
+        alias:
+            type: string
+            unique: true
+            length: 255
+        content:
+            type: text
+        preview_text:
+              type: string
+              length: 255
+              options:
+                default: ''
+        coordinates:
+            type: string
+            length: '255'
+            options:
+              default: ''
+        active:
+            type: boolean
+            options:
+              default: 1
+        deleted:
+            type: boolean
+            options:
+              default: 0
+        datePublish:
+          type: date
+          nullable: false
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: false
+    manyToOne:
+          category:
+            targetEntity: BlogCategory
+            inversedBy: posts
+            joinColumn:
+              name: category_id
+              referencedColumnName: id
+          user:
+            targetEntity: Application\Sonata\UserBundle\Entity\User
+            joinColumn:
+              name: user_id
+              referenceColumnName: id
+          locator_icon:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            joinColumn:
+              name: icon_id
+              referenceColumnName: id
+            cascade: ["persist"]
+    oneToMany:
+        video:
+          targetEntity: BlogPostVideo
+          mappedBy: post
+          cascade: ['persist', 'remove']
+          orphanRemoval: true
+        images:
+          targetEntity: BlogPostImages
+          mappedBy: post
+          cascade: ['persist', 'remove']
+          orphanRemoval: true
+    manyToMany:
+        tags:
+          targetEntity: BlogTag
+          inversedBy: posts
+    lifecycleCallbacks: {  }

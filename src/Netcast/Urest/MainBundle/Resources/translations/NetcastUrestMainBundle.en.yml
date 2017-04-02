@@ -1,0 +1,219 @@
+admin:
+    dataTable:
+        zeroRecords: No result
+        records_per_page: _MENU_ records per page
+        sSearch: Search
+        sInfo: Showing _START_ to _END_ of _TOTAL_ entries
+        sInfoEmpty: Showing 0 to 0 of 0 entries
+        sInfoFiltered: (filtered from _MAX_ total entries)
+        sZeroRecords: No matching records found
+    layout:
+        dashboard: "Dashboard"
+        language: "Language"
+        tour: "Tour"
+        accommodation: "Accommodation"
+        tour_builder: "Tour Builder"
+        appartmens: "Appartmens"
+        add_services: "Additional Services"
+        hotels: "Hotels"
+        hotel: "Hotel"
+        city: "City"
+        cities: "Cities"
+        country: "Country"
+        countries: "Countries"
+        blog: "Blog"
+        posts: "Posts"
+        blog_categories: "Blog Categories"
+        dictionary: "Dictionary"
+        dictionaries: "Dictionaries"
+        faq: "FAQ"
+        about: "About us"
+        review: "Review"
+        reviews: "Reviews"
+        contacts: "Contacts"
+        customer: "Customer"
+        customers: "Customers"
+        user: "User"
+        users: "Users"
+        tag: "Tag"
+        tags: "Tags"
+        gallery: "Gallery"
+        content: "Content"
+        geo: "Geo location"
+        location_info: "Location description"
+        wellcome_msg: "Wellcome message"
+        main_page: "Home"
+        contact: "Contacts"
+        orders: "Orders"
+form:
+    error:
+        alias_exist: Alias not unique
+    label:
+        active: "Active"
+        images: "Image Galery"
+        on_main: "On main"
+        icon: "Map Icon"
+        service_icon: "Service Icon"
+        announcement: "Anons"
+        stars: "Stars"
+        hotel: "Hotel"
+        description: "Content"
+        date_publish: "Date publish"
+        title: "Title"
+        show_in_builder: "Show in TourBuilder"
+        active_lang: "Enable on dashboard"
+        show_lang: "Enable on site"
+        alias: "Alias"
+        question: "Question"
+        answer: "Answer"
+        lang: "Language"
+        coordinates: "Coordinates"
+        accommodation: "Accommodation"
+        hot_offer: 'Display as a "Hot Offer"'
+        created: "Created"
+        updated: "Updated"
+        date_start: "Start"
+        date_end: "End"
+        price: "Price"
+        dates: "Dates"
+        add: "Add"
+        coordinates: "Coordinates"
+        country: "Country"
+        region: "Region"
+        city: "City"
+        link: "Link"
+        video: "Video"
+        image: "Image"
+        main: "Main"
+        blog_category: "Blog Category"
+        blog_content: "Content"
+        blog_locator_icon: "Locator icon"
+        blog_preview_image: "Preview image"
+        blog_preview_video: "Preview video"
+        blog_tags: "Tags"
+        blog_preview_text: "Preview text"
+        message_guest: "Message for guest"
+        message_user: "Message for user"
+        content: "Content"
+        text: "Text"
+        icon: "Icon"
+        service: Service
+        type: Service type
+        cost: "Cost"
+        rooms: "Rooms"
+        apartment_type: "Apartment's type"
+        author: Author
+        avatar: Avatar
+        nickname: Display name on the website
+        number: №
+        adress: Адрес
+        fax: Факс
+        phone: Телефон
+        email: E-mail
+        work_time: Режим работы
+
+breadcrumb:
+  link_tour_list: "Tours"
+  link_tour_delete: "Tours delete"
+  link_language_list: "Languages"
+  link_language_delete: "Languages delete"
+  link_faq_list: "FAQ"
+  link_faq_delete: "FAQ delete"
+  link_country_list: "Countries"
+  link_country_delete: "Countries delete"
+  link_region_delete: "Regions delete"
+  link_city_list: "Cities"
+  link_city_delete: "Cities delete"
+  link_blog_category_list: "Blog Categories"
+  link_blog_category_delete: "Blog Categories delete"
+  link_blog_tag_list: "Blog Tags"
+  link_blog_tag_delete: "Blog Tags delete"
+  link_blog_post_list: "Blog Posts"
+  link_blog_post_delete: "Blog Posts delete"
+
+  link_location_info_country_list: "Country reference book"
+  link_locationinfo_country_list: "Country reference book"
+  link_location_info_country_delete: "Country reference book - delete"
+  link_locationinfo_country_delete: "Country reference book - delete"
+  link_location_info_city_list: "City reference book"
+  link_locationinfo_city_list: "City reference book"
+  link_location_info_city_delete: "City reference book - delete"
+  link_locationinfo_city_delete: "City reference book - delete"
+
+  link_location_info_list: "Location description"
+  link_location_info_delete: "Location description delete"
+  link_location_info_country_list: "Country"
+  link_location_info_country_delete: "Country delete"
+  link_location_info_city_list: "City"
+  link_location_info_city_delete: "City delete"
+
+  link_hotel_list: Hotels
+  link_hotel_delete: Hotels delete
+  link_hotel_room_list: Rooms
+  link_hotel_room_delete: Rooms delete
+  link_hotels_delete: Hotels delete
+  link_hotels_list: Hotels
+  link_hotel_rooms_list: Rooms
+  link_hotel_rooms_delete: Rooms delete
+  link_wellcome_msg_list: "Wellcome message on TourBuilder"
+  link_wellcome_msg_delete: "Wellcome message on TourBuilder delete"
+  link_main_gallery_list: "Gallery"
+  link_main_gallery_delete: "Gallery delete"
+  link_main_block_list: "Services"
+  link_main_block_delete: "Services delete"
+  link_service_list: Services
+  link_service_delete: Services delete
+  link_options_list: Service options
+  link_options_delete: Service options delete
+  link_apartment_list: "Apartments"
+  link_apartment_delete: "Apartments delete"
+  link_review_list: Reviews
+  link_review_delete: Reviews delete
+  link_about_us_list: About us
+  link_about_us_delete: About us delete
+  link_partner_list: Partners
+  link_partner_delete: Partners delete
+  link_contact_list: Contacts
+  link_contact_delete: Contacts delete
+  link_contact_tour_city: City config
+  link_custom_tour_list: New orders
+  link_custom_tour_order_list: New orders
+  link_my_custom_tour_list: My orders
+  link_mytours_list: My orders
+list:
+  label__action: "Actions"
+no_data: "No data for display."
+no_photo: "No picture"
+date_publish: "Publish date"
+read_more: "Read more"
+category: "Category"
+tags: "Tags"
+
+
+urest_admin_dashboard: Dashboard
+btn_create_and_show_parent: Create and return back
+btn_update_and_show_parent: Save and return back
+records: "records"
+total: "Total"
+page: "Page"
+page404: "Oops. The page does not exist."
+
+admin.tour.left: ' '
+admin.tour.right: ' '
+admin.empty: ' '
+admin.tour.end: ' '
+admin.tour.center: ' '
+admin.contact.data: 'Contacts'
+
+action_delete_forever: Delete forever
+action_restore: Restore
+admin.label.show_deleted: Show deleted items
+
+
+admin.btn.select_img: Select image
+admin.btn.change_img: Change
+admin.btn.remove_img: Remove
+
+
+
+

@@ -1,0 +1,27 @@
+Netcast\Urest\MainBundle\Entity\LocationInfoImage:
+  type: entity
+  table: location_info_images
+  indexes:
+      location_info_idx:
+          columns: [ location_info_id ]
+      image_idx:
+          columns: [ media_id ]
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    main:
+      type: boolean
+  manyToOne:
+    location_info:
+      targetEntity: LocationInfo
+      inversedBy: locationinfo_image
+    media:
+      targetEntity: Application\Sonata\MediaBundle\Entity\Media
+      joinColumn:
+        name: media_id
+        referenceColumnName: id
+      cascade: ['persist', 'remove']
+  

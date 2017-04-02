@@ -1,0 +1,597 @@
+<?php
+
+namespace Netcast\Urest\MainBundle\Entity;
+
+/**
+ * CustomTourOrder
+ */
+class CustomTourOrder
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $lang;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateStart;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateEnd;
+
+    /**
+     * @var string
+     */
+    private $addInfo;
+
+    /**
+     * @var integer
+     */
+    private $status;
+
+    /**
+     * @var string
+     */
+    private $fromCountry;
+
+    /**
+     * @var \Netcast\Urest\MainBundle\Entity\Country
+     */
+    private $toCountry;
+
+    /**
+     * @var \Netcast\Urest\MainBundle\Entity\City
+     */
+    private $toCity;
+
+    /**
+     * @var \Netcast\Urest\MainBundle\Entity\HotelRoom
+     */
+    private $room;
+
+    /**
+     * @var \Netcast\Urest\MainBundle\Entity\Apartment
+     */
+    private $apartment;
+
+    /**
+     * @var \Application\Sonata\UserBundle\Entity\User
+     */
+    private $author;
+
+    /**
+     * @var \Application\Sonata\UserBundle\Entity\User
+     */
+    private $moderator;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $services;
+
+    /**
+     * @var float
+     */
+    private $price;
+
+    /**
+     * @var float
+     */
+    private $prePay;
+
+    /**
+     * @var \DateTime
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    private $payTo;
+
+    public $statusText = 0;
+
+
+    /**
+     * Set payTo
+     *
+     * @param \DateTime $payTo
+     * @return Review
+     */
+    public function setPayTo($payTo)
+    {
+        $this->payTo = $payTo;
+
+        return $this;
+    }
+
+    /**
+     * Get payTo
+     *
+     * @return \DateTime
+     */
+    public function getPayTo()
+    {
+        return $this->payTo;
+    }
+
+    /**
+     * @var boolean
+     */
+    private $isCancel;
+
+    /**
+     * Set isCancel
+     *
+     * @param boolean $isCancel
+     * @return CustomTourServices
+     */
+    public function setIsCancel($isCancel)
+    {
+        $this->isCancel = $isCancel;
+
+        return $this;
+    }
+
+    /**
+     * Get IsCancel
+     *
+     * @return boolean
+     */
+    public function getIsCancel()
+    {
+        return $this->isCancel;
+    }
+
+    /**
+     * @param $prePay
+     * @return $this
+     */
+    public function setPrePay($prePay)
+    {
+        $this->prePay = $prePay;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrePay()
+    {
+        return $this->prePay;
+    }
+
+
+    /**
+     * @param $price
+     * @return $this
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->services = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Review
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set lang
+     *
+     * @param string $lang
+     * @return Review
+     */
+    public function setLang($lang)
+    {
+        $this->lang = $lang;
+
+        return $this;
+    }
+
+    /**
+     * Get lang
+     *
+     * @return string
+     */
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    /**
+     * Set dateStart
+     *
+     * @param \DateTime $dateStart
+     *
+     * @return CustomTourOrder
+     */
+    public function setDateStart($dateStart)
+    {
+        $this->dateStart = $dateStart;
+
+        return $this;
+    }
+
+    /**
+     * Get dateStart
+     *
+     * @return \DateTime
+     */
+    public function getDateStart()
+    {
+        return $this->dateStart;
+    }
+
+    /**
+     * Set dateEnd
+     *
+     * @param \DateTime $dateEnd
+     *
+     * @return CustomTourOrder
+     */
+    public function setDateEnd($dateEnd)
+    {
+        $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEnd
+     *
+     * @return \DateTime
+     */
+    public function getDateEnd()
+    {
+        return $this->dateEnd;
+    }
+
+    /**
+     * Set addInfo
+     *
+     * @param string $addInfo
+     *
+     * @return CustomTourOrder
+     */
+    public function setAddInfo($addInfo)
+    {
+        $this->addInfo = $addInfo;
+
+        return $this;
+    }
+
+    /**
+     * Get addInfo
+     *
+     * @return string
+     */
+    public function getAddInfo()
+    {
+        return $this->addInfo;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     *
+     * @return CustomTourOrder
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set fromCountry
+     *
+     * @param string $fromCountry
+     *
+     * @return CustomTourOrder
+     */
+    public function setFromCountry($fromCountry)
+    {
+        $this->fromCountry = $fromCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get fromCountry
+     *
+     * @return string
+     */
+    public function getFromCountry()
+    {
+        return $this->fromCountry;
+    }
+
+    /**
+     * Set toCountry
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\Country $toCountry
+     *
+     * @return CustomTourOrder
+     */
+    public function setToCountry(\Netcast\Urest\MainBundle\Entity\Country $toCountry = null)
+    {
+        $this->toCountry = $toCountry;
+
+        return $this;
+    }
+
+    /**
+     * Get toCountry
+     *
+     * @return \Netcast\Urest\MainBundle\Entity\Country
+     */
+    public function getToCountry()
+    {
+        return $this->toCountry;
+    }
+
+    /**
+     * Set toCity
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\City $toCity
+     *
+     * @return CustomTourOrder
+     */
+    public function setToCity(\Netcast\Urest\MainBundle\Entity\City $toCity = null)
+    {
+        $this->toCity = $toCity;
+
+        return $this;
+    }
+
+    /**
+     * Get toCity
+     *
+     * @return \Netcast\Urest\MainBundle\Entity\City
+     */
+    public function getToCity()
+    {
+        return $this->toCity;
+    }
+
+    /**
+     * Set room
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\HotelRoom $room
+     *
+     * @return CustomTourOrder
+     */
+    public function setRoom(\Netcast\Urest\MainBundle\Entity\HotelRoom $room = null)
+    {
+        $this->room = $room;
+
+        return $this;
+    }
+
+    /**
+     * Get room
+     *
+     * @return \Netcast\Urest\MainBundle\Entity\HotelRoom
+     */
+    public function getRoom()
+    {
+        return $this->room;
+    }
+
+    /**
+     * Set apartment
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\Apartment $apartment
+     *
+     * @return CustomTourOrder
+     */
+    public function setApartment(\Netcast\Urest\MainBundle\Entity\Apartment $apartment = null)
+    {
+        $this->apartment = $apartment;
+
+        return $this;
+    }
+
+    /**
+     * Get apartment
+     *
+     * @return \Netcast\Urest\MainBundle\Entity\Apartment
+     */
+    public function getApartment()
+    {
+        return $this->apartment;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $author
+     *
+     * @return CustomTourOrder
+     */
+    public function setAuthor(\Application\Sonata\UserBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $moderator
+     *
+     * @return CustomTourOrder
+     */
+    public function setModerator(\Application\Sonata\UserBundle\Entity\User $moderator = null)
+    {
+        $this->moderator = $moderator;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getModerator()
+    {
+        return $this->moderator;
+    }
+
+    /**
+     * Add service
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\CustomTourServices $service
+     *
+     * @return CustomTourOrder
+     */
+    public function addService(\Netcast\Urest\MainBundle\Entity\CustomTourServices $service)
+    {
+        $this->services[] = $service;
+
+        return $this;
+    }
+
+    /**
+     * Remove service
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\CustomTourServices $service
+     */
+    public function removeService(\Netcast\Urest\MainBundle\Entity\CustomTourServices $service)
+    {
+        $this->services->removeElement($service);
+    }
+
+    /**
+     * Get services
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getServices()
+    {
+        return $this->services;
+    }
+
+    public function __toString()
+    {
+        return 'Заказ тура';
+    }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $add_home;
+
+
+    /**
+     * Add addHome
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\AddTourHome $addHome
+     *
+     * @return CustomTourOrder
+     */
+    public function addAddHome(\Netcast\Urest\MainBundle\Entity\AddTourHome $addHome)
+    {
+        $this->add_home[] = $addHome;
+
+        return $this;
+    }
+
+    /**
+     * Remove addHome
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\AddTourHome $addHome
+     */
+    public function removeAddHome(\Netcast\Urest\MainBundle\Entity\AddTourHome $addHome)
+    {
+        $this->add_home->removeElement($addHome);
+    }
+
+    /**
+     * Get addHome
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAddHome()
+    {
+        return $this->add_home;
+    }
+}

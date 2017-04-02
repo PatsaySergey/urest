@@ -1,0 +1,26 @@
+Netcast\Urest\MainBundle\Entity\TourVideo:
+    type: entity
+    table: tour_video
+    indexes:
+        tour_idx:
+            columns: [ tour_id ]
+        image_idx:
+            columns: [ media_id ]
+    id:
+      id:
+        type: integer
+        generator:
+          strategy: AUTO
+    fields:
+      main:
+        type: boolean
+    manyToOne:
+      tour:
+        targetEntity: Tour
+        inversedBy: media
+      media:
+        targetEntity: Application\Sonata\MediaBundle\Entity\Media
+        joinColumn:
+          name: media_id
+          referenceColumnName: id
+        cascade: ['persist', 'remove']

@@ -1,0 +1,86 @@
+Netcast\Urest\MainBundle\Entity\Tour:
+    type: entity
+    table: tour
+    repositoryClass: Netcast\Urest\MainBundle\Entity\TourRepository
+    indexes:
+        tour_user_idx:
+            columns: [ user_id ]
+        tour_lang_idx:
+            columns: [ lang ]
+        tour_city_idx:
+            columns: [ city_id ]
+    id:
+      id:
+        type: integer
+        generator:
+          strategy: AUTO
+    fields:
+      title:
+          type: string
+          length: 255
+      datePublish:
+          type: date
+          nullable: false
+      created:
+          type: datetime
+          nullable: false
+      coordinates:
+          type: string
+          length: 255
+          nullable: true
+      accommodation:
+          type: string
+          length: 255
+      active:
+          type: boolean
+          default: 1
+      show_in_builder:
+          type: boolean
+          default: 0
+      hot_offer:
+          type: boolean
+          default: 0
+      lang:
+          type: string
+          length: '2'
+          nullable: false
+      announcement:
+          type: text
+          nullable: true
+      description:
+          type: text
+          nullable: true
+    manyToOne:
+      user:
+        targetEntity: Application\Sonata\UserBundle\Entity\User
+        joinColumn:
+          name: user_id
+          referenceColumnName: id
+      city:
+        targetEntity: City
+        inversedBy: tours
+        joinColumn:
+          name: city_id
+          referenceColumnName: id
+      icon:
+        targetEntity: Application\Sonata\MediaBundle\Entity\Media
+        joinColumn:
+          name: icon_id
+          referenceColumnName: id
+        cascade: ["persist"]
+    oneToMany:
+        tour_dates:
+          targetEntity: TourDates
+          mappedBy: tour
+          cascade: ["all"]
+          orphanRemoval: true
+        tour_video:
+          targetEntity: TourVideo
+          mappedBy: tour
+          cascade: ['persist', 'remove']
+          orphanRemoval: true
+        tour_images:
+          targetEntity: TourImages
+          mappedBy: tour
+          cascade: ['persist', 'remove']
+          orphanRemoval: true

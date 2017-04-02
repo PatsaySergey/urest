@@ -1,0 +1,28 @@
+
+
+    <ul class="list-inline links-list pull-right">
+
+        <li class="dropdown language-selector">
+            {{ 'admin.layout.language'|trans({},'NetcastUrestMainBundle') }} : &nbsp;
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true">
+                <img src="{{ asset('bundles/netcasturestmain/images/flag-'~app.request.locale~'.png') }}" />
+            </a>
+            <ul class="dropdown-menu pull-right">
+                {% for lang in languagemenu(1) %}
+                    <li class="{% if lang.alias == app.request.locale %}active{% endif %}">
+                        <a href="{{ path('sonata_admin_dashboard', {_locale : lang.alias}) }}">
+                            <img src="{{ asset(lang.getIcon) }}" />
+                            <span>{{ lang.title }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li class="sep"></li>
+        <li>
+            <a href="{{ url('sonata_user_admin_security_logout') }}">
+                {{ 'user_block_logout'|trans({}, 'SonataUserBundle') }} <i class="entypo-logout right"></i>
+            </a>
+        </li>
+    </ul>
+

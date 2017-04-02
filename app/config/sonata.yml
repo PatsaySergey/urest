@@ -1,0 +1,160 @@
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        sonata.user.block.menu:
+        sonata.user.block.account:
+        sonata.block.service.text:
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+
+sonata_admin:
+    title: ' '
+    title_logo: /bundles/netcasturestmain/images/logo@2x.png
+    templates:
+        layout:        NetcastUrestMainBundle:Admin:standard_layout.html.twig
+        list:          NetcastUrestMainBundle:CRUD:base_list.html.twig
+        edit:          NetcastUrestMainBundle:CRUD:edit.html.twig
+        pager_results: NetcastUrestMainBundle:Admin:base_results.html.twig
+        dashboard:     NetcastUrestMainBundle:Admin:dashboard.html.twig
+    dashboard:
+        groups:
+            admin.layout.main_page:
+                icon:            '<i class="entypo-monitor"></i>'
+                label:           admin.layout.main_page
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_EDIT_MAIN_PAGE
+
+            admin.layout.orders:
+                icon:            '<i class="entypo-bell"></i>'
+                label:           admin.layout.orders
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_ORDER_PROCESSING
+                    - ROLE_SUPER_ADMIN
+
+            breadcrumb.link_tour_list:
+                icon:            '<i class="entypo-flight"></i>'
+                label:           breadcrumb.link_tour_list
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_ADD_EDIT_TOURS
+
+            admin.layout.tour_builder:
+                icon:            '<i class="entypo-suitcase"></i>'
+                label:           admin.layout.tour_builder
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_ADD_EDIT_INFO_IN_TOUR_BUILDER
+
+            admin.layout.blog:
+                icon:            '<i class="entypo-book-open"></i>'
+                label:           admin.layout.blog
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_ADD_EDIT_BLOG_ARTICLE_META
+                    - ROLE_ADD_EDIT_BLOG_SECTION
+
+            admin.layout.location_info:
+                icon:            '<i class="entypo-folder"></i>'
+                label:           admin.layout.location_info
+                label_catalogue: NetcastUrestMainBundle
+                items: ~
+                roles:
+                    - ROLE_ADD_EDIT_ARTICLE
+
+            admin.layout.about:
+                icon:            '<i class="entypo-info"></i>'
+                label:           admin.layout.about
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_EDIT_ABOUT_US
+
+            admin.layout.faq:
+                icon:            '<i class="entypo-graduation-cap"></i>'
+                label:           admin.layout.faq
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_ADD_FAQ
+
+            admin.layout.geo:
+                icon:            '<i class="entypo-globe"></i>'
+                label:           admin.layout.geo
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_ADD_EDIT_CITY_COUNTRY
+            admin.layout.currency:
+                icon:            '<i class="entypo-cc-nc"></i>'
+                label:           admin.layout.currency
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_SUPER_ADMIN
+
+            admin.layout.language:
+                icon:            '<i class="entypo-language"></i>'
+                label:           admin.layout.language
+                label_catalogue: NetcastUrestMainBundle
+
+            admin.layout.review:
+                icon:            '<i class="entypo-comment"></i>'
+                label:           admin.layout.review
+                label_catalogue: NetcastUrestMainBundle
+
+            admin.layout.contact:
+                icon:            '<i class="entypo-location"></i>'
+                label:           admin.layout.contact
+                label_catalogue: NetcastUrestMainBundle
+                roles:
+                    - ROLE_ADD_EDIT_CONTACTS
+
+            admin.layout.groups:
+                icon:            '<i class="entypo-users"></i>'
+                label:           groups
+                label_catalogue: SonataUserBundle
+                roles:
+                    - ROLE_SUPER_ADMIN
+
+            admin.layout.users:
+                icon:            '<i class="entypo-user"></i>'
+                label:           users
+                label_catalogue: SonataUserBundle
+                roles:
+                    - ROLE_SUPER_ADMIN
+                    - ROLE_ADD_EDIT_SUPER_ADMIN
+                    - ROLE_ADD_EDIT_ADMIN
+                    - ROLE_ADD_EDIT_SUPER_MANAGER
+
+sonata_media:
+    default_context: default
+    db_driver: doctrine_orm
+    contexts:
+        default:
+            providers:
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
+
+    cdn:
+        server:
+            path: /uploads/media
+
+    filesystem:
+        local:
+            directory:  %kernel.root_dir%/../web/uploads/media
+            create:     false
+    providers:
+        image:
+            resizer: sonata.media.resizer.square
+
+sonata_user:
+    admin:
+        group:
+            class:  Netcast\Urest\MainBundle\Admin\GroupAdmin
+        user:
+            class:  Netcast\Urest\MainBundle\Admin\UserAdmin
+

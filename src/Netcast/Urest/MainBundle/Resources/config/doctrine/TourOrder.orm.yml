@@ -1,0 +1,39 @@
+Netcast\Urest\MainBundle\Entity\TourOrder:
+    type: entity
+    table: tour_orders
+    indexes:
+        tour_idx:
+            columns: [ tour_id ]
+    id:
+      id:
+        type: integer
+        generator:
+          strategy: AUTO
+    fields:
+      lang:
+          type: string
+          length: '2'
+      date_create:
+          type: date
+          nullable: false
+      payed:
+          type: integer
+          nullable: false
+          default: 0
+    manyToOne:
+      tour_date:
+        targetEntity: Netcast\Urest\MainBundle\Entity\TourDates
+        joinColumn:
+          name: tour_id
+          referenceColumnName: id
+      user:
+        targetEntity: Application\Sonata\UserBundle\Entity\User
+        joinColumn:
+          name: user_id
+          referenceColumnName: id
+        nullable: true
+    oneToMany:
+        pay_history:
+          targetEntity: PayHistory
+          mappedBy: tour_order
+          cascade: ['persist', 'remove']

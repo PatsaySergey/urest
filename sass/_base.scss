@@ -1,0 +1,23 @@
+$txt-green: #23B6A8;
+$txt-gray: #898989;
+$txt-gray-light: #EDEDED;
+
+$bg-white: #fff;
+$bg-green: #23B6A8;
+$dark-green: #23B685;
+
+$font-roboto: 'Roboto';
+$font-roboto-slab: 'Roboto Slab';
+
+
+//'MEDIAQUERIES
+//////////
+//////////
+$xs: "(max-width: 767px)";                         // Phone
+$sm: "(min-width: 768px) and (max-width: 991px)";  // Tablet
+$md: "(min-width: 992px) and (max-width: 1199px)"; // Desktop
+$lg: "(min-width: 1200px)";                        // Widescreen
+
+$xs_sm: "(max-width: 991px)";
+$sm_md: "(min-width: 768px) and (max-width: 1199px)";
+$md_lg: "(min-width: 992px)";

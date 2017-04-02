@@ -1,0 +1,260 @@
+{% block netcast_urest_tour_dates_form_widget %}
+    <div class="row">
+        <div class="col-md-3">
+            {{ form_row(form.date_from) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.date_to) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_row(form.price) }}
+        </div>
+        <div class="col-md-3">
+            <div class="form-group ">
+                <label>&nbsp</label>
+                <div class="clear"></div>
+                <a href="#" class="btn btn-danger btn-sm btn-icon icon-left sonata-collection-delete" title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}">
+                    <i class="entypo-cancel"></i>
+                    {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock netcast_urest_tour_dates_form_widget %}
+
+{% block urest_collection_widget_row %}
+    {% spaceless %}
+        <div class="sonata-collection-row" id="{{ form.vars.id }}" style="float: left; margin-left: 15px; position: relative">
+        {% if allow_delete %}
+            <a href="#" style="position: absolute; top:3px; right: -100px" class="btn btn-danger btn-sm btn-icon icon-left sonata-collection-delete" title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}">
+                <i class="entypo-cancel"></i>
+                {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
+            </a>
+        {% endif %}
+            {{ form_row(child) }}
+        </div>
+    {% endspaceless %}
+{% endblock urest_collection_widget_row %}
+
+{% block urest_gender_widget %}
+    <div class="box-radio">
+        {% for child in form %}
+            <label class="radio-inline">
+                {{ form_widget(child,{'attr' : {'class':'btn-radio'}}) }}
+                {{ child.vars.label }}
+            </label>
+        {% endfor %}
+    </div>
+{% endblock urest_gender_widget %}
+
+
+{% block urest_collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set child = prototype %}
+            {% set attr = attr|merge({'data-prototype': block('urest_collection_widget_row'), 'data-prototype-name': prototype.vars.name, 'class': attr.class|default('') }) %}
+        {% endif %}
+        <div {{ block('widget_container_attributes') }}>
+            {% if allow_add %}
+                <div style="margin-bottom: 15px">
+                    <button type="button" class="btn btn-primary btn-icon icon-left urest-collection-add">
+                        {{ 'form.label.add'|trans({},'NetcastUrestMainBundle') }}
+                        <i class="entypo-list-add"></i>
+                    </button>
+                </div>
+            {% endif %}
+            {{ form_errors(form) }}
+            {% for child in form %}
+                {{ block('urest_collection_widget_row') }}
+            {% endfor %}
+            {{ form_rest(form) }}
+
+        </div>
+    {% endspaceless %}
+{% endblock urest_collection_widget %}
+
+
+{% block urest_media_type_widget %}
+    <div class="form-group">
+        <div class="col-sm-5">
+
+            <div class="fileinput urest_fileinput {% if value is not empty and value.providerReference %}fileinput-exists{% else %}fileinput-new{% endif %}" data-provides="fileinput">
+                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;" data-trigger="fileinput">
+                    <img src="{{ asset('bundles/netcasturestmain/images/no-image.jpg') }}" alt="...">
+                </div>
+                <div class="fileinput-preview fileinput-exists thumbnail" style="width: 200px; height: 150px; line-height: 6px;">
+                    {% if value is not empty and value.providerReference %}
+                        <img src="{% path value, 'reference' %}" alt="...">
+                    {% endif %}
+                </div>
+                <div>
+					<span class="btn btn-white btn-file">
+					    <span class="fileinput-new">{{ 'admin.btn.select_img'|trans({},'NetcastUrestMainBundle') }}</span>
+					    <span class="fileinput-exists">{{ 'admin.btn.change_img'|trans({},'NetcastUrestMainBundle') }}</span>
+				    </span>
+                    <a href="#" class="btn btn-orange fileinput-exists urest_del_media" data-dismiss="fileinput">{{ 'admin.btn.remove_img'|trans({},'NetcastUrestMainBundle') }}</a>
+                    {{ block('form_widget') }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock urest_media_type_widget %}
+
+{% block urest_user_media_type_widget %}
+    <div class="col-sm-12 col-xs-6 no-padd padd-xs">
+    {% if value is not empty and value.providerReference %}
+        {% media value, 'reference' with {'class' : "img-circle user-pic img-thumbnail", 'id' : 'jsUserAvatar'} %}
+    {% else %}
+        <div class="img-circle user-pic user-none img-thumbnail">
+            <i class="fa fa-user"></i>
+        </div>
+    {% endif %}
+        <input type="file" name="{{ full_name }}[binaryContent]" style="display: none" id="avatarImg">
+        <input type="checkbox" name="{{ full_name }}[unlink]" style="display: none" id="avatarUnlink">
+    </div>
+    <div class="col-sm-12 col-xs-5 no-padd padd-xs">
+        <p><a id="jsAvatarImg" class="btn btn-grey"><i class="fa fa-retweet"></i> Заменить</a></p>
+        <p><a id="jsAvatarDel" class="btn btn-grey"><i class="fa fa-times-circle-o"></i> Удалить</a></p>
+    </div>
+{% endblock urest_user_media_type_widget %}
+
+{% block label_text_widget %}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-8">
+                 {% if value.timestamp is defined %}
+                    <span>{{ value|date('Y.m.d G:i:s') }}</span>
+                 {% else %}
+                     <span>{{ value }}</span>
+                 {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock label_text_widget %}
+
+{% block sonata_media_type_widget %}
+    <div class="span3 pull-left">
+        {% if value is not empty and value.providerReference %}
+            <div class="pull-left" style="margin-right: 5px">
+                {% if sonata_admin_enabled is defined and sonata_admin_enabled %}
+                    <a href="{{ url('admin_sonata_media_media_edit', {id: value.id}) }}"><strong>{{ value.name }}</strong></a>
+                {% else %}
+                    <p style="max-width: 150px">
+                    <strong>{{ value.name }}</strong>
+                    </p>
+                {% endif %}
+                {% thumbnail value, 'admin' with {'class': 'img-polaroid media-object'} %}
+            </div>
+
+
+            <br />
+            <span type="label">{{ value.providerName|trans({}, 'SonataMediaBundle') }}</span> ~ {{ value.context }}
+        {% else %}
+            <div class="pull-left" style="margin-right: 5px">
+                <p style="max-width: 150px">
+                <strong>{{ 'no_linked_media'|trans({}, 'SonataMediaBundle') }}</strong>
+                </p>
+                <img src="{{ asset('bundles/sonatamedia/grey.png') }}" class="img-polaroid media-object" style="width: 85px; height: 85px"/>
+            </div>
+            <div class="clear"></div>
+            <span type="label">{{ form.vars['provider']|trans({}, 'SonataMediaBundle') }} ~ {{ form.vars['context']|trans({}, 'SonataMediaBundle') }}</span>
+        {% endif %}
+    </div>
+
+    <div class="span3 pull-left">
+        {{ 'link_media'|trans({}, 'SonataMediaBundle') }}
+        {{ block('form_widget') }}
+    </div>
+{% endblock sonata_media_type_widget %}
+
+
+{% block urest_service_collection_widget_row %}
+    {% spaceless %}
+        <div id="{{ form.vars.id }}">
+            {{ form_row(child) }}
+        </div>
+    {% endspaceless %}
+{% endblock urest_service_collection_widget_row %}
+
+{% block urest_service_collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set child = prototype %}
+            {% set attr = attr|merge({'data-prototype': block('urest_service_collection_widget_row'), 'data-prototype-name': prototype.vars.name, 'class': attr.class|default('') }) %}
+        {% endif %}
+        <div {{ block('widget_container_attributes') }}>
+            {% if allow_add %}
+                <div style="margin-bottom: 15px">
+                    <button type="button" class="btn btn-primary btn-icon icon-left urest-collection-add">
+                        {{ 'form.label.add'|trans({},'NetcastUrestMainBundle') }}
+                        <i class="entypo-list-add"></i>
+                    </button>
+                </div>
+            {% endif %}
+            {{ form_errors(form) }}
+            {% for child in form %}
+                {{ block('urest_service_collection_widget_row') }}
+            {% endfor %}
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock urest_service_collection_widget %}
+
+{% block netcast_urest_tour_services_form_widget %}
+    {% spaceless %}
+        <div class="row">
+            <div class="col-md-2">
+                {{ form_row(form.service) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.option) }}
+            </div>
+            <div class="col-md-2" style="position: relative">
+                {{ form_row(form.dateStart) }}
+            </div>
+            <div class="col-md-2" style="position: relative">
+                {{ form_row(form.dateEnd) }}
+            </div>
+            <div class="col-md-2">
+                <label> </label>
+                {{ form_widget(form.isCancel) }}
+            </div>
+            <div class="col-md-2">
+                <label> </label>
+                {{ form_widget(form.userApprove) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock netcast_urest_tour_services_form_widget %}
+
+{% block urest_type_date_picker_widget_html %}
+    {% if datepicker_use_button %}
+        <div class='input-group date' id='dp_{{ id }}'>
+    {% endif %}
+    {% set attr = attr|merge({'data-date-format': moment_format}) %}
+    {{ block('date_widget') }}
+    {% if datepicker_use_button %}
+        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
+    {% endif %}
+{% endblock urest_type_date_picker_widget_html %}
+
+{% block urest_type_date_picker_widget %}
+    {% spaceless %}
+        {% if wrap_fields_with_addons %}
+            <div class="form-group">
+                {{ block('urest_type_date_picker_widget_html') }}
+            </div>
+        {% else %}
+            {{ block('urest_type_date_picker_widget_html') }}
+        {% endif %}
+        <script type="text/javascript">
+            {% set dp_options = dp_options|merge({'dateFormat': 'dd-mm-yyyy'}) %}
+            jQuery(function ($) {
+                $('#{{ datepicker_use_button ? 'dp_' : '' }}{{ id }}').datetimepicker({{ dp_options|json_encode|raw }});
+            });
+        </script>
+    {% endspaceless %}
+{% endblock urest_type_date_picker_widget %}

@@ -1,0 +1,13 @@
+{% for service in services %}
+    <div class="col-lg-4">
+        <div class="title">
+            <h3>{{ service.title }}</h3>
+            <div class="icon">
+                <i class="fa {{ service.icon }}"></i>
+            </div>
+        </div>
+        <div class="content">
+            {{ service.content|raw }}
+        </div>
+    </div>
+{% endfor %}

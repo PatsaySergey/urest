@@ -1,0 +1,397 @@
+{% extends "SonataAdminBundle::standard_layout.html.twig" %}
+
+{% block meta_tags %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="description" content="UREST Admin Panel" />
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/js/icheck/skins/square/_all.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/js/icheck/skins/minimal/_all.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/vendor/AdminLTE/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/vendor/AdminLTE/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/vendor/select2/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/vendor/select2/select2-bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/css/font-icons/entypo/css/entypo.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic">
+
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/css/neon-core.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/css/neon-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/css/neon-forms.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/js/jvectormap/jquery-jvectormap-1.2.2.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/netcasturestmain/js/rickshaw/rickshaw.min.css') }}">
+
+{% endblock %}
+
+{% block javascripts %}
+    {# parent() #}
+
+    <script src="{{ asset('bundles/netcasturestmain/js/jquery-1.11.0.min.js') }}"></script>
+
+    <!--[if lt IE 9]><script src="{{ asset('bundles/netcasturestmain/js/ie8-responsive-file-warning.js') }}"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+{% endblock %}
+
+{% block body_attributes %}class="page-body page-fade" {% endblock %}
+
+{% block sonata_header %}
+    <div class="page-container">
+        <div class="sidebar-menu">
+            <header class="logo-env">
+
+                {% block logo %}
+                    {% spaceless %}
+                        <div class="logo">
+                            <a class="logo" href="{{ url('sonata_admin_dashboard') }}">
+                                {% if 'single_image' == admin_pool.getOption('title_mode') or 'both' == admin_pool.getOption('title_mode') %}
+                                    <img src="{{ asset(admin_pool.titlelogo) }}" width="120" alt="{{ admin_pool.title }}">
+                                {% endif %}
+                                {% if 'single_text' == admin_pool.getOption('title_mode') or 'both' == admin_pool.getOption('title_mode') %}
+                                    <span>{{ admin_pool.title }}</span>
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="sidebar-collapse">
+                            <a href="#" class="sidebar-collapse-icon with-animation"><!-- add class "with-animation" if you want sidebar to have animation during expanding/collapsing transition -->
+                                <i class="entypo-menu"></i>
+                            </a>
+                        </div>
+                        <div class="sidebar-mobile-menu visible-xs">
+                            <a href="#" class="with-animation"><!-- add class "with-animation" to support animation -->
+                                <i class="entypo-menu"></i>
+                            </a>
+                        </div>
+                    {% endspaceless %}
+                {% endblock %}
+
+            </header>
+            <ul id="main-menu" class="">
+                <li id="search">
+                    <form method="get" action="">
+                        <input type="text" name="q" class="search-input" placeholder="Search something..."/>
+                        <button type="submit">
+                            <i class="entypo-search"></i>
+                        </button>
+                    </form>
+                </li>
+                <li>
+                    <a href="{{ url('sonata_admin_dashboard') }}" >
+                        <i class="entypo-gauge"></i>
+                        <span>{{ 'urest_admin_dashboard'|trans({}, 'NetcastUrestMainBundle') }}</span>
+                    </a>
+                </li>
+                {% block side_bar_nav %}
+                    {% for group in admin_pool.dashboardgroups %}
+                        {% set display = (group.roles is empty or is_granted('ROLE_SUPER_ADMIN') ) %}
+                        {% for role in group.roles if not display %}
+                            {% set display = is_granted(role) %}
+                        {% endfor %}
+
+                        {# Do not display the group label if no item in group is available #}
+                        {% set item_count = 0 %}
+                        {% if display %}
+                            {% for admin in group.items if item_count == 0 %}
+                                {% if admin.hasroute('list') and admin.isGranted('LIST') %}
+                                    {% set item_count = item_count + 1 %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if display and (item_count > 0) %}
+                            {% set active = false %}
+                            {% for admin in group.items %}
+                                {% if admin.hasroute('list') and admin.isGranted('LIST') and app.request.get('_sonata_admin') == admin.code %}
+                                    {% set active = true %}
+                                {% endif %}
+                            {% endfor %}
+
+                            <li class="{% if active or (admin is defined and admin.hasroute('config_city') and group.label == 'admin.layout.tour_builder') %} active opened{% endif %}">
+                                <a href="#">
+                                    {% if group.icon|default() %}
+                                        {{ group.icon|raw }}
+                                    {% endif %}
+                                    <span>{{ group.label|trans({}, group.label_catalogue) }}</span>
+{#                                        <i class="fa pull-right fa-angle-left"></i>#}
+                                </a>
+                                <ul class="{% if active %} active{% endif %}">
+                                    {% for admin in group.items %}
+                                        {% if is_granted(admin.role) and ((admin.hasroute('list') and admin.isGranted('LIST')) or admin.hasroute('config_city')) %}
+                                            {% if admin.hasroute('config_city') %}
+                                                <li{% if app.request.get('_sonata_admin') == admin.code %} class="active"{% endif %}><a href="{{ admin.generateUrl('config_city')}}"> {{ admin.label|trans({}, admin.translationdomain) }}</a></li>
+                                            {% else %}
+                                                <li{% if app.request.get('_sonata_admin') == admin.code %} class="active"{% endif %}><a href="{{ admin.generateUrl('list')}}"> {{ admin.label|trans({}, admin.translationdomain) }}</a></li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endblock side_bar_nav %}
+
+            </ul>
+        </div>
+    {% endblock sonata_header %}
+
+    {% block sonata_wrapper %}
+        <div class="main-content">
+            <!-- top side -->
+            <div class="row">
+
+
+            <div class="col-md-6 col-sm-8 clearfix">
+
+                {% include 'NetcastUrestMainBundle:Admin:user_block.html.twig' %}
+                {% include 'NetcastUrestMainBundle:Admin:notice_block.html.twig' %}
+
+            </div>
+            <div class="col-md-6 col-sm-4 clearfix hidden-xs">
+                {% include 'NetcastUrestMainBundle:Admin:right_head__block.html.twig' %}
+            </div>
+
+            </div>
+
+            <hr />
+            <div class="row">
+
+                {% block sonata_page_content %}
+                    <section class="content-header">
+                        <div class="col-md-10">
+                        {% block sonata_page_content_header %}
+                            {% block sonata_page_content_nav %}
+                                {% if _tab_menu is not empty or _actions is not empty %}
+                                    <ol class="breadcrumb bc-3">
+                                        {% block tab_menu_navbar_header %}
+                                            {% if action is defined %}
+                                                    {% for menu in admin.breadcrumbs(action) %}
+                                                        <li>
+                                                        {% if not loop.first %}
+                                                            {% if menu.uri is not empty %}
+
+                                                                <a href="{{ menu.uri }}">{{ menu.label|smart_slice(0, 50)|raw }}</a>
+                                                            {% else %}
+                                                                {% if menu.label is not empty %}
+                                                                    <strong>{{ menu.label }}</strong>
+                                                                {% else %}
+                                                                    {% if _navbar_title is not empty %}
+                                                                        <strong>{{ _navbar_title|raw }}</strong>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <a href="{{ url('sonata_admin_dashboard') }}">
+                                                                <i class="entypo-home"></i>{{ admin.trans('admin.layout.dashboard', {}, 'NetcastUrestMainBundle') }}
+                                                            </a>
+                                                        {% endif %}
+                                                        </li>
+                                                    {% endfor %}
+                                                {% endif %}
+                                        {% endblock %}
+                                    </ol>
+                                {% endif %}
+                            {% endblock sonata_page_content_nav %}
+
+                        {% endblock sonata_page_content_header %}
+                        </div>
+                        <div class="col-md-2 _actions-buttons-group">
+                            {% if admin is defined and admin.hasRoute('take') and object is defined %}
+                                <a class="btn btn-primary" href="{{ admin.generateUrl('take',{objectId:object.id}) }}">
+                                    <i class="fa fa-plus-circle"></i>
+                                    {{ 'form.label.take'|trans({},'NetcastUrestMainBundle') }}
+                                </a>
+                            {% endif %}
+                            {% if admin is defined and admin.hasRoute('create') and action == 'list' and admin.isGranted('CREATE')%}
+                                {% if admin.subClasses is empty %}
+                                    <a class="btn btn-primary" href="{{ admin.generateUrl('create') }}">
+                                        <i class="fa fa-plus-circle"></i>
+                                        {{ 'form.label.add'|trans({},'NetcastUrestMainBundle') }}
+                                    </a>
+                                {% else %}
+                                    {% for subclass in admin.subclasses|keys %}
+                                        <a href="{{ admin.generateUrl('create', {'subclass': subclass}) }}" class="btn btn-primary">
+                                            <i class="fa fa-plus-circle"></i>
+                                            {{ 'form.label.add'|trans({},'NetcastUrestMainBundle') }}
+                                        </a>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                            {% if admin.hasDeleteLabel is defined %}
+                                {% if admin is defined and admin.hasDeleteLabel and action == 'list' %}
+                                    <div style="margin-top:15px">
+                                        <form action="" method="GET" id="showDelForm">
+                                        <label >
+                                            <input id="showDelBtn" {% if app.request.get('show_deleted') is not null %}checked="checked" {% endif %} name="show_deleted" type="checkbox" value="1"> {{ 'admin.label.show_deleted'|trans({},'NetcastUrestMainBundle') }}
+                                        </label>
+                                        </form>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function(){
+                                            $('#showDelBtn').on('ifChanged',function(){
+                                                $('#showDelForm').submit();
+                                            })
+                                        })
+
+                                    </script>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </section>
+
+                    <section class="content-filter">
+                    {% if _list_filters|trim %}
+                        <div class="col-md-12">
+                            {{ _list_filters|raw }}
+                        </div>
+                    {% endif %}
+                    </section>
+
+                    <section class="content">
+                        <div class="col-md-12">
+                        {% block sonata_admin_content %}
+
+                        {% block notice %}
+                            {% include 'SonataCoreBundle:FlashMessage:render.html.twig' %}
+                        {% endblock notice %}
+
+                        {% if _preview is not empty %}
+                            <div class="sonata-ba-preview">{{ _preview|raw }}</div>
+                        {% endif %}
+
+                        {% if _content is not empty %}
+                            <div class="sonata-ba-content">{{ _content|raw }}</div>
+                        {% endif %}
+
+                        {% if _show is not empty %}
+                            <div class="sonata-ba-show">{{ _show|raw }}</div>
+                        {% endif %}
+
+                        {% if _form is not empty %}
+                            <div class="sonata-ba-form">{{ _form|raw }}</div>
+                        {% endif %}
+
+                        {% if _list_table is not empty or _list_filters is not empty %}
+                            <div class="sonata-ba-list">
+                                {{ _list_table|raw }}
+                            </div>
+                        {% endif %}
+                        {% endblock sonata_admin_content %}
+                        </div>
+                    </section>
+                {% endblock sonata_page_content %}
+            </div>
+
+            <footer class="main">
+
+                &copy; 2014 <strong>UREST</strong> Admin Engine by <a href="https://netcast.com.ua" target="_blank">NETCAST</a>
+
+            </footer>
+        </div>
+    </div>
+
+    <!-- Bottom Scripts -->
+    <script src="{{ asset('bundles/netcasturestmain/js/gsap/main-gsap.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/joinable.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/resizeable.js') }}"></script>
+
+
+    <script src="{{ asset('bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.min.js') }}"></script>
+    <script src="{{ asset('bundles/sonatacore/vendor/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/bootstrap-datetimepicker.js') }}"></script>
+    <script src="{{ asset('bundles/sonataadmin/jquery/jquery.form.js') }}"></script>
+    <script src="{{ asset('bundles/sonataadmin/jquery/jquery.confirmExit.js') }}"></script>
+
+    {% block addit_scripts  %}
+
+    {% endblock addit_scripts %}
+
+    <script src="{{ asset('bundles/netcasturestmain/js/neon-api.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/UrestAdmin.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/icheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/jvectormap/jquery-jvectormap-europe-merc-en.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/rickshaw/vendor/d3.v3.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/rickshaw/rickshaw.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/raphael-min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/morris.min.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/toastr.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/neon-chat.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/neon-custom.js') }}"></script>
+    <script src="{{ asset('bundles/netcasturestmain/js/neon-demo.js') }}"></script>
+
+    <script src="{{ asset('bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
+
+    <script src="{{ asset('bundles/sonataadmin/vendor/select2/select2.min.js') }}"></script>
+    {# localize select2 #}
+    {% if admin_pool is defined and admin_pool.getOption('use_select2') %}
+        {% set locale = app.request.locale %}
+        {% if locale == 'pt' %}{% set locale = 'pt_PT' %}{% endif %}
+
+        {# omit default EN locale #}
+        {% if locale[:2] != 'en' %}
+            <script src="{{ asset('bundles/sonataadmin/vendor/select2/select2_locale_' ~ locale|replace({'_':'-'}) ~ '.js') }}"></script>
+        {% endif %}
+    {% endif %}
+
+    <script src="{{ asset('bundles/sonataadmin/App.js') }}"></script>
+    <script src="{{ asset('bundles/sonataadmin/Admin.js') }}"></script>
+
+    <script>
+        window.SONATA_CONFIG = {
+            CONFIRM_EXIT: false,
+            USE_SELECT2: {% if admin_pool is defined and admin_pool.getOption('use_select2') %}true{% else %}false{% endif %},
+            USE_ICHECK: true
+        };
+        window.SONATA_TRANSLATIONS = {
+            CONFIRM_EXIT:  '{{ 'confirm_exit'|trans({}, 'SonataAdminBundle')|escape('js') }}'
+        };
+
+
+
+    </script>
+
+    <script>
+        $('body').on('change',':checkbox',function() {
+
+            var isUrlPostCreate = window.location.pathname.search(/blogpost\/create$/) > -1;
+            var formId = $('form').attr('action').split('=')[1];
+            if (formId && isUrlPostCreate) {
+                if($(this).is(":checked")) {
+                    act(this.id,'hide');
+                } else {
+                    act(this.id,'show');
+                }
+            }
+
+            function act(existId,cmd) {
+                $(':checkbox').each(function(i,item){
+                    var mask = '_images_(\\d{1,5})_main$';
+                    if(item.id.search(new RegExp(formId+mask)) > -1 && item.id != existId) {
+                        if (cmd=='hide')
+                            $(item).parent().parent().hide();
+                        if (cmd=='show')
+                            $(item).parent().parent().show();
+                        console.log( item.id +' '+cmd);
+                    }
+                });
+            }
+        });
+
+    </script>
+{% endblock sonata_wrapper %}

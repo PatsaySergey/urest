@@ -1,0 +1,35 @@
+Netcast\Urest\MainBundle\Entity\WellcomeMsg:
+    type: entity
+    table: wellcome_message
+    indexes:
+        wellcomemsg_user_idx:
+            columns: [ user_id ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\WellcomeMsgRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+            nullable: false
+        message_guest:
+            type: text
+        message_user:
+            type: text
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: false
+    manyToOne:
+          user:
+            targetEntity: Application\Sonata\UserBundle\Entity\User
+            joinColumn:
+              name: user_id
+              referenceColumnName: id
+    lifecycleCallbacks: {  }

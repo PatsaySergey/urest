@@ -1,0 +1,53 @@
+Netcast\Urest\MainBundle\Entity\MainGallery:
+    type: entity
+    table: main_gallery
+    indexes:
+        gallery_user_idx:
+            columns: [ user_id ]
+        gallery_lang_idx:
+            columns: [ lang ]
+        gallery_image_idx:
+            columns: [ image_id ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\MainGalleryRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+            type: string
+            length: '2'
+        title:
+            type: string
+            length: '255'
+        link:
+            type: string
+            length: '255'
+        content:
+            type: text
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: true
+        active:
+            type: boolean
+            options:
+              default: 1
+
+    manyToOne:
+         user:
+              targetEntity: Application\Sonata\UserBundle\Entity\User
+              joinColumn:
+                name: user_id
+                referenceColumnName: id
+         image:
+            targetEntity: Application\Sonata\MediaBundle\Entity\Media
+            joinColumn:
+              name: image_id
+              referenceColumnName: id
+            cascade: ["persist"]
+    lifecycleCallbacks: {  }

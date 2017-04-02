@@ -1,0 +1,443 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block content %}
+    <div class="main-wrapper" style="background: url('{{ asset('bundles/netcasturestmain/img/bg-main-page.png') }}') no-repeat top center;" >
+    <div class="container">
+    <div class="row">
+    <div class="col-md-4 col-sm-6 no-padd padd-xs">
+        <a href="home.php" class="btn-gotrip">
+            <p class="title">По следам астролопитеков</p>
+            <p class="location">УЖГОРОД, УКРАИНА <span class="pull-right">€ 1200</span></p>
+        </a>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-sm-12 no-padd">
+    <div class="center-block clearfix">
+    <div class="slide slide-first" data-index="1">
+        <h3>Добро пожаловать в ToutBilder!</h3>
+        {% if app.user %}
+            {{ welcomeText.messageUser|raw }}
+        {% else %}
+            {{ welcomeText.messageGuest|raw }}
+        {% endif %}
+    </div>
+    <form action="{{ url('netcast_urest_tour_builder_add') }}" id="customTourForm" method="POST">
+    <div class="slide" data-index="2" style="display: none">
+            <h4>МАРШРУТ И ДАТА</h4>
+
+            <div class="col-sm-6 col-xs-12 no-padd-left no-padd-xs">
+                <div class="form-group clearfix">
+                    <label for="name">Точка отправки</label>
+
+                        <input type="text" name="fromCountry" class="form-control required"  placeholder="Укажите страну">
+                        <div class="errorBlock"></div>
+
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12 no-padd-right no-padd-xs">
+                <div class="form-group clearfix">
+                    <label for="name">Страна тура</label>
+                    <div class="box-select">
+                        <select name="toCountry" class="required" id="jsToCountrySelect">
+                            <option value="">Выберите страну</option>
+                            {% for id,title in toCountry %}
+                                <option value="{{ id }}">{{ title }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="errorBlock"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix spacer"></div>
+            <div class="col-sm-6 col-xs-12 no-padd-left no-padd-xs">
+                <div class="col-sm-6 col-xs-12 no-padd-left no-padd-xs">
+                    <div class="form-group clearfix">
+                        <label for="name">Начало тура</label>
+                        <div class="input-group date" id="start-trip">
+                            <input type="text" name="dateStart" id="tourDateStart" class="form-control required"  placeholder="Выберите дату">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                        <div class="errorBlock"></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12 no-padd-right no-padd-xs">
+                    <div class="form-group clearfix">
+                        <label for="name">Окончание тура</label>
+                        <div class="input-group date" id="end-trip">
+                            <input type="text" name="dateEnd" id="tourDateEnd" class="form-control required" placeholder="Выберите дату">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                        <div class="errorBlock"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12 no-padd-right no-padd-xs">
+                <div class="form-group clearfix">
+                    <label for="name">Город тура</label>
+                    <div class="box-select">
+                        <select name="toCity" id="jsToCitySelector" class="required">
+                            <option value="">Сначала выберите страну</option>
+                        </select>
+                        <div class="errorBlock"></div>
+                    </div>
+                </div>
+            </div>
+        <div class="clearfix big-spacer"></div>
+    </div>
+    <div class="slide" data-index="3" style="display: none">
+            <div class="col-sm-12 no-padd">
+                <div class="switch-block">
+                    <div class="col-md-4 col-sm-4 no-padd hidden-xs">
+                        <span class="switch-label-off active pull-right">ОТЕЛЬ</span>
+                    </div>
+                    <div class="col-md-4 col-sm-4 no-padd">
+                        <div class="switch-wrapper">
+                            <label class="switch-button-background">
+                                <input type="checkbox" name="isApartment" value="1" id="jsRoomType" class="register switch-toggle">
+                                <span class="switch-button-button"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clearfix visible-xs"></div>
+                    <div class="col-sm-6 col-xs-6 no-padd visible-xs">
+                        <span class="switch-label-off pull-right switch-hotel">ОТЕЛЬ</span>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-6 no-padd">
+                        <span class="switch-label-on pull-left switch-appart">АПАРТАМЕНТЫ</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="tab-hotel clearfix switch-tab-off">
+                <div class="rating" id="jsHotelStars">
+                    <span class="star" data-stars="1"></span>
+                    <span class="star" data-stars="2"></span>
+                    <span class="star" data-stars="3"></span>
+                    <span class="star" data-stars="4"></span>
+                    <span class="star" data-stars="5"></span>
+                </div>
+                <div class="col-sm-6 col-xs-12 no-padd-left no-padd-xs">
+                    <div class="form-group clearfix">
+                        <label for="name">Название</label>
+                        <div class="box-select">
+                            <select id="jsHotelSelect" class="required">
+
+                            </select>
+                            <div class="errorBlock"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12 no-padd-right no-padd-xs">
+                    <div class="form-group clearfix">
+                        <label for="name">Номера</label>
+                        <input type="text" style="display: none" id="jsRoomSelect" name="room" class="required">
+                        <div class="box-select">
+                            <input type="button" style="width: 50px" value="..." onclick="TourBuilder.getHotelRooms()">
+                            <div class="errorBlock"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-apartment clearfix switch-tab-on" style="display: none">
+                <ul class="nav nav-tabs" id="jsApartmentType">
+                    {% for key,apartmentType in apartmentTypes %}
+                    <li style="cursor: pointer" id="{{ apartmentType.id }}">
+                        <a>{{ apartmentType.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="vip">
+                        <div class="col-sm-6 col-xs-12 no-padd-left no-padd-xs">
+                            <div class="form-group clearfix">
+                                <label for="name">Количество комнат</label>
+                                <div class="box-select">
+                                    <select id="roomCount">
+                                        <option value="0" selected>Сначала выберите тип</option>
+                                    </select>
+                                    <div class="errorBlock"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12 no-padd-right no-padd-xs">
+                            <div class="form-group clearfix">
+                                <label for="name">Апартаменты</label>
+                                <input type="text" style="display: none" id="apartment" name="apartment" class="required">
+                                <div class="box-select">
+                                    <input type="button" style="width: 50px" value="..." onclick="TourBuilder.getApartmentsList()">
+                                    <div class="errorBlock"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="block-choice bg-white" style="display: none; position: absolute; top:0px;left:0px; z-index: 100;" id="infoBlock">
+                <button type="button" class="close" onclick="$(this).parent().hide()" style="position: absolute;  right: 0px; z-index: 100"><i class="fa fa-times-circle"></i></button>
+                <h4 class="header-title" id="jsServiceTitle"></h4>
+                <div class="table box-table">
+                    <div class="table">
+                        <div class="table-header table-row">
+                            <div class="cell cell-photo">Фото</div>
+                            <div class="cell cell-title">Название</div>
+                            <div class="cell cell-price">Цена</div>
+                            <div class="cell cell-info"></div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <div class="table" id="jsInfoBlockSelect">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="clearfix big-spacer"></div>
+    </div>
+    <div class="slide" data-index="4" style="display: none">
+        <h4>ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</h4>
+            <div class="table-service" id="servicesWrapper" style="height: 209px; overflow-y: scroll;">
+
+            </div>
+    </div>
+    <div class="slide slide-confirmation" data-index="5" style="display: none;">
+        <h4>ПОДТВЕРЖДЕНИЕ ТУРА</h4>
+        <div class="col-sm-6 col-xs-12 no-padd-left no-padd-xs">
+            <h5>Уважаемый (ая) клиент!</h5>
+            <div class="your-choise">
+                <p>Вы выбрали:</p>
+                <ul>
+                    <li><i class="fa fa-map-marker"></i> <span id="tourInfoTo"></span></li>
+                    <li><i class="fa fa-calendar"></i> <span id="tourInfoDate"></span></li>
+                    <li><i class="fa fa-building-o"></i> <span id="tourInfoRoom"></span></li>
+                </ul>
+            </div>
+            <div class="additional">
+                <p>Из дополнительных услуг вы заказали:</p>
+                <ul id="tourInfoServices">
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix big-spacer visible-xs"></div>
+        <div class="col-sm-6 col-xs-12 no-padd-right no-padd-xs">
+            <textarea placeholder="Укажите дополнительную информацию, если требуется"></textarea>
+            <p class="price">Стоимость тура:  <span><span id="jsTourTotalPrice">0</span></span></p>
+        </div>
+        <div class="clearfix spacer visible-xs"></div>
+
+    </div>
+    </form>
+    <div class="slide" data-index="6" style="display: none">
+        <div class="col-sm-12 no-padd">
+            <div class="switch-block">
+                <div class="col-md-4 col-sm-4 no-padd hidden-xs">
+                    <span class="switch-label-off active pull-right">Авторизация</span>
+                </div>
+                <div class="col-md-4 col-sm-4 no-padd">
+                    <div class="switch-wrapper">
+                        <label class="switch-button-background">
+                            <input type="checkbox" class="register switch-toggle">
+                            <span class="switch-button-button"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="clearfix visible-xs"></div>
+                <div class="col-sm-6 col-xs-6 no-padd visible-xs">
+                    <span class="switch-label-off pull-right">Авторизация</span>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-6 no-padd">
+                    <span class="switch-label-on pull-left">РЕГИСТРАЦИЯ</span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="authorization switch-tab-off">
+            <div class="col-sm-6 no-padd">
+                <div class="form-group clearfix">
+                    <label for="name">Логин / Email</label>
+                    <input type="text" class="form-control" id="name" placeholder="Укажите Ваш логин/Email">
+                </div>
+                <div class="clearfix big-spacer"></div>
+                <div class="form-group clearfix">
+                    <label for="name">Пароль</label>
+                    <input type="text" class="form-control" id="name" placeholder="Укажите Ваш пароль">
+                </div>
+            </div>
+            <div class="col-sm-6 no-padd">
+                <div class="col-sm-7 no-padd">
+                    <div class="or text-center">
+                        или
+                    </div>
+                </div>
+                <div class="col-sm-5 no-padd">
+                    <div class="box-social text-center">
+                        <span>Войти через:</span>
+                        <a href=""><i class="fa fa-facebook icon-rounded"></i></a>
+                        <a href=""><i class="fa fa-google-plus icon-rounded"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix big-spacer visible-xs"></div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="registration switch-tab-on"  style="display: none">
+            <div class="col-md-4 col-sm-3 no-padd-left no-padd-xs">
+                <div class="form-group clearfix">
+                    <label for="name">Имя</label>
+                    <input type="text" class="form-control" id="name" placeholder="Ваше имя">
+                </div>
+                <div class="clearfix spacer"></div>
+                <div class="form-group clearfix">
+                    <label for="name">Логин / Email</label>
+                    <input type="text" class="form-control" id="name" placeholder="Укажите Ваш логин/Email">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 no-padd-xs">
+                <div class="form-group clearfix">
+                    <label for="name">Пароль</label>
+                    <input type="text" class="form-control" id="name" placeholder="Укажите Ваш пароль">
+                </div>
+                <div class="clearfix spacer"></div>
+                <div class="form-group clearfix">
+                    <label for="name">Повторить пароль</label>
+                    <input type="text" class="form-control" id="name" placeholder="Повторите Ваш пароль">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-5 no-padd-right no-padd-xs">
+                <div class="sex form-group clearfix">
+                    <label class="name" for="name">Пол:</label>
+                    <div class="box-radio">
+                        <label class="radio-inline">
+                            <input type="radio" class="btn-radio" name="radio" id="men"  value="option1"> муж
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" class="btn-radio" name="radio" id="women" checked value="option2"> жен
+                        </label>
+                    </div>
+                </div>
+                <div class="clearfix spacer"></div>
+                <div class="birthday form-group clearfix">
+                    <label for="name">День Рождение</label>
+                    <div class="box-select">
+                        <select name="day" class="day">
+                            <option class="name">День</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <select name="month" class="month">
+                            <option class="name">Месяц</option>
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">Mar</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">Jun</option>
+                            <option value="7">Jul</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sep</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                        <select name="year" class="year">
+                            <option class="name">Год</option>
+                            <option value="1">2015</option>
+                            <option value="2">2014</option>
+                            <option value="3">2013</option>
+                            <option value="4">2012</option>
+                            <option value="5">2011</option>
+                            <option value="6">2010</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix spacer"></div>
+            <div class="col-xs-12 no-padd">
+                <div class="box-social">
+                    <span>Или зарегистрироваться через:</span>
+                    <a href=""><i class="fa fa-facebook icon-rounded"></i></a>
+                    <a href=""><i class="fa fa-google-plus icon-rounded"></i></a>
+                </div>
+            </div>
+            <div class="clearfix big-spacer visible-xs"></div>
+        </div>
+    </div>
+
+    <div class="container-nav">
+        <div class="col-sm-6 col-xs-12 no-padd-left no-padd-xs">
+            <ul class="steps clearfix">
+                <li class="active"><a href="#step-1" data-index="2">Шаг 1</a></li>
+                <li><a href="#step-2" data-index="3">Шаг 2</a></li>
+                <li><a href="#step-3" data-index="4">Шаг 3</a></li>
+                <li><a href="#step-4" data-index="5">Шаг 4</a></li>
+            </ul>
+        </div>
+        <div class="clearfix big-spacer visible-xs"></div>
+        <div class="col-sm-6 col-xs-12 no-padd-right no-padd-xs">
+            <div class="block-btn  pull-right">
+                <a href="" class="btn btn-prev hidden">Назад</a>
+                <a href="" class="btn btn-next">Далее</a>
+                <a class="btn btn-go hidden">Поехали!</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="modal fade modal-primary" id="modal-choice" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times-circle"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container" id="jsServiceOptionWraper">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock content %}
+
+
+
+{% block pageScripts %}
+    {% javascripts
+    '@NetcastUrestMainBundle/Resources/public/js/tourBuilder.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        var TourBuilder = new TourBuilder();
+        TourBuilder.init({
+            'loaderImg' : '{{ asset('bundles/netcasturestmain/img/loader.gif') }}',
+            'getHotelsUrl' : '{{ url('netcast_urest_tour_builder_get_hotels') }}',
+            'getRoomInfoUrl' : '{{ url('netcast_urest_tour_builder_get_room') }}',
+            'getPriceUrl' : '{{ url('netcast_urest_tour_builder_get_price') }}',
+            'getApartmentInfoUrl' : '{{ url('netcast_urest_tour_builder_get_apartment') }}',
+            'getApartmentsUrl' : '{{ url('netcast_urest_tour_builder_get_apartments') }}',
+            'getApartmentsListUrl' : '{{ url('netcast_urest_tour_builder_get_apartments_list') }}',
+            'getHotelRoomsUrl' : '{{ url('netcast_urest_tour_builder_get_hotel_rooms') }}',
+            'getServicesUrl' : '{{ url('netcast_urest_tour_builder_get_services') }}',
+            'getServiceOptionsUrl' : '{{ url('netcast_urest_tour_builder_get_services_options') }}',
+            'getOptionUrl' : '{{ url('netcast_urest_tour_builder_get_services_option') }}',
+            'getServiceUrl' : '{{ url('netcast_urest_tour_builder_get_service') }}',
+            'getCityUrl' : '{{ url('netcast_urest_tour_builder_get_city') }}'
+        });
+    </script>
+{% endblock pageScripts %}

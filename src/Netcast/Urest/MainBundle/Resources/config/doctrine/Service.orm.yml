@@ -1,0 +1,54 @@
+Netcast\Urest\MainBundle\Entity\Service:
+    type: entity
+    table: services
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+        lang:
+            type: string
+            length: '2'
+            nullable: false
+        description:
+            type: text
+        price:
+            type: string
+            length: 255
+            nullable: true
+        type:
+            type: string
+            length: 255
+        active:
+            type: boolean
+            options:
+              default: 1
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: false
+
+    manyToOne:
+            city:
+               targetEntity: City
+               inversedBy: services
+               joinColumn:
+                  name: city_id
+                  referencedColumnName: id
+            user:
+               targetEntity: Application\Sonata\UserBundle\Entity\User
+               joinColumn:
+                   name: user_id
+                   referenceColumnName: id
+    oneToMany:
+            options:
+                targetEntity: Options
+                mappedBy: service
+                cascade: ['persist', 'remove']

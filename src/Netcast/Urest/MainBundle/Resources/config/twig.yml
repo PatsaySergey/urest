@@ -1,0 +1,73 @@
+services:
+    netcast.urest.twig.languagemenu:
+        class: Netcast\Urest\MainBundle\Twig\LenguageMenuExtension
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: twig.extension }
+    netcast.urest.twig.smart_slice:
+        class: Netcast\Urest\MainBundle\Twig\SmartSliceExtension
+        tags:
+            - { name: twig.extension }
+
+    netcast.urest.twig.get_type:
+        class: Netcast\Urest\MainBundle\Twig\GetTypeExtension
+        tags:
+            - { name: twig.extension }
+
+    netcast.urest.twig.date_diff:
+        class: Netcast\Urest\MainBundle\Twig\DateDiffExtension
+        tags:
+            - { name: twig.extension }
+
+    twig.localized_route_extension:
+        class: Netcast\Urest\MainBundle\Twig\LocalizedRouteExtension
+        tags:
+            - { name: twig.extension }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+        arguments: [@router]
+
+    netcast.urest.twig.reg_form:
+        class: Netcast\Urest\MainBundle\Twig\RegistrationExtension
+        calls:
+            - [setFormFactory, ["@form.factory"]]
+            - [setFormType, ["@netcast.urest.registration.form.type"]]
+        tags:
+            - { name: twig.extension }
+
+    netcast.urest.twig.tour_order_form:
+        class: Netcast\Urest\MainBundle\Twig\TourOrderExtension
+        calls:
+            - [setFormFactory, ["@form.factory"]]
+            - [setFormType, ["@netcast.urest.tour_order.form.type"]]
+        tags:
+            - { name: twig.extension }
+
+    netcast.urest.twig.service_price:
+        class: Netcast\Urest\MainBundle\Twig\TourServicePriceExtension
+        tags:
+            - { name: twig.extension }
+
+    netcast.urest.twig.languages:
+        class: Netcast\Urest\MainBundle\Twig\LanguagesExtension
+        arguments:
+            - @service_container
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: twig.extension }
+
+    netcast.urest.twig.currency:
+        class: Netcast\Urest\MainBundle\Twig\CurrencyExtension
+        arguments:
+            - @service_container
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: twig.extension }
+
+    netcast.urest.twig.price:
+        class: Netcast\Urest\MainBundle\Twig\PriceExtension
+        arguments:
+            - @service_container
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: twig.extension }

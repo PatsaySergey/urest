@@ -1,0 +1,89 @@
+Netcast\Urest\MainBundle\Entity\CustomTourOrder:
+    type: entity
+    table: custom_tour_order
+    repositoryClass: Netcast\Urest\MainBundle\Entity\CustomTourOrderRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        lang:
+          type: string
+          length: '2'
+        fromCountry:
+          type: string
+          length: '255'
+        dateStart:
+          type: date
+        dateEnd:
+          type: date
+        addInfo:
+          type: text
+        status:
+          type: integer
+        price:
+          type: float
+        isCancel:
+          type: boolean
+          nullable: true
+          options:
+            default: 0
+        isPayed:
+          type: boolean
+          nullable: true
+          options:
+            default: 0
+        prePay:
+          type: float
+        created:
+            type: datetime
+            nullable: true
+        payTo:
+            type: date
+            nullable: true
+    manyToOne:
+        toCountry:
+          targetEntity: Country
+          joinColumn:
+            name: to_country_id
+            referenceColumnName: id
+        toCity:
+          targetEntity: City
+          joinColumn:
+            name: city_ide
+            referenceColumnName: id
+        room:
+          targetEntity: HotelRoom
+          joinColumn:
+            name: room_id
+            referenceColumnName: id
+        apartment:
+          targetEntity: Apartment
+          joinColumn:
+            name: apartment_id
+            referenceColumnName: id
+        author:
+          targetEntity: Application\Sonata\UserBundle\Entity\User
+          joinColumn:
+            name: author_id
+            referenceColumnName: id
+        moderator:
+          targetEntity: Application\Sonata\UserBundle\Entity\User
+          joinColumn:
+            name: moderator_id
+            referenceColumnName: id
+    oneToMany:
+        services:
+          targetEntity: CustomTourServices
+          mappedBy: tour
+          cascade: ["persist"]
+        add_home:
+          targetEntity: AddTourHome
+          mappedBy: tour
+          cascade: ["persist"]
+        pay_history:
+            targetEntity: PayHistory
+            mappedBy: order
+            cascade: ['persist', 'remove']

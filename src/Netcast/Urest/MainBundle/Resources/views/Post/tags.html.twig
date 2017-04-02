@@ -1,0 +1,7 @@
+{{ "tags" | trans({},"NetcastUrestMainBundle") }} :
+{% for tag in tags %}
+    <span>{{ tag }}</span>
+{% else %}
+    {{ "-" }}
+{% endfor %}
+<br>

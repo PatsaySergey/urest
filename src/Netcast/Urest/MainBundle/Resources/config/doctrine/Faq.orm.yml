@@ -1,0 +1,55 @@
+Netcast\Urest\MainBundle\Entity\Faq:
+    type: entity
+    table: faq
+    indexes:
+        faq_user_idx:
+            columns: [ user_id ]
+        faq_lang_idx:
+            columns: [ lang ]
+    repositoryClass: Netcast\Urest\MainBundle\Entity\FaqRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        userId:
+            type: integer
+            column: user_id
+            nullable: false
+        lang:
+            type: string
+            length: '2'
+            nullable: false
+        datePublish:
+            type: date
+            nullable: false
+        active:
+            type: boolean
+            options:
+              default: 1
+        deleted:
+            type: boolean
+            options:
+              default: 0
+        created:
+            type: datetime
+            nullable: false
+        updated:
+            type: datetime
+            nullable: false
+        question:
+            type: text
+            nullable: false
+        answer:
+            type: text
+            nullable: false
+
+    manyToOne:
+          user:
+            targetEntity: Application\Sonata\UserBundle\Entity\User
+            joinColumn:
+              name: user_id
+              referenceColumnName: id
+    lifecycleCallbacks: {  }
