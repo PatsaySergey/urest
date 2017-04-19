@@ -3340,6 +3340,7 @@ footer {
           font-size: 14px; }
           @media (max-width: 767px) {
             .block-faq-2 .tour-info .inner-content .block-caption .inner {
+              height: 27px;
               font-size: 11px; } }
   .block-faq-2 .block-quote {
     margin: 50px 0;
