@@ -94,12 +94,14 @@ sonata_admin:
                 icon:            '<i class="entypo-language"></i>'
                 label:           admin.layout.language
                 label_catalogue: NetcastUrestMainBundle
-
+                roles:
+                    - ROLE_SUPER_ADMIN
             admin.layout.review:
                 icon:            '<i class="entypo-comment"></i>'
                 label:           admin.layout.review
                 label_catalogue: NetcastUrestMainBundle
-
+                roles:
+                    - ROLE_SUPER_ADMIN
             admin.layout.contact:
                 icon:            '<i class="entypo-location"></i>'
                 label:           admin.layout.contact

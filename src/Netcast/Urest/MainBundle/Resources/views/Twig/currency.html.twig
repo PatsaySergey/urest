@@ -1,10 +1,9 @@
 <a href="#" data-toggle="dropdown">
-    <span class="btn-label"><i class="fa {{ currCurrency.icon }}"></i>{{ currCurrency.code }}</span>
+    <span class="btn-label"><i class="fa {{ currCurrency.icon }}"></i> {{ currCurrency.code }}</span>
     <i class="fa fa-angle-down"></i>
 </a>
 <ul class="dropdown-menu">
     {% for currency in currencies %}
-        <li class="jsCurrency"><a href="#"><span class="content" data-code="{{ currency.code }}"><i class="fa {{ currency.icon }}"></i>{{ currency.code }}</span> </a></li>
+        <li class="jsCurrency"><a href="#"><span class="content" data-code="{{ currency.code }}"><i class="fa {{ currency.icon }}"></i> {{ currency.code }}</span> </a></li>
     {% endfor %}
-    {#<li><a href=""><i class="fa fa-angle-double-down"></i></a></li>#}
 </ul>

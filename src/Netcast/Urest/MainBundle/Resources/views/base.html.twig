@@ -65,13 +65,13 @@
                                             <li class="user-bar hidden-sm hidden-xs">
                                                 <i class="fa fa-user"></i>
                                                 {% if app.user %}
-                                                    <span><a href="{{ url('netcast_urest_profile_view') }}"> {{ app.user.firstname }} {{ app.user.lastname }}, {{ 'site.hello'|trans({},'NetcastUrestMainBundle') }}</a></span>
+                                                    <span><a href="{{ url('netcast_urest_profile_view') }}"> {{ app.user.firstname }} {{ app.user.lastname }} </a></span>
                                                     <span>|</span>
-                                                    <span><a href="{{ url('sonata_user_security_logout') }}">{{ 'site.logout'|trans({},'NetcastUrestMainBundle') }}</a></span>
+                                                    <span><a href="{{ url('sonata_user_security_logout') }}"> {{ 'site.logout'|trans({},'NetcastUrestMainBundle') }}</a></span>
                                                 {% else %}
-                                                    <span><a href="" data-toggle="modal" data-target="#signup-modal">{{ 'site.login'|trans({},'NetcastUrestMainBundle') }}</a></span>
+                                                    <span><a href="" data-toggle="modal" data-target="#signup-modal"> {{ 'site.login'|trans({},'NetcastUrestMainBundle') }} </a></span>
                                                     <span>/</span>
-                                                    <span><a href="" data-toggle="modal" data-target="#login-modal">{{ 'site.registration'|trans({},'NetcastUrestMainBundle') }}</a></span>
+                                                    <span><a href="" data-toggle="modal" data-target="#login-modal"> {{ 'site.registration'|trans({},'NetcastUrestMainBundle') }}</a></span>
                                                 {% endif %}
                                             </li>
                                             <li class="select-box price">
@@ -184,19 +184,6 @@
 
         <nav id="menu-mobile">
             <ul>
-                <li class="language"><a href="#">{{ 'site.choice_language'|trans({},'NetcastUrestMainBundle') }}</a>
-                    <ul id="second-menu">
-                        {{ getLanguages(true) }}
-                    </ul>
-                </li>
-                <li class="currency"><a href="№">{{ 'site.choice_currency'|trans({},'NetcastUrestMainBundle') }}</a>
-                    <ul id="second-menu">
-                        <li><a href="">€ EUR</a></li>
-                        <li><a href="">₤ GBP</a></li>
-                        <li><a href="">¥ JPY</a></li>
-                        <li><a href="">$ USD</a></li>
-                    </ul>
-                </li>
                 {% include "NetcastUrestMainBundle:Layouts:main_menu.html.twig" %}
             </ul>
         </nav>

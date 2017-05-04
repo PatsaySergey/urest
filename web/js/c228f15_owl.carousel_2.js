@@ -549,6 +549,7 @@ if (typeof Object.create !== "function") {
         },
 
         next : function (speed) {
+
             var base = this;
 
             if (base.isTransition) {
