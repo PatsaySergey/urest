@@ -177,6 +177,45 @@ textarea {
   width: 100%;
   outline: none; }
 
+
+.builder-link {
+  font-family: "Roboto";
+  font-size: 14px;
+  text-align: center;
+  padding:20px;
+}
+
+.builder-link h2,a {
+  display: inline-block;
+  margin-right: 30px;
+}
+
+.builder-link .btn-builder {
+  color: #fff;
+  border-radius: 0;
+  background: #23b6a8;
+  background: -moz-linear-gradient(top, #23b6a8 0%, #23b685 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #23b6a8), color-stop(100%, #23b685));
+  background: -webkit-linear-gradient(top, #23b6a8 0%, #23b685 100%);
+  background: -o-linear-gradient(top, #23b6a8 0%, #23b685 100%);
+  background: -ms-linear-gradient(top, #23b6a8 0%, #23b685 100%);
+  background: linear-gradient(to bottom, #23b6a8 0%, #23b685 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23b6a8', endColorstr='#23b685',GradientType=0 );
+  margin-top: -12px;
+  padding: 10px 18px; }
+
+.builder-link .btn-builder:hover {
+  color: #fff !important;
+  background: #2debd8;
+  background: -moz-linear-gradient(top, #2debd8 0%, #2bdea2 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2debd8), color-stop(100%, #2bdea2));
+  background: -webkit-linear-gradient(top, #2debd8 0%, #2bdea2 100%);
+  background: -o-linear-gradient(top, #2debd8 0%, #2bdea2 100%);
+  background: -ms-linear-gradient(top, #2debd8 0%, #2bdea2 100%);
+  background: linear-gradient(to bottom, #2debd8 0%, #2bdea2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2debd8', endColorstr='#2bdea2',GradientType=0 ); }
+
+
 /*-----Radio btn-----*/
 .box-radio .radio-inline {
   padding-left: 0;
@@ -1005,7 +1044,50 @@ header .main-menu .btn-builder:hover {
       width: 90px; } }
 
 /*------Content------*/
-/*-----Carousel------*/
+#main-carousel .item {
+   height: 380px;
+ }
+
+#main-carousel .owl-wrapper-outer {
+  height: 380px;
+}
+
+.main-form {
+  position: absolute;
+  text-align: center;
+  top: 180px;
+  z-index: 200;
+  width: 100%;
+}
+
+.main-form .form-item {
+  display: inline-block;
+  padding: 10px;
+}
+
+.main-form .form-item .input-addon{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: white;
+}
+
+.main-form .form-item button{
+  padding: 10px;
+  background: linear-gradient(to bottom, #23b6a8 0%, #23b685 100%);
+  color: white;
+  border: none;
+}
+
+
+.main-form .form-group input {
+  color: #fff;
+  border: 1px solid #fff;
+  font-size: 14px;
+  background: transparent;
+  height: 40px; }
+
+
 #main-carousel {
   margin-top: -86px;
   position: relative; }
@@ -2150,6 +2232,16 @@ footer {
   #basic-info .block-info .btn-password {
     margin-top: 35px;
     width: 100%; }
+
+.ui-widget-content {
+      z-index: 300;
+      background: white;
+      width: 202px!important;
+  }
+
+.ui-widget-content li{
+  cursor: pointer;
+}
 
 .main-wrapper {
   background: url("../../../../../../../../../../Users/kiev135/Desktop/urest/assets/img/bg-main-page.png") no-repeat top center;

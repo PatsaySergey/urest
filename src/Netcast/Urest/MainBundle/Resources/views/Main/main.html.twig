@@ -1,6 +1,24 @@
 {% extends "NetcastUrestMainBundle::base.html.twig" %}
 
 {% block content %}
+    <div class="main-form">
+        <form action="{{ path('netcast_urest_tour_list') }}">
+            <div class="form-item form-group">
+                <label>
+                    <input type="text" placeholder="Город" class="form-control" id="jsCity">
+                    <input type="hidden" id="jsCityId" name="tourCity">
+                    <input type="hidden" id="jsCountryId" name="tourCountry">
+                </label>
+            </div>
+            <div class="form-item form-group" style="position: relative">
+                    <input type="text" name="date" class="form-control required" id="jsDate" placeholder="Выберите дату">
+                    <span class="input-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+            <div class="form-item">
+                <button type="submit">Найти</button>
+            </div>
+        </form>
+    </div>
     <div id="main-carousel" class="owl-carousel owl-theme">
         {{ include('NetcastUrestMainBundle:Main:mainSlider.html.twig',{ sliders : sliders }, with_context = false) }}
     </div>
@@ -120,3 +138,23 @@
         </div>
     </div>
 {% endblock content %}
+
+ {% block pageScripts %}
+     <script>
+         $( "#jsCity" ).autocomplete({
+             source: '{{ path('netcast_urest_city_list') }}',
+             select: function( event, ui ) {
+                 event.preventDefault();
+                 var id = ui.item.value.city;
+                 var countryId = ui.item.value.country;
+                 var label = ui.item.label;
+                 $( "#jsCity" ).val(label);
+                 $( "#jsCityId" ).val(id);
+                 $( "#jsCountryId" ).val(countryId);
+             }
+
+         });
+
+         $('#jsDate').daterangepicker({ timePicker: false, format: 'DD.MM.YYYY' });
+     </script>
+ {% endblock pageScripts %}

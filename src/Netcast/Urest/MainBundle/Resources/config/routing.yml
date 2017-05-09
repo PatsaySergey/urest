@@ -85,6 +85,11 @@ netcast_urest_faq_view:
     defaults: { _controller: NetcastUrestMainBundle:Faq:list, _locale: "%locale%" }
     methods: [GET]
 
+netcast_urest_city_list:
+    pattern:  /{_locale}/city/list
+    defaults: { _controller: NetcastUrestMainBundle:Main:city, _locale: "%locale%" }
+    methods: [GET]
+
 netcast_urest_tour_list:
     pattern:  /{_locale}/tour/list
     defaults: { _controller: NetcastUrestMainBundle:Tour:index, _locale: "%locale%" }

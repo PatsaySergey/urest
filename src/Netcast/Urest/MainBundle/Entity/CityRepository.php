@@ -12,4 +12,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class CityRepository extends EntityRepository
 {
+    public function search($term,$lang)
+    {
+        $qb = $this->createQueryBuilder('city')
+            ->select(['country.title','country.id','city.title as ct','city.id as ci'])
+            ->join('city.region', 'region')
+            ->join('region.country', 'country', 'WITH', 'region.country = country.id')
+            ->where('city.lang = :lang')
+            ->andWhere('city.title LIKE :term')
+            ->setParameter('lang', $lang)
+            ->setParameter('term', '%'.$term.'%')
+        ;
+        return $qb->getQuery()->getResult();
+
+    }
 }
