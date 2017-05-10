@@ -18,6 +18,7 @@ class LanguagesExtension extends \Twig_Extension
     {
         return array(
             'getLanguages' => new \Twig_Function_Method($this, 'getLanguages',['is_safe' => ['html']]),
+            'langList' => new \Twig_Function_Method($this, 'langList'),
         );
     }
 
@@ -40,6 +41,19 @@ class LanguagesExtension extends \Twig_Extension
         }
         $data['LangsToDisplay'] = $LangsToDisplay;
         return $this->container->get('templating')->render("NetcastUrestMainBundle:Twig:languages.html.twig", $data);
+    }
+
+    public function langList() {
+        $langs = $this->doctrine->getRepository('NetcastUrestMainBundle:Language')->getList(0,1);
+        $result = [];
+        foreach ($langs as $key => $lang) {
+            $result[$key] = [
+                'alias' => $lang->getAlias(),
+                'title' => $lang->getTitle(),
+                'id' => $lang->getId(),
+            ];
+        }
+        return $result;
     }
 
     public function getName()

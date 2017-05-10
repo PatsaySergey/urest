@@ -74,6 +74,40 @@
 {% endblock urest_collection_widget %}
 
 
+{% block urest_i18n_collection_widget %}
+    {% spaceless %}
+        {% if prototype is defined %}
+            {% set child = prototype %}
+            {% set attr = attr|merge({'data-prototype': block('urest_collection_widget_row'), 'data-prototype-name': prototype.vars.name, 'class': attr.class|default('') }) %}
+        {% endif %}
+        <div {{ block('widget_container_attributes') }}>
+            {% if allow_add and langList()|length > form|length %}
+                <div style="margin-bottom: 15px">
+                    <button type="button" data-langs="{{ langList()|json_encode }}" class="btn btn-primary btn-icon icon-left urest-i18n-collection-add">
+                        {{ 'form.label.add'|trans({},'NetcastUrestMainBundle') }}
+                        <i class="entypo-list-add"></i>
+                    </button>
+                </div>
+            {% endif %}
+            {{ form_errors(form) }}
+            <ul class="nav nav-tabs">
+                {% for key, child in form %}
+                    <li class="{% if key == 0 %}active{% endif %} lng-tabs" data-lang="{{ child.vars.data.lang.id }}"><a data-toggle="tab" href="#lang-{{ child.vars.data.lang.id }}">{{ child.vars.data.lang.title }}</a></li>
+                {% endfor %}
+            </ul>
+            <div class="tab-content">
+                {% for key,child in form %}
+                    <div id="lang-{{ child.vars.data.lang.id }}" class="tab-pane fade in {% if key == 0 %}active{% endif %}">
+                        {{ block('urest_collection_widget_row') }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div id="modalDiv"></div>
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock urest_i18n_collection_widget %}
+
 {% block urest_media_type_widget %}
     <div class="form-group">
         <div class="col-sm-5">

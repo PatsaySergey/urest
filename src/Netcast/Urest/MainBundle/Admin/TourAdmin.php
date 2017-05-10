@@ -4,9 +4,7 @@ namespace Netcast\Urest\MainBundle\Admin;
 
 use Netcast\Urest\MainBundle\Admin\BasicAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class TourAdmin extends Admin {
 
@@ -19,15 +17,24 @@ class TourAdmin extends Admin {
         }
     }
 
+
     public function prePersist($post)
     {
         $user = $this->getSecurityContext()->getToken()->getUser();
         $post->setUser($user);
         $post->setCreated(new \DateTime());
-        $post->setLang($this->getLanguage());
 
         foreach($post->getTourDates() as $tourDate) {
-            $tourDate->setTour($post);
+            if($tourDate->getPrice() !== null)
+                $tourDate->setTour($post);
+            else
+                $post->removeTourDate($tourDate);
+        }
+        foreach($post->getTourContent() as $tourContent) {
+            if($tourContent->getDescription() !== null)
+                $tourContent->setTour($post);
+            else
+                $post->removeTourContent($tourContent);
         }
         foreach($post->getTourImages() as $tourImages) {
             if($tourImages->getMedia() !== null)
@@ -46,7 +53,16 @@ class TourAdmin extends Admin {
     public function preUpdate($post)
     {
         foreach($post->getTourDates() as $tourDate) {
-            $tourDate->setTour($post);
+            if($tourDate->getPrice() !== null)
+                $tourDate->setTour($post);
+            else
+                $post->removeTourDate($tourDate);
+        }
+        foreach($post->getTourContent() as $tourContent) {
+            if(!$tourContent->getIsDeleted())
+                $tourContent->setTour($post);
+            else
+                $post->removeTourContent($tourContent);
         }
         foreach($post->getTourImages() as $tourImages) {
             if($tourImages->getMedia() !== null)
@@ -73,17 +89,7 @@ class TourAdmin extends Admin {
 
         $formMapper
             ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('title', 'text', [
-                'label' => 'form.label.title',
-                'trim' => true,
-                'required' => true,
-                'attr' => [
-                    'maxlength' => '255',
-                ],
-            ])
             ->add('country', 'entity', [
-                /*'attr'=>array('data-sonata-select2'=>'false'),
-                'attr'=>array('data-sonata-select2-allow-clear'=>'false'),*/
                 'class' => 'Netcast\Urest\MainBundle\Entity\Country',
                 'query_builder' => function($repository) {
                         return $repository->createQueryBuilder('c')
@@ -144,11 +150,6 @@ class TourAdmin extends Admin {
                 'trim' => true,
                 'required' => false
             ])
-            ->add('accommodation', 'text', [
-                'label' => 'form.label.accommodation',
-                'trim' => true,
-                'required' => true
-            ])
             ->add('active', 'checkbox', [
                 'label' => 'form.label.active',
                 'required' => false
@@ -203,16 +204,21 @@ class TourAdmin extends Admin {
             ->add('clear','hidden',['mapped' => false])
             ->end()
             ->with('admin.tour.end',['class' => 'col-md-12', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('announcement', 'textarea', [
-                'label' => 'form.label.announcement',
-                'attr' => array('rows' => 10)
+
+            ->add('tourContent', 'urest_i18n_collection', [
+                'label' => 'form.label.content',
+                'type' => 'netcast_urest_content_form',
+                'options' => [
+                    'label' => false,
+                    'required' => false,
+                    'data_class' => 'Netcast\Urest\MainBundle\Entity\TourContent',
+                ],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => false,
+                'required' => false
             ])
-            ->add('description', 'ckeditor', [
-                'label' => 'form.label.description',
-                'attr' => array('class' => 'ckeditor', 'rows' => 20),
-                'constraints' => [new NotBlank()],
-                'config_name' => 'admin_config'
-            ])
+
             ->add('tourImages', 'urest_collection', [
                 'label' => 'form.label.images',
                 'type' => 'netcast_urest_media_collection_form',
@@ -244,17 +250,6 @@ class TourAdmin extends Admin {
         ;
     }
 
-
-
-    public function createQuery($context = 'list') {
-        $query = parent::createQuery($context);
-        $query
-            ->andWhere($query->getRootAlias().'.lang = :lang')
-            ->setParameter('lang', $this->getLanguage())
-        ;
-
-        return $query;
-    }
 
     // Поля, отображаемые в списках
     protected function configureListFields(ListMapper $listMapper)

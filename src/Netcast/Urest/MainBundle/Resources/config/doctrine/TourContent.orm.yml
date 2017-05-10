@@ -1,0 +1,37 @@
+Netcast\Urest\MainBundle\Entity\TourContent:
+    type: entity
+    table: tour_content
+    indexes:
+        tour_idx:
+            columns: [ tour_id ]
+        lang_idx:
+            columns: [ lang_id ]
+    id:
+      id:
+        type: integer
+        generator:
+          strategy: AUTO
+    fields:
+      title:
+        type: string
+        length: 255
+      accommodation:
+        type: string
+        length: 255
+      announcement:
+        type: text
+        nullable: true
+      description:
+        type: text
+        nullable: true
+    manyToOne:
+      tour:
+        targetEntity: Netcast\Urest\MainBundle\Entity\Tour
+        joinColumn:
+          name: tour_id
+          referenceColumnName: id
+      lang:
+        targetEntity: Netcast\Urest\MainBundle\Entity\Language
+        joinColumn:
+          name: lang_id
+          referenceColumnName: id

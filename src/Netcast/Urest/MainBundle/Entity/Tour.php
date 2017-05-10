@@ -2,26 +2,15 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Tour
  */
 class Tour {
 
-    public function __toString() {
-        return $this->title ? : '';
-    }
-
     /**
      * @var integer
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    private $title;
 
     /**
      * @var \DateTime
@@ -39,11 +28,6 @@ class Tour {
     private $coordinates;
 
     /**
-     * @var string
-     */
-    private $accommodation;
-
-    /**
      * @var boolean
      */
     private $active;
@@ -58,15 +42,16 @@ class Tour {
      */
     private $hot_offer;
 
-    /**
-     * @var string
-     */
-    private $lang;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $tour_dates;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tour_content;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -90,7 +75,13 @@ class Tour {
 
     private $removedImages;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $pay_history;
 
+
+    private $icon;
 
     /**
      * Constructor
@@ -100,6 +91,7 @@ class Tour {
         $this->tour_dates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tour_video = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tour_images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tour_content = new \Doctrine\Common\Collections\ArrayCollection();
         $this->removedImages = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -113,28 +105,6 @@ class Tour {
         return $this->id;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Tour
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 
     /**
      * Set datePublish
@@ -205,28 +175,6 @@ class Tour {
         return $this->coordinates;
     }
 
-    /**
-     * Set accommodation
-     *
-     * @param string $accommodation
-     * @return Tour
-     */
-    public function setAccommodation($accommodation)
-    {
-        $this->accommodation = $accommodation;
-
-        return $this;
-    }
-
-    /**
-     * Get accommodation
-     *
-     * @return string 
-     */
-    public function getAccommodation()
-    {
-        return $this->accommodation;
-    }
 
     /**
      * Set active
@@ -298,26 +246,36 @@ class Tour {
     }
 
     /**
-     * Set lang
+     * Add tour_content
      *
-     * @param string $lang
+     * @param \Netcast\Urest\MainBundle\Entity\TourContent $tourContent
      * @return Tour
      */
-    public function setLang($lang)
+    public function addTourContent(\Netcast\Urest\MainBundle\Entity\TourContent $tourContent)
     {
-        $this->lang = $lang;
+        $this->tour_content[] = $tourContent;
 
         return $this;
     }
 
     /**
-     * Get lang
+     * Remove tour_content
      *
-     * @return string 
+     * @param \Netcast\Urest\MainBundle\Entity\TourContent $tourContent
      */
-    public function getLang()
+    public function removeTourContent(\Netcast\Urest\MainBundle\Entity\TourContent $tourContent)
     {
-        return $this->lang;
+        $this->tour_content->removeElement($tourContent);
+    }
+
+    /**
+     * Get tour_contents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTourContent()
+    {
+        return $this->tour_content;
     }
 
     /**
@@ -465,67 +423,6 @@ class Tour {
     {
         return $this->city;
     }
-    /**
-     * @var string
-     */
-    private $announcement;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-
-    /**
-     * Set announcement
-     *
-     * @param string $announcement
-     * @return Tour
-     */
-    public function setAnnouncement($announcement)
-    {
-        $this->announcement = $announcement;
-
-        return $this;
-    }
-
-    /**
-     * Get announcement
-     *
-     * @return string 
-     */
-    public function getAnnouncement()
-    {
-        return $this->announcement;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Tour
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-    /**
-     * @var \Application\Sonata\MediaBundle\Entity\Media
-     */
-    private $icon;
-
 
     /**
      * Set icon
@@ -553,11 +450,6 @@ class Tour {
     public function getRemovedImages() {
         return $this->removedImages;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $pay_history;
-
 
     /**
      * Add payHistory
@@ -591,5 +483,9 @@ class Tour {
     public function getPayHistory()
     {
         return $this->pay_history;
+    }
+
+    public function __toString() {
+        return '';
     }
 }
