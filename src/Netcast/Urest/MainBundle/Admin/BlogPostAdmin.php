@@ -21,9 +21,15 @@ class BlogPostAdmin extends Admin
     {
         $user = $this->getSecurityContext()->getToken()->getUser();
         $item->setUser($user);
-        $item->setLang($this->getLanguage());
         $item->setCreated(new \DateTime());
         $item->setUpdated(new \DateTime());
+
+        foreach($item->getPostContent() as $postContent) {
+            if(!$postContent->getIsDeleted())
+                $postContent->setPost($item);
+            else
+                $item->removeTourContent($postContent);
+        }
         foreach ($item->getImages() as $blogImages) {
             if ($blogImages->getMedia() !== null) {
                 $blogImages->setPost($item);
@@ -43,6 +49,13 @@ class BlogPostAdmin extends Admin
     public function preUpdate($item)
     {
         $item->setUpdated(new \DateTime());
+        foreach($item->getPostContent() as $postContent) {
+            if(!$postContent->getIsDeleted())
+                $postContent->setPost($item);
+            else
+                $item->removeTourContent($postContent);
+        }
+
         foreach($item->getImages() as $blogImages) {
             if($blogImages->getMedia() !== null)
                 $blogImages->setPost($item);
@@ -66,14 +79,6 @@ class BlogPostAdmin extends Admin
         $datePublished = ($post->getDatePublish() != null)?$post->getDatePublish():new \DateTime();
         $formMapper
             ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('title', 'text', [
-                'label' => 'form.label.title',
-                'trim' => true,
-                'required' => true,
-                'attr' => [
-                    'maxlength' => '255',
-                ],
-            ])
             ->add('alias', 'text', [
                 'label' => 'form.label.alias',
                 'trim' => true,
@@ -124,21 +129,23 @@ class BlogPostAdmin extends Admin
                 'label' => 'form.label.date_publish',
                 'data' => $datePublished
             ])
-            ->add('preview_text', 'textarea', [
-                'label' => 'form.label.blog_preview_text',
-                'attr' => array('rows' => 10),
-                'required' => true
-            ])
             ->end()
             ->with('admin.empty',['class' => 'clear', 'translation_domain' => 'NetcastUrestMainBundle'])
             ->add('clear','hidden',['mapped' => false])
             ->end()
             ->with('admin.tour.end',['class' => 'col-md-12', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('content', 'ckeditor', [
-                'label' => 'form.label.blog_content',
-                'attr' => array('class' => 'ckeditor', 'rows' => 20),
-                'config_name' => 'admin_config',
-                'constraints' => [new NotBlank()]
+            ->add('postContent', 'urest_i18n_collection', [
+                'label' => 'form.label.content',
+                'type' => 'netcast_urest_content_form',
+                'options' => [
+                    'label' => false,
+                    'required' => false,
+                    'data_class' => 'Netcast\Urest\MainBundle\Entity\BlogPostContent',
+                ],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => false,
+                'required' => false
             ])
             ->add('locator_icon', 'urest_media_type', [
                 'label' => 'form.label.blog_locator_icon',
@@ -181,15 +188,6 @@ class BlogPostAdmin extends Admin
         ;
     }
 
-    // Поля, отображаемые в формах фильтров
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('title', null, ['label' => 'form.label.title'])
-            ->add('user', null, ['label' => 'form.label.author'])
-        ;
-    }
-
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('restore', $this->getRouterIdParameter() . '/restore');
@@ -211,7 +209,7 @@ class BlogPostAdmin extends Admin
     {
         $listMapper
             ->add('id','text',['label' => 'form.label.number'])
-            ->add('title', null, ['label' => 'form.label.title'])
+            ->add('content', null, ['label' => 'form.label.title'])
             ->add('category', null, ['label' => 'form.label.blog_category', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
             ->add('tags', null, ['label' => 'form.label.blog_tags'])
             ->add('active', null, ['label' => 'form.label.active'])

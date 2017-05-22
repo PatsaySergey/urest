@@ -70,6 +70,7 @@ $(document).ready(function(){
         });
     });
 
+    var hideBtn = false;
 
     $("#modalDiv").dialog({
         autoOpen: false,
@@ -89,7 +90,8 @@ $(document).ready(function(){
 
     function addContent(dialog) {
         var langSelect = dialog.find('select');
-        var id = langSelect.val();
+        var id = langSelect.select2().val();
+        console.log(id);
         var title = langSelect.find('option:selected').text();
 
         var container = $('.urest-i18n-collection-add').closest('[data-prototype]');
@@ -97,23 +99,26 @@ $(document).ready(function(){
         var protoName = container.attr('data-prototype-name') || '__name__';
         // Set field id
         var idRegexp = new RegExp(container.attr('id')+'_'+protoName,'g');
-        proto = proto.replace(idRegexp, container.attr('id')+'_'+(container.children().length - 1));
+        proto = proto.replace(idRegexp, container.attr('id')+'_'+(container.find('.tab-pane').length));
 
         // Set field name
         var parts = container.attr('id').split('_');
         var nameRegexp = new RegExp(parts[parts.length-1]+'\\]\\['+protoName,'g');
-        proto = proto.replace(nameRegexp, parts[parts.length-1]+']['+(container.children().length - 1));
+        proto = proto.replace(nameRegexp, parts[parts.length-1]+']['+(container.find('.tab-pane').length));
         var protoJ = $(proto);
-
+	
         protoJ.find('select:first').val(id).trigger('change');
 
         var tab = $('<div id="lang-'+id+'"></div>').addClass('tab-pane fade in');
         tab.append(protoJ);
-        container.find('.tab-content').append(tab).trigger('sonata-admin-append-form-element');
+        container.find('.tab-content').append(tab);
+        tab.trigger('sonata-admin-append-form-element');
 
         container.find('.nav.nav-tabs').append('<li class="lng-tabs" data-lang="'+id+'"><a data-toggle="tab" href="#lang-'+id+'">'+title+'</a></li>');
         container.find('.nav.nav-tabs li:last a').trigger('click');
 
+	if(hideBtn) $('.urest-i18n-collection-add').hide();
+	console.log(hideBtn);
         dialog.dialog( "close" );
     }
 
@@ -127,10 +132,7 @@ $(document).ready(function(){
             lngArray.push(lng);
         });
 
-        if(lngArray.length == Object.keys(langs).length) {
-            $(this).hide();
-            return false;
-        }
+        hideBtn = (lngArray.length+1 == Object.keys(langs).length);
 
         $.each(langs,function(i,v){
             var disabledStr = lngArray.indexOf(v.id) != -1 ? 'disabled' : '';

@@ -7,8 +7,6 @@ Netcast\Urest\MainBundle\Entity\BlogPost:
             columns: [ category_id ]
         blogpost_user_idx:
             columns: [ user_id ]
-        blogpost_lang_idx:
-            columns: [ lang ]
         blogpost_alias_idx:
             columns: [ alias ]
     id:
@@ -18,25 +16,10 @@ Netcast\Urest\MainBundle\Entity\BlogPost:
             generator:
                 strategy: AUTO
     fields:
-        title:
-            type: string
-            length: 255
-
-        lang:
-            type: string
-            length: '2'
-            nullable: false
         alias:
             type: string
             unique: true
             length: 255
-        content:
-            type: text
-        preview_text:
-              type: string
-              length: 255
-              options:
-                default: ''
         coordinates:
             type: string
             length: '255'
@@ -51,8 +34,8 @@ Netcast\Urest\MainBundle\Entity\BlogPost:
             options:
               default: 0
         datePublish:
-          type: date
-          nullable: false
+            type: date
+            nullable: false
         created:
             type: datetime
             nullable: false
@@ -79,15 +62,20 @@ Netcast\Urest\MainBundle\Entity\BlogPost:
             cascade: ["persist"]
     oneToMany:
         video:
-          targetEntity: BlogPostVideo
-          mappedBy: post
-          cascade: ['persist', 'remove']
-          orphanRemoval: true
+            targetEntity: BlogPostVideo
+            mappedBy: post
+            cascade: ['persist', 'remove']
+            orphanRemoval: true
         images:
-          targetEntity: BlogPostImages
-          mappedBy: post
-          cascade: ['persist', 'remove']
-          orphanRemoval: true
+            targetEntity: BlogPostImages
+            mappedBy: post
+            cascade: ['persist', 'remove']
+            orphanRemoval: true
+        post_content:
+            targetEntity: BlogPostContent
+            mappedBy: post
+            cascade: ["all"]
+            orphanRemoval: true
     manyToMany:
         tags:
           targetEntity: BlogTag

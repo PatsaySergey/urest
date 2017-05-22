@@ -2,22 +2,18 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * BlogPost
  */
-class BlogPost
+class BlogPost extends HasI18NEntity
 {
     /**
      * @var integer
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    private $title;
 
     /**
      * @var integer
@@ -27,22 +23,8 @@ class BlogPost
     /**
      * @var string
      */
-    private $lang;
-
-    /**
-     * @var string
-     */
     private $alias;
 
-    /**
-     * @var string
-     */
-    private $content;
-
-    /**
-     * @var string
-     */
-    private $preview_text;
 
     /**
      * @var string
@@ -100,6 +82,11 @@ class BlogPost
     private $tags;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $post_content;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -107,44 +94,23 @@ class BlogPost
         $this->video = new \Doctrine\Common\Collections\ArrayCollection();
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->post_content = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString() {
-        return $this->title ?: '';
+        return $this->getContent() ? $this->getContent()->getTitle() : '';
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return BlogPost
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 
     /**
      * Set userId
@@ -170,29 +136,6 @@ class BlogPost
     }
 
     /**
-     * Set lang
-     *
-     * @param string $lang
-     * @return BlogPost
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return string 
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
-
-    /**
      * Set alias
      *
      * @param string $alias
@@ -213,52 +156,6 @@ class BlogPost
     public function getAlias()
     {
         return $this->alias;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     * @return BlogPost
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string 
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set preview_text
-     *
-     * @param string $previewText
-     * @return BlogPost
-     */
-    public function setPreviewText($previewText)
-    {
-        $this->preview_text = $previewText;
-
-        return $this;
-    }
-
-    /**
-     * Get preview_text
-     *
-     * @return string 
-     */
-    public function getPreviewText()
-    {
-        return $this->preview_text;
     }
 
     /**
@@ -570,5 +467,53 @@ class BlogPost
     public function getDeleted()
     {
         return $this->deleted;
+    }
+
+    /**
+     * Add post_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\BlogPostContent $postContent
+     * @return BlogPost
+     */
+    public function addPostContent(\Netcast\Urest\MainBundle\Entity\BlogPostContent $postContent)
+    {
+        $this->post_content[] = $postContent;
+
+        return $this;
+    }
+
+    /**
+     * Remove post_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\BlogPostContent $postContent
+     */
+    public function removePostContent(\Netcast\Urest\MainBundle\Entity\BlogPostContent $postContent)
+    {
+        $this->post_content->removeElement($postContent);
+    }
+
+    /**
+     * Get post_content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPostContent()
+    {
+        return $this->post_content;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContent() {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('lang', $this->currentLocale))
+        ;
+        $content = $this->post_content->matching($criteria);
+
+        if($content->count() > 0) return $content->first();
+        $criteria->where(Criteria::expr()->eq('lang', $this->defaultLocale));
+        $content = $this->post_content->matching($criteria);
+        if($content->count()) return $content->first();
     }
 }

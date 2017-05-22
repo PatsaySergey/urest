@@ -10,6 +10,7 @@ class SearchController extends Controller
     {
         $lang = $this->get('request')->getLocale();
         $em = $this->getDoctrine()->getManager();
+        $langInst = $em->getRepository('NetcastUrestMainBundle:Language')->findOneBy(['alias' => $lang]);
         $get = $this->get('request')->query->all();
         $search = (isset($get['search'])) ? $get['search'] : false;
         $type = (isset($get['type'])) ? $get['type'] : false;
@@ -20,17 +21,17 @@ class SearchController extends Controller
 
         switch($type) {
             case 'tour':
-                $tourRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Tour')->searchTours($lang,$search);
+                $tourRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Tour')->searchTours($langInst,$search);
                 break;
             case 'blog':
-                $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost')->searchPosts($lang, $search);
+                $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost')->searchPosts($langInst, $search);
                 break;
             case 'info':
                 $infoRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\LocationInfo')->searchCountries($lang,$search);
                 break;
             default:
-                $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost')->searchPosts($lang, $search);
-                $tourRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Tour')->searchTours($lang,$search);
+                $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost')->searchPosts($langInst, $search);
+                $tourRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Tour')->searchTours($langInst,$search);
                 $infoRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\LocationInfo')->searchCountries($lang,$search);
                 break;
         }

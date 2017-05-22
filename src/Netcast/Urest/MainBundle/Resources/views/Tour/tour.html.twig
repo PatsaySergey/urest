@@ -3,7 +3,7 @@
     <div class="main-content bg-white">
         <div class="block-tour">
             <div class="container width-970">
-                <h2 class="header-title"> {{ tour.title }} </h2>
+                <h2 class="header-title"> {{ tour.content.title }} </h2>
 
                 <div class="row">
                     <div class="col-md-8">
@@ -26,7 +26,7 @@
                                 <hr/>
                                 <div class="cell icon"><i class="fa fa-building-o"></i>  </div>
                                 <div class="cell txt">
-                                    {{ tour.accommodation }}
+                                    {{ tour.content.accommodation }}
                                 </div>
                                 <div class="box-center">
                                     <p class="price" id="jsPrice">{{ getPrice(tour.tourDates[0].price) }}</p>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="clearfix big-spacer visible-sm visible-xs"></div>
                     <div class="col-md-4">
-                       {{ tour.description|raw }}
+                       {{ tour.content.description|raw }}
                     </div>
                 </div>
                 <div class="clearfix big-spacer"></div>

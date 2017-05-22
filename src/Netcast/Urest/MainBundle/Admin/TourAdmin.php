@@ -207,7 +207,7 @@ class TourAdmin extends Admin {
 
             ->add('tourContent', 'urest_i18n_collection', [
                 'label' => 'form.label.content',
-                'type' => 'netcast_urest_content_form',
+                'type' => 'netcast_urest_tour_content_form',
                 'options' => [
                     'label' => false,
                     'required' => false,
@@ -256,9 +256,8 @@ class TourAdmin extends Admin {
     {
         $listMapper
             ->add('id','text',['label' => 'form.label.number'])
-            ->add('title', null, ['label' => 'form.label.title'])
-            ->add('city', null, ['label' => 'admin.layout.city', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
-            ->add('accommodation', null, ['label' => 'admin.layout.accommodation'])
+            ->add('content', 'entity', ['label' => 'form.label.title'])
+            ->add('city', null, ['label' => 'admin.layout.city', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig', 'mapping' => false])
 
             ->add('active', null, ['label' => 'form.label.active'])
             ->add('user', null, ['label' => 'form.label.author', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
@@ -267,7 +266,6 @@ class TourAdmin extends Admin {
                     'edit'   => ['template' => 'NetcastUrestMainBundle:CRUD:list__action_edit.html.twig'],
                     'delete' => ['template' => 'NetcastUrestMainBundle:CRUD:list__action_delete.html.twig'],
                 ]
-            ])
-        ;
+            ]);
     }
 }

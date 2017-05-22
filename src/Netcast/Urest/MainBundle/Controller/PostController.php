@@ -15,7 +15,7 @@
             foreach($posts as $post) {
                 $item = [];
                 $coordinates = explode(',',$post->getCoordinates());
-                $item['description'] = $post->getPreviewText();
+                $item['description'] = $post->getContent()->getPreviewText();
 
                 $postImages = $post->getImages();
                 foreach($postImages as $row) {
@@ -25,7 +25,7 @@
                     }
                 }
 
-                $item['title'] = $post->getTitle();
+                $item['title'] = $post->getContent()->getTitle();
                 $item['url'] = $this->generateUrl('netcast_urest_post_view',['category' => $post->getCategory()->getAlias(), 'alias' => $post->getAlias()]);
                 $mapIcon = $post->getLocatorIcon();
                 if($mapIcon) {
@@ -54,7 +54,7 @@
 
             $postCategories = $categoryRepository->findCategories($lang);
 
-            $posts = $postRepository->findPostByCategory($lang,null);
+            $posts = $postRepository->findPostByCategory(null);
 
             $mapOptions = $this->buildMapOptions($posts);
 
@@ -81,7 +81,7 @@
                 throw $this->createNotFoundException($this->get('translator')->trans('page404',[],'NetcastUrestMainBundle'));
             }
 
-            $posts = $postRepository->findPostByCategory($lang,$category->getId());
+            $posts = $postRepository->findPostByCategory($category->getId());
             $mapOptions = $this->buildMapOptions($posts);
             $postCategories = $categoryRepository->findCategories($lang);
             $currCategory = $category->getId();
@@ -100,13 +100,13 @@
             $lang = $this->get('request')->getLocale();
             $em = $this->getDoctrine()->getManager();
             $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost');
-            $post = $postRepository->findOneBy(['alias' => $alias, 'lang' => $lang]);
+            $post = $postRepository->findOneBy(['alias' => $alias]);
             $categoryRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogCategory');
             $category = $categoryRepository->findOneBy(['alias' => $category, 'lang' => $lang]);
             if(!$category) {
                 throw $this->createNotFoundException($this->get('translator')->trans('page404',[],'NetcastUrestMainBundle'));
             }
-            $otherPosts = $postRepository->getLastPostsByCategory($lang, $category->getId(), 3, $post->getId());
+            $otherPosts = $postRepository->getLastPostsByCategory($category->getId(), 3, $post->getId());
             if (!$post) {
                 throw $this->createNotFoundException($this->get('translator')->trans('page404',[],'NetcastUrestMainBundle'));
             }

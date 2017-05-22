@@ -22,7 +22,7 @@
                 </ul>
             </div>
         </div>
-        <h3 class="header-title">{{ post.title }}</h3>
+        <h3 class="header-title">{{ post.content.title }}</h3>
         <div id="tour-carousel" class="carousel owl-carousel owl-theme">
             {% for image in post.images %}
                 {% if not image.main %}
@@ -68,7 +68,7 @@
                         </li>
                     </ul>
                 </div>
-                {{ post.content|raw }}
+                {{ post.content.content|raw }}
             </div>
             <div class="clearfix"></div>
             <div class="block-caption">
@@ -131,27 +131,33 @@
         </div>
     </div>
     {% endif %}
-<div class="container">
-    <h2 class="header-title">{{ 'site.read_also'|trans({},'NetcastUrestMainBundle') }}</h2>
-    <div class="row">
-        {% for otherPost in otherPosts %}
-            <div class="col-md-4 col-sm-12 col-xs-12 no-padd-xs">
-                <div class="thumbnail thumbnail-middle">
-                    {% if otherPost.images[0] is defined %}
-                        {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
-                    {% endif %}
-                    <div class="caption clearfix">
-                        <h4>{{ otherPost.title }}
-                        </h4>
-                        <hr/>
-                        <p>{{ otherPost.previewText }}</p>
-                        <p><a href="{{ url('netcast_urest_post_view', { category : otherPost.category.alias, alias : otherPost.alias }) }}" class="btn btn-grey pull-right" role="button"><i class="fa fa-chevron-right"></i> Далее</a></p>
+
+    {% if otherPosts|length %}
+    <div class="container">
+        <h2 class="header-title">{{ 'site.read_also'|trans({},'NetcastUrestMainBundle') }}</h2>
+        <div class="row">
+            {% for otherPost in otherPosts %}
+                <div class="col-md-4 col-sm-12 col-xs-12 no-padd-xs">
+                    <div class="thumbnail thumbnail-middle">
+                        {% if otherPost.images[0] is defined %}
+                            {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                        {% endif %}
+                        <div class="caption clearfix">
+                            <h4>{{ otherPost.content.title }}
+                            </h4>
+                            <hr/>
+                            <p>{{ otherPost.content.previewText }}</p>
+                            <p><a href="{{ url('netcast_urest_post_view', { category : otherPost.category.alias, alias : otherPost.alias }) }}" class="btn btn-grey pull-right" role="button"><i class="fa fa-chevron-right"></i> Далее</a></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-</div>
+    {% else %}
+        <br>
+        <br>
+    {% endif %}
 </div>
 </div>
 {% endblock content %}

@@ -24,11 +24,11 @@ class MainController extends Controller
         $data['services']   = $services;
 
         $postRepository    = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost');
-        $lastPosts         = $postRepository->getLastPosts($lang, 3);
+        $lastPosts         = $postRepository->getLastPosts(3);
         $data['lastPosts'] = $lastPosts;
 
         $tourRepository    = $em->getRepository('Netcast\Urest\MainBundle\Entity\Tour');
-        $lastTours         = $tourRepository->getLastTours($lang, 3);
+        $lastTours         = $tourRepository->getLastTours(3);
         $data['lastTours'] = $lastTours;
 
         $reviewRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Review');

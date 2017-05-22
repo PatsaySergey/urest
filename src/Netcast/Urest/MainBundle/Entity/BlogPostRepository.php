@@ -8,7 +8,7 @@
     class BlogPostRepository extends EntityRepository
     {
 
-        public function findPostByCategory($lang,$categoryId = null)
+        public function findPostByCategory($categoryId = null)
         {
             $qb = $this->createQueryBuilder('post')
                 ->select(['post','images']);
@@ -19,19 +19,17 @@
             $qb->leftJoin('post.images', 'images', 'WITH', 'images.main = :main')
                 ->where('post.active = :active')
                 ->andWhere('post.deleted = :deleted')
-                ->andWhere('post.lang = :lang')
                 ->andWhere('post.datePublish <= :datePublish')
                 ->setParameter('main',true)
                 ->setParameter('active', true)
                 ->setParameter('deleted', false)
                 ->setParameter('datePublish', new \DateTime())
-                ->setParameter('lang', $lang)
-                ->orderBy('post.title','ASC')
+                ->orderBy('post.created','DESC')
             ;
             return $qb->getQuery()->getResult();
         }
 
-        public function getLastPostsByCategory($lang, $categoryId, $limit, $currPost = false)
+        public function getLastPostsByCategory($categoryId, $limit, $currPost = false)
         {
             $qb = $this->createQueryBuilder('post')
                 ->select(['post','images'])
@@ -39,14 +37,12 @@
                 ->leftJoin('post.images', 'images', 'WITH', 'images.main = :main')
                 ->where('post.active = :active')
                 ->andWhere('post.deleted = :deleted')
-                ->andWhere('post.lang = :lang')
                 ->andWhere('post.datePublish <= :datePublish')
                 ->setParameter('id',$categoryId)
                 ->setParameter('main',true)
                 ->setParameter('active', true)
                 ->setParameter('deleted', false)
                 ->setParameter('datePublish', new \DateTime())
-                ->setParameter('lang', $lang)
                 ->setFirstResult(0)
                 ->setMaxResults($limit)
                 ->orderBy('post.created','DESC')
@@ -59,20 +55,18 @@
             return $qb->getQuery()->getResult();
         }
 
-        public function getLastPosts($lang, $limit)
+        public function getLastPosts($limit)
         {
             $qb = $this->createQueryBuilder('post')
                 ->select(['post','images'])
                 ->leftJoin('post.images', 'images', 'WITH', 'images.main = :main')
                 ->where('post.active = :active')
                 ->andWhere('post.deleted = :deleted')
-                ->andWhere('post.lang = :lang')
                 ->andWhere('post.datePublish <= :datePublish')
                 ->setParameter('main',true)
                 ->setParameter('active', true)
                 ->setParameter('deleted', false)
                 ->setParameter('datePublish', new \DateTime())
-                ->setParameter('lang', $lang)
                 ->setFirstResult(0)
                 ->setMaxResults($limit)
                 ->orderBy('post.created','DESC')
@@ -85,10 +79,10 @@
             $qb = $this->createQueryBuilder('post')
                 ->select(['post','images'])
                 ->leftJoin('post.images', 'images', 'WITH', 'images.main = :main')
+                ->join('post.post_content', 'content', 'WITH', 'content.lang = :lang')
                 ->where('post.active = :active')
                 ->andWhere('post.deleted = :deleted')
-                ->andWhere('post.title like :search OR post.content like :search')
-                ->andWhere('post.lang = :lang')
+                ->andWhere('content.title like :search OR content.content like :search')
                 ->andWhere('post.datePublish <= :datePublish')
                 ->setParameter('search',"%{$search}%")
                 ->setParameter('main',true)

@@ -2,10 +2,12 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
+
 /**
  * Tour
  */
-class Tour {
+class Tour extends HasI18NEntity {
 
     /**
      * @var integer
@@ -464,8 +466,7 @@ class Tour {
 
         return $this;
     }
-
-    /**
+/**
      * Remove payHistory
      *
      * @param \Netcast\Urest\MainBundle\Entity\PayHistory $payHistory
@@ -485,7 +486,22 @@ class Tour {
         return $this->pay_history;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getContent() {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('lang', $this->currentLocale))
+        ;
+        $content = $this->tour_content->matching($criteria);
+
+        if($content->count() > 0) return $content->first();
+        $criteria->where(Criteria::expr()->eq('lang', $this->defaultLocale));
+        $content = $this->tour_content->matching($criteria);
+        if($content->count()) return $content->first();
+    }
+
     public function __toString() {
-        return '';
+        return $this->getContent() ? $this->getContent()->getTitle() : '';
     }
 }

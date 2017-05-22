@@ -9,7 +9,7 @@
 namespace Netcast\Urest\MainBundle\Entity;
 
 
-class TourContent
+class TourContent extends IsI18NEntity
 {
     /**
      * @var integer
@@ -45,8 +45,6 @@ class TourContent
      * @var \Netcast\Urest\MainBundle\Entity\Tour
      */
     private $tour;
-
-    private $isDeleted = 0;
 
     /**
      * Get id
@@ -196,14 +194,8 @@ class TourContent
         return $this->tour;
     }
 
-    public function setIsDeleted($isDeleted) {
-        $this->isDeleted = $isDeleted;
-
-        return $this;
+    public function __toString()
+    {
+        return $this->title;
     }
-
-    public function getIsDeleted() {
-        return $this->isDeleted;
-    }
-
 }

@@ -10,7 +10,7 @@
         <div class="container width-970">
             {% for post in posts %}
             <div class="thumbnail thumbnail-big">
-                <h3 class="header-title">{{ post.title }}</h3>
+                <h3 class="header-title">{{ post.content.title }}</h3>
                 {% if post.images[0] is defined %}
                     {% media post.images[0].media,'reference' with {'class' : "img_responsive"} %}
                 {% endif %}
@@ -23,7 +23,7 @@
                             <span class="color-green pull-right">{{ post.created|date('d.m.y') }}</span>
                         </div>
                         <div class="clearfix spacer"></div>
-                        <p>{{ post.previewText }}</p>
+                        <p>{{ post.content.previewText }}</p>
                         <div class="col-sm-6 no-padd">
                             <div class="tags">
                                 {% for key,tag in post.tags %}

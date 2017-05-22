@@ -4,10 +4,17 @@ parameters:
     netcast_urest_main.new_order_notice.class: Netcast\Urest\MainBundle\Notice\NewOrderNotice
     netcast_urest_main.edit_order_notice.class: Netcast\Urest\MainBundle\Notice\EditOrderNotice
     netcast.urest.registration.form.type.class: Netcast\Urest\MainBundle\Form\Type\RegistrationFormType
-
-    impar.loginza.provider.class:                                               Netcast\Urest\MainBundle\Security\LoginzaUserProvider
+    impar.loginza.provider.class: Netcast\Urest\MainBundle\Security\LoginzaUserProvider
+    default.locale: en
 
 services:
+
+    netcast_urest_main.post_load.listener:
+        arguments: ['@service_container']
+        class: Netcast\Urest\MainBundle\Listener\DoctrinePostLoadListener
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
     netcast_urest_main.notice:
         class: %netcast_urest_main.notice.class%
         calls:

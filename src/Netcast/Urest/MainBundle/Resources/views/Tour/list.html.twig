@@ -41,7 +41,7 @@
                 {% endif %}
                 <div class="caption">
                     <div class="inner-block">
-                        <h4>{{ tour.title }}</h4>
+                        <h4>{{ tour.content.title }}</h4>
                     </div>
                     <div class="inner-block">
                         <ul class="list-item">
@@ -59,13 +59,13 @@
                             <li>
                                 <div class="cell icon"><i class="fa fa-building-o"></i></div>
                                 <div class="cell txt">
-                                    {{ tour.accommodation }}
+                                    {{ tour.content.accommodation }}
                                 </div>
                             </li>
                         </ul>
                     </div>
                     <div class="inner-block">
-                        <p>{{ tour.announcement }}</p>
+                        <p>{{ tour.content.announcement }}</p>
                     </div>
                     <div class="block-btn">
                         <span class="price pull-left">{{ getPrice(tour.tourDates[0].price) }}</span>

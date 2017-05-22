@@ -7,6 +7,11 @@ services:
         tags:
           - {name: form.type, alias: netcast_urest_tour_dates_form}
 
+    netcast.urest.content.tour.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\TourContentFormType
+        tags:
+          - {name: form.type, alias: netcast_urest_tour_content_form}
+
     netcast.urest.content.form.type:
         class: Netcast\Urest\MainBundle\Form\Type\ContentFormType
         tags:

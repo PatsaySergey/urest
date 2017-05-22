@@ -8,20 +8,18 @@ use Doctrine\ORM\EntityRepository;
 class TourRepository extends EntityRepository
 {
 
-    public function getLastTours($lang, $limit)
+    public function getLastTours($limit)
     {
         $qb = $this->createQueryBuilder('tour')
             ->select(['tour','images'])
             ->leftJoin('tour.tour_images', 'images', 'WITH', 'images.main = :main')
             ->where('tour.active = :active')
             ->andWhere('tour.hot_offer = :hot_offer')
-            ->andWhere('tour.lang = :lang')
             ->andWhere('tour.datePublish <= :datePublish')
             ->setParameter('main',true)
             ->setParameter('hot_offer',true)
             ->setParameter('active', true)
             ->setParameter('datePublish', new \DateTime())
-            ->setParameter('lang', $lang)
             ->setFirstResult(0)
             ->setMaxResults($limit)
             ->orderBy('tour.created','DESC')
@@ -29,18 +27,16 @@ class TourRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getAllTours($lang, $tourCity,  $offset, $limit)
+    public function getAllTours($tourCity,  $offset, $limit)
     {
         $qb = $this->createQueryBuilder('tour')
             ->select(['tour','images'])
             ->leftJoin('tour.tour_images', 'images', 'WITH', 'images.main = :main')
             ->where('tour.active = :active')
-            ->andWhere('tour.lang = :lang')
             ->andWhere('tour.datePublish <= :datePublish')
             ->setParameter('main',true)
             ->setParameter('active', true)
             ->setParameter('datePublish', new \DateTime())
-            ->setParameter('lang', $lang)
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->orderBy('tour.created','DESC')
@@ -59,36 +55,34 @@ class TourRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getTourCities($lang)
+    public function getTourCities()
     {
         $qb = $this->createQueryBuilder('tour')
             ->select(['tour','city'])
             ->leftJoin('tour.city', 'city')
             ->where('tour.active = :active')
-            ->andWhere('tour.lang = :lang')
             ->andWhere('tour.datePublish <= :datePublish')
             ->setParameter('active', true)
             ->setParameter('datePublish', new \DateTime())
-            ->setParameter('lang', $lang)
             ->orderBy('tour.created','DESC')
         ;
         return $qb->getQuery()->getResult();
     }
 
-    public function searchTours($lang,$search)
+    public function searchTours($search,$lang)
     {
         $qb = $this->createQueryBuilder('tour')
             ->select(['tour','images'])
             ->leftJoin('tour.tour_images', 'images', 'WITH', 'images.main = :main')
+            ->join('tour.tour_content', 'tour_content', 'WITH', 'tour_content.lang = :lang')
             ->where('tour.active = :active')
-            ->andWhere('tour.lang = :lang')
-            ->andWhere('tour.title like :search OR tour.description like :search')
+            ->andWhere('tour_content.title like :search OR tour_content.description like :search')
             ->setParameter('search',"%{$search}%")
             ->andWhere('tour.datePublish <= :datePublish')
             ->setParameter('main',true)
+            ->setParameter('lang',$lang)
             ->setParameter('active', true)
             ->setParameter('datePublish', new \DateTime())
-            ->setParameter('lang', $lang)
             ->orderBy('tour.created','DESC')
         ;
         return $qb->getQuery()->getResult();

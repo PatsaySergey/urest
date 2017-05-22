@@ -76,12 +76,12 @@
             <div class="clearfix visible-xs"></div>
 
             <div class="media-body">
-                <h4 class="media-heading">{{ item.item.title }}</h4>
+                <h4 class="media-heading">{{ item.item.content.title }}</h4>
                 <p>
                     {% if item.type == 'tour' %}
-                        {{ item.item.announcement }}
+                        {{ item.item.content.announcement }}
                     {% else %}
-                        {{ item.item.previewText }}
+                        {{ item.item.content.previewText }}
                     {% endif %}
                 </p>
                 <hr/>
@@ -89,7 +89,7 @@
                     {% if item.type == 'tour' %}
                     <div class="location pull-left">
                         <p class="text-uppercase"><i class="fa fa-map-marker"></i> {{ item.item.city.title }}, {{ item.item.city.region.country.title }}</p>
-                        <p><i class="fa fa-building-o"></i> {{ item.item.accommodation }}</p>
+                        <p><i class="fa fa-building-o"></i> {{ item.item.content.accommodation }}</p>
                     </div>
                     {% endif %}
                 </div>

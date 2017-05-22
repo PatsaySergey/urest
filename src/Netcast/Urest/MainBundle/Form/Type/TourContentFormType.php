@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Patsay Sergey
- * Date: 22.05.2017
- * Time: 20:19
+ * Date: 09.05.2017
+ * Time: 10:03
  */
 
 namespace Netcast\Urest\MainBundle\Form\Type;
@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ContentFormType extends AbstractType
+class TourContentFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -44,13 +44,18 @@ class ContentFormType extends AbstractType
                     'maxlength' => '255',
                 ],
             ])
-            ->add('preview_text', 'textarea', [
-                'label' => 'form.label.blog_preview_text',
+            ->add('accommodation', 'text', [
+                'label' => 'form.label.accommodation',
                 'trim' => true,
                 'translation_domain' => 'NetcastUrestMainBundle',
                 'required' => true
             ])
-            ->add('content', 'ckeditor', [
+            ->add('announcement', 'textarea', [
+                'translation_domain' => 'NetcastUrestMainBundle',
+                'label' => 'form.label.announcement',
+                'attr' => array('rows' => 10)
+            ])
+            ->add('description', 'ckeditor', [
                 'translation_domain' => 'NetcastUrestMainBundle',
                 'label' => 'form.label.description',
                 'attr' => array('class' => 'ckeditor', 'rows' => 20),
@@ -61,6 +66,6 @@ class ContentFormType extends AbstractType
     }
 
     public function getName() {
-        return 'netcast_urest_content_form';
+        return 'netcast_urest_tour_content_form';
     }
 }

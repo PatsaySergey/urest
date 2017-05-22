@@ -18,9 +18,9 @@ class TourController extends Controller
         foreach($tours as $post) {
             $item = [];
             $coordinates = explode(',',$post->getCoordinates());
-            $item['title'] = $post->getTitle();
-            $item['description'] = $post->getDescription();
-            $item['accommodation'] = $post->getAccommodation();
+            $item['title'] = $post->getContent()->getTitle();
+            $item['description'] = $post->getContent()->getDescription();
+            $item['accommodation'] = $post->getContent()->getAccommodation();
             $tourImages = $post->getTourImages();
             foreach($tourImages as $row) {
                 if($row->getMain()) {
@@ -48,7 +48,6 @@ class TourController extends Controller
 
     public function indexAction()
     {
-        $lang = $this->get('request')->getLocale();
         $em = $this->getDoctrine()->getManager();
 
         $tourCountry = $this->getRequest()->get('tourCountry');
@@ -67,12 +66,12 @@ class TourController extends Controller
         }
 
         $tourRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Tour');
-        $tours = $tourRepository->getAllTours($lang, $tourCity, 0, 8);
+        $tours = $tourRepository->getAllTours($tourCity, 0, 8);
         $data['tours'] = $tours;
 
         $mapOptions = $this->buildMapOptions($tours);
 
-        $cities = $tourRepository->getTourCities($lang);
+        $cities = $tourRepository->getTourCities();
         $tourCountries = [];
         $tourCities = [];
         foreach($cities as $row) {
@@ -90,11 +89,10 @@ class TourController extends Controller
 
     public function viewAction($id)
     {
-        $lang = $this->get('request')->getLocale();
         $em = $this->getDoctrine()->getManager();
         $tourRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Tour');
-        $tour = $tourRepository->findOneBy(['id' => $id, 'lang' => $lang]);
-        $tourAdd = $tourRepository->findBy(['lang' => $lang, 'city' => $tour->getCity()->getId()],null,5);
+        $tour = $tourRepository->findOneBy(['id' => $id]);
+        $tourAdd = $tourRepository->findBy(['city' => $tour->getCity()->getId()],null,5);
         foreach($tourAdd as $key => $row) {
             if($row->getId() == $id) {
                 unset($tourAdd[$key]);
