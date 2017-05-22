@@ -31,8 +31,8 @@ class TourAdmin extends Admin {
                 $post->removeTourDate($tourDate);
         }
         foreach($post->getTourContent() as $tourContent) {
-            if($tourContent->getDescription() !== null)
-                $tourContent->setTour($post);
+            if(!$tourContent->getIsDeleted())
+                $tourContent->setParent($post);
             else
                 $post->removeTourContent($tourContent);
         }
@@ -60,7 +60,7 @@ class TourAdmin extends Admin {
         }
         foreach($post->getTourContent() as $tourContent) {
             if(!$tourContent->getIsDeleted())
-                $tourContent->setTour($post);
+                $tourContent->setParent($post);
             else
                 $post->removeTourContent($tourContent);
         }

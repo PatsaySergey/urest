@@ -4,8 +4,6 @@ Netcast\Urest\MainBundle\Entity\BlogCategory:
     indexes:
         blogcategory_user_idx:
             columns: [ user_id ]
-        blogcategory_lang_idx:
-            columns: [ lang ]
         blogcategory_alias_idx:
             columns: [ alias ]
     repositoryClass: Netcast\Urest\MainBundle\Entity\BlogCategoryRepository
@@ -16,16 +14,9 @@ Netcast\Urest\MainBundle\Entity\BlogCategory:
             generator:
                 strategy: AUTO
     fields:
-        title:
-            type: string
-            length: 255
         userId:
             type: integer
             column: user_id
-        lang:
-            type: string
-            length: '2'
-            nullable: false
         alias:
             type: string
             unique: true
@@ -40,6 +31,11 @@ Netcast\Urest\MainBundle\Entity\BlogCategory:
          posts:
              targetEntity: BlogPost
              mappedBy: category
+         category_content:
+             targetEntity: BlogCategoryContent
+             mappedBy: parent
+             cascade: ["all"]
+             orphanRemoval: true
     manyToOne:
           user:
             targetEntity: Application\Sonata\UserBundle\Entity\User

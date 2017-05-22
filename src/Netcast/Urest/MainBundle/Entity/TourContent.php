@@ -37,16 +37,6 @@ class TourContent extends IsI18NEntity
     private $description;
 
     /**
-     * @var Language
-     */
-    private $lang;
-
-    /**
-     * @var \Netcast\Urest\MainBundle\Entity\Tour
-     */
-    private $tour;
-
-    /**
      * Get id
      *
      * @return integer
@@ -79,28 +69,6 @@ class TourContent extends IsI18NEntity
         return $this->title;
     }
 
-    /**
-     * Set lang
-     *
-     * @param Language $lang
-     * @return TourContent
-     */
-    public function setLang(Language $lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return Language
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
 
     /**
      * Set accommodation
@@ -171,31 +139,4 @@ class TourContent extends IsI18NEntity
         return $this->description;
     }
 
-    /**
-     * Set tour
-     *
-     * @param \Netcast\Urest\MainBundle\Entity\Tour $tour
-     * @return TourContent
-     */
-    public function setTour(\Netcast\Urest\MainBundle\Entity\Tour $tour = null)
-    {
-        $this->tour = $tour;
-
-        return $this;
-    }
-
-    /**
-     * Get tour
-     *
-     * @return \Netcast\Urest\MainBundle\Entity\Tour
-     */
-    public function getTour()
-    {
-        return $this->tour;
-    }
-
-    public function __toString()
-    {
-        return $this->title;
-    }
 }

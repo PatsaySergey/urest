@@ -3,7 +3,7 @@ Netcast\Urest\MainBundle\Entity\TourContent:
     table: tour_content
     indexes:
         tour_idx:
-            columns: [ tour_id ]
+            columns: [ parent_id ]
         lang_idx:
             columns: [ lang_id ]
     id:
@@ -25,10 +25,10 @@ Netcast\Urest\MainBundle\Entity\TourContent:
         type: text
         nullable: true
     manyToOne:
-      tour:
+      parent:
         targetEntity: Netcast\Urest\MainBundle\Entity\Tour
         joinColumn:
-          name: tour_id
+          name: parent_id
           referenceColumnName: id
       lang:
         targetEntity: Netcast\Urest\MainBundle\Entity\Language

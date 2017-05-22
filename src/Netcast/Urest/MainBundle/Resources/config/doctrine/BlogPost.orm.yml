@@ -73,7 +73,7 @@ Netcast\Urest\MainBundle\Entity\BlogPost:
             orphanRemoval: true
         post_content:
             targetEntity: BlogPostContent
-            mappedBy: post
+            mappedBy: parent
             cascade: ["all"]
             orphanRemoval: true
     manyToMany:

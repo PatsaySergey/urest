@@ -58,7 +58,7 @@ Netcast\Urest\MainBundle\Entity\Tour:
           orphanRemoval: true
         tour_content:
           targetEntity: TourContent
-          mappedBy: tour
+          mappedBy: parent
           cascade: ["all"]
           orphanRemoval: true
         tour_video:

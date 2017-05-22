@@ -1,6 +1,6 @@
-Netcast\Urest\MainBundle\Entity\BlogPostContent:
+Netcast\Urest\MainBundle\Entity\BlogCategoryContent:
     type: entity
-    table: blog_post_content
+    table: blog_category_content
     indexes:
         tour_idx:
             columns: [ parent_id ]
@@ -15,16 +15,9 @@ Netcast\Urest\MainBundle\Entity\BlogPostContent:
       title:
          type: string
          length: 255
-      content:
-         type: text
-      preview_text:
-         type: string
-         length: 255
-         options:
-           default: ''
     manyToOne:
       parent:
-        targetEntity: Netcast\Urest\MainBundle\Entity\BlogPost
+        targetEntity: Netcast\Urest\MainBundle\Entity\BlogCategory
         joinColumn:
           name: parent_id
           referenceColumnName: id

@@ -26,7 +26,7 @@ class BlogPostAdmin extends Admin
 
         foreach($item->getPostContent() as $postContent) {
             if(!$postContent->getIsDeleted())
-                $postContent->setPost($item);
+                $postContent->setParent($item);
             else
                 $item->removeTourContent($postContent);
         }
@@ -51,7 +51,7 @@ class BlogPostAdmin extends Admin
         $item->setUpdated(new \DateTime());
         foreach($item->getPostContent() as $postContent) {
             if(!$postContent->getIsDeleted())
-                $postContent->setPost($item);
+                $postContent->setParent($item);
             else
                 $item->removeTourContent($postContent);
         }

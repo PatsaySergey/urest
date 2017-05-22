@@ -33,17 +33,6 @@ class BlogPostContent extends IsI18NEntity
 
 
     /**
-     * @var Language
-     */
-    private $lang;
-
-    /**
-     * @var BlogPost
-     */
-    private $post;
-
-
-    /**
      * Get id
      *
      * @return integer
@@ -73,28 +62,6 @@ class BlogPostContent extends IsI18NEntity
         return $this->title;
     }
 
-    /**
-     * Set lang
-     *
-     * @param Language $lang
-     * @return BlogPostContent
-     */
-    public function setLang(Language $lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return Language
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
 
     /**
      * Set content
@@ -140,31 +107,5 @@ class BlogPostContent extends IsI18NEntity
     public function getPreviewText()
     {
         return $this->preview_text;
-    }
-
-    /**
-     * Set post
-     *
-     * @param BlogPost $post
-     * @return $this
-     */
-    public function setPost(BlogPost $post) {
-        $this->post = $post;
-
-        return $this;
-    }
-
-    /**
-     * Get post
-     *
-     * @return BlogPost
-     */
-    public function getPost() {
-        return $this->post;
-    }
-
-    public function __toString()
-    {
-        return $this->title;
     }
 }

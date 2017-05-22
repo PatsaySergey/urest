@@ -1,7 +1,7 @@
 {% if categories %}
     <ul class="nav nav-pills nav-justified">
         {% for category in categories %}
-            <li role="presentation" {% if currCategory == category.id %}class="active"{% endif %}><a href="{{ path('netcast_urest_post_category_view', { 'category': category.alias }) }}" >{{ category.title }}</a></li>
+            <li role="presentation" {% if currCategory == category.id %}class="active"{% endif %}><a href="{{ path('netcast_urest_post_category_view', { 'category': category.alias }) }}" >{{ category.content.title }}</a></li>
         {% endfor %}
     </ul>
 <ul class="menu_category">

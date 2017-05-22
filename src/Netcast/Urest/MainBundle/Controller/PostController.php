@@ -45,14 +45,13 @@
 
         public function categoriesAction()
         {
-            $lang = $this->get('request')->getLocale();
             $em = $this->getDoctrine()->getManager();
             $urlNoPhoto = $this->container->getParameter('url_no_photo');
 
             $categoryRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogCategory');
             $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost');
 
-            $postCategories = $categoryRepository->findCategories($lang);
+            $postCategories = $categoryRepository->findAll();
 
             $posts = $postRepository->findPostByCategory(null);
 
@@ -69,21 +68,20 @@
 
         public function viewCategoryAction($category)
         {
-            $lang = $this->get('request')->getLocale();
             $em = $this->getDoctrine()->getManager();
             $urlNoPhoto = $this->container->getParameter('url_no_photo');
 
             $categoryRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogCategory');
             $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost');
 
-            $category = $categoryRepository->findOneBy(['alias' => $category, 'lang' => $lang]);
+            $category = $categoryRepository->findOneBy(['alias' => $category]);
             if(!$category) {
                 throw $this->createNotFoundException($this->get('translator')->trans('page404',[],'NetcastUrestMainBundle'));
             }
 
             $posts = $postRepository->findPostByCategory($category->getId());
             $mapOptions = $this->buildMapOptions($posts);
-            $postCategories = $categoryRepository->findCategories($lang);
+            $postCategories = $categoryRepository->findAll();
             $currCategory = $category->getId();
 
             return $this->render('NetcastUrestMainBundle:Post:category.html.twig', [
@@ -97,12 +95,11 @@
 
         public function viewPostAction($category,$alias)
         {
-            $lang = $this->get('request')->getLocale();
             $em = $this->getDoctrine()->getManager();
             $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost');
             $post = $postRepository->findOneBy(['alias' => $alias]);
             $categoryRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogCategory');
-            $category = $categoryRepository->findOneBy(['alias' => $category, 'lang' => $lang]);
+            $category = $categoryRepository->findOneBy(['alias' => $category]);
             if(!$category) {
                 throw $this->createNotFoundException($this->get('translator')->trans('page404',[],'NetcastUrestMainBundle'));
             }
@@ -112,7 +109,7 @@
             }
 
             $mapOptions = $this->buildMapOptions($otherPosts);
-            $postCategories = $categoryRepository->findCategories($lang);
+            $postCategories = $categoryRepository->findAll();
             $currCategory = $category->getId();
             return $this->render('NetcastUrestMainBundle:Post:post.html.twig', [
                 'post' => $post,

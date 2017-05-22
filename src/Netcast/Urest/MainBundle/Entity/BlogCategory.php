@@ -2,12 +2,11 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * BlogCategory
  */
-class BlogCategory
+class BlogCategory extends HasI18NEntity
 {
     /**
      * @var integer
@@ -15,19 +14,9 @@ class BlogCategory
     private $id;
 
     /**
-     * @var string
-     */
-    private $title;
-
-    /**
      * @var integer
      */
     private $userId;
-
-    /**
-     * @var string
-     */
-    private $lang;
 
     /**
      * @var string
@@ -50,9 +39,17 @@ class BlogCategory
     private $posts;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $category_content;
+
+    /**
      * @var \Application\Sonata\UserBundle\Entity\User
      */
     private $user;
+
+
+    protected $contentField = 'category_content';
 
     /**
      * Constructor
@@ -60,10 +57,11 @@ class BlogCategory
     public function __construct()
     {
         $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->category_content = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString() {
-        return $this->title ?: '';
+        return $this->getContent() ? $this->getContent()->getTitle() : '';
     }
 
     /**
@@ -76,28 +74,6 @@ class BlogCategory
         return $this->id;
     }
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return BlogCategory
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 
     /**
      * Set userId
@@ -122,28 +98,6 @@ class BlogCategory
         return $this->userId;
     }
 
-    /**
-     * Set lang
-     *
-     * @param string $lang
-     * @return BlogCategory
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return string 
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
 
     /**
      * Set alias
@@ -269,4 +223,39 @@ class BlogCategory
     {
         return $this->user;
     }
+
+
+    /**
+     * Add category_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\BlogCategoryContent $categoryContent
+     * @return BlogCategory
+     */
+    public function addCategoryContent(\Netcast\Urest\MainBundle\Entity\BlogCategoryContent $categoryContent)
+    {
+        $this->category_content[] = $categoryContent;
+
+        return $this;
+    }
+
+    /**
+     * Remove category_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\BlogCategoryContent $categoryContent
+     */
+    public function removeCategoryContent(\Netcast\Urest\MainBundle\Entity\BlogCategoryContent $categoryContent)
+    {
+        $this->category_content->removeElement($categoryContent);
+    }
+
+    /**
+     * Get category_content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategoryContent()
+    {
+        return $this->category_content;
+    }
+
 }
