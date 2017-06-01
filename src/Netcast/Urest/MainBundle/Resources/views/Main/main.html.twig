@@ -49,7 +49,7 @@
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-12 no-padd">
                                 <div class="location pull-left">
-                                    <p class="text-uppercase"><i class="fa fa-map-marker"></i> {{ tour.city.title }}, {{ tour.city.region.country.title }}</p>
+                                    <p class="text-uppercase"><i class="fa fa-map-marker"></i> {{ tour.city.content }}, {{ tour.city.region.country.content }}</p>
                                     <p><i class="fa fa-building-o"></i> {{ tour.content.accommodation }}</p>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                     <span class="pull-left">{{ post.category.content.title }}</span>
                                     <span>
                                         {% for key, tag in post.tags %}
-                                            {{ tag.title }}{% if key < post.tags|length-1 %},{% endif %}
+                                            {{ tag.content.title }}{% if key < post.tags|length-1 %},{% endif %}
                                         {% endfor %}
                                     </span>
                                     <span class="pull-right">{{ post.created|date('d.m.y') }}</span>

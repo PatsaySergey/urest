@@ -2,14 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: Patsay Sergey
- * Date: 22.05.2017
- * Time: 21:44
+ * Date: 31.05.2017
+ * Time: 21:00
  */
 
 namespace Netcast\Urest\MainBundle\Entity;
 
 
-class BlogCategoryContent extends IsI18NEntity
+class CityContent extends IsI18NEntity
 {
     /**
      * @var integer
@@ -35,7 +35,7 @@ class BlogCategoryContent extends IsI18NEntity
      * Set title
      *
      * @param string $title
-     * @return BlogCategoryContent
+     * @return CityContent
      */
     public function setTitle($title)
     {
@@ -53,5 +53,4 @@ class BlogCategoryContent extends IsI18NEntity
     {
         return $this->title;
     }
-
 }

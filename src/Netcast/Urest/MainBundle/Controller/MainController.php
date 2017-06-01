@@ -49,7 +49,8 @@ class MainController extends Controller
         $em   = $this->getDoctrine()->getManager();
         $cityRepo = $em->getRepository('Netcast\Urest\MainBundle\Entity\City');
         $term = $this->get('request')->get('term');
-        $result = $cityRepo->search($term,$lang);
+        $langI =  $em->getRepository('NetcastUrestMainBundle:Language')->findOneBy(['alias' => $lang]);
+        $result = $cityRepo->search($term,$langI);
         $response = [];
         foreach ($result as $row) {
             $response[] = [

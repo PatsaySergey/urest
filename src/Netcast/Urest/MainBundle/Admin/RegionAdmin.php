@@ -16,15 +16,26 @@ class RegionAdmin extends Admin
 
         $user = $this->getSecurityContext()->getToken()->getUser();
         $item->setUser($user);
-        $item->setLang($this->getLanguage());
         $item->setCreated(new \DateTime());
         $item->setUpdated(new \DateTime());
+        foreach($item->getRegionContent() as $regionContent) {
+            if(!$regionContent->getIsDeleted())
+                $regionContent->setParent($item);
+            else
+                $item->removeRegionContent($regionContent);
+        }
     }
 
     // перед обновлением
     public function preUpdate($item)
     {
         $item->setUpdated(new \DateTime());
+        foreach($item->getRegionContent() as $regionContent) {
+            if(!$regionContent->getIsDeleted())
+                $regionContent->setParent($item);
+            else
+                $item->removeRegionContent($regionContent);
+        }
     }
 
     // Поля, отображаемые в формах create/edit
@@ -35,44 +46,30 @@ class RegionAdmin extends Admin
 
         $formMapper
             ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('title', 'text', [
-                'label' => 'form.label.title',
-                'trim' => true,
-                'required' => true,
-                'attr' => [
-                    'maxlength' => '255',
+            ->add('regionContent', 'urest_i18n_collection', [
+                'label' => 'form.label.content',
+                'type' => 'netcast_urest_title_one_content_form',
+                'options' => [
+                    'label' => false,
+                    'required' => false,
+                    'data_class' => 'Netcast\Urest\MainBundle\Entity\RegionContent',
                 ],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => false,
+                'required' => false
             ]);
-        if($parentCountry !== null)
-        {
-            $formMapper->add('country', 'entity', [
-                'class' => 'Netcast\Urest\MainBundle\Entity\Country',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang',$this->getLanguage())
-                            ->orderBy('c.id', 'ASC');
-                    },
-                'property' => 'title', // property from Country, may be 'alias'
-                'label' => 'form.label.country',
-                'data' => $parentCountry,
-                'required' => true,
-            ]);
-        }
-        else{
-            $formMapper->add('country', 'entity', [
-                'class' => 'Netcast\Urest\MainBundle\Entity\Country',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang',$this->getLanguage())
-                            ->orderBy('c.id', 'ASC');
-                    },
-                'property' => 'title', // property from Country, may be 'alias'
-                'label' => 'form.label.country',
-                'required' => true,
-            ]);
-        }
+        $formMapper->add('country', 'entity', [
+            'class' => 'Netcast\Urest\MainBundle\Entity\Country',
+            'query_builder' => function($repository) {
+                return $repository->createQueryBuilder('c')
+                    ->orderBy('c.id', 'ASC');
+            },
+            'property' => 'content', // property from Country, may be 'alias'
+            'label' => 'form.label.country',
+            'data' => $parentCountry,
+            'required' => true,
+        ]);
         $formMapper
             ->add('coordinates', 'text', [
                 'label' => 'form.label.coordinates',
@@ -83,14 +80,6 @@ class RegionAdmin extends Admin
         ;
     }
 
-    // Поля, отображаемые в формах фильтров
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('title', null, ['label' => 'form.label.title'])
-            ->add('user', null, ['label' => 'form.label.author'])
-        ;
-    }
 
     public function createChildrenQuery($query,$parent)
     {
@@ -101,21 +90,11 @@ class RegionAdmin extends Admin
             return $query;
     }
 
-    public function createQuery($context = 'list') {
-        $query = parent::createQuery($context);
-        $query
-            ->andWhere($query->getRootAlias().'.lang = :lang')
-            ->setParameter('lang', $this->getLanguage())
-        ;
-
-        return $query;
-    }
-
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->add('id','text',['label' => 'form.label.number'])
-            ->add('title', null, ['label' => 'form.label.title'])
+            ->add('content', null, ['label' => 'form.label.title'])
             ->add('coordinates', null, ['label' => 'form.label.coordinates'])
             ->add('country','string',['label'=>'form.label.country', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
             ->add('user', 'string', ['label' => 'form.label.author', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])

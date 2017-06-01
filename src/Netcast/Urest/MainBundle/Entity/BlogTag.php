@@ -2,12 +2,10 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * BlogTag
  */
-class BlogTag
+class BlogTag extends HasI18NEntity
 {
     /**
      * @var integer
@@ -15,19 +13,10 @@ class BlogTag
     private $id;
 
     /**
-     * @var string
-     */
-    private $title;
-
-    /**
      * @var integer
      */
     private $userId;
 
-    /**
-     * @var string
-     */
-    private $lang;
 
     /**
      * @var \DateTime
@@ -55,15 +44,52 @@ class BlogTag
     private $posts;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $tag_content;
+
+    protected $contentField = 'tag_content';
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tag_content = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function __toString() {
-        return $this->title ?: '';
+    /**
+     * Add tag_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\BlogTagContent $tag_content
+     * @return BlogTag
+     */
+    public function addTagContent(\Netcast\Urest\MainBundle\Entity\BlogTagContent $tag_content)
+    {
+        $this->tag_content[] = $tag_content;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\BlogTagContent $categoryContent
+     */
+    public function removeTagContent(\Netcast\Urest\MainBundle\Entity\BlogTagContent $categoryContent)
+    {
+        $this->tag_content->removeElement($categoryContent);
+    }
+
+    /**
+     * Get tag_content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTagContent()
+    {
+        return $this->tag_content;
     }
 
     /**
@@ -74,29 +100,6 @@ class BlogTag
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return BlogTag
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     /**
@@ -122,28 +125,6 @@ class BlogTag
         return $this->userId;
     }
 
-    /**
-     * Set lang
-     *
-     * @param string $lang
-     * @return BlogTag
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return string 
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
 
     /**
      * Set created

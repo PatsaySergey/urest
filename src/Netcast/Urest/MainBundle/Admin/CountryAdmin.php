@@ -16,15 +16,26 @@ class CountryAdmin extends Admin
         $user = $this->getSecurityContext()->getToken()->getUser();
 
         $item->setUser($user);
-        $item->setLang($this->getLanguage());
         $item->setCreated(new \DateTime());
         $item->setUpdated(new \DateTime());
+        foreach($item->getCountryContent() as $tagContent) {
+            if(!$tagContent->getIsDeleted())
+                $tagContent->setParent($item);
+            else
+                $item->removeCountryContent($tagContent);
+        }
     }
 
     // перед обновлением
     public function preUpdate($item)
     {
         $item->setUpdated(new \DateTime());
+        foreach($item->getCountryContent() as $tagContent) {
+            if(!$tagContent->getIsDeleted())
+                $tagContent->setParent($item);
+            else
+                $item->removeCountryContent($tagContent);
+        }
     }
 
     // Поля, отображаемые в формах create/edit
@@ -32,13 +43,18 @@ class CountryAdmin extends Admin
     {
         $formMapper
             ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('title', 'text', [
-                'label' => 'form.label.title',
-                'trim' => true,
-                'required' => true,
-                'attr' => [
-                    'maxlength' => '255',
+            ->add('countryContent', 'urest_i18n_collection', [
+                'label' => 'form.label.content',
+                'type' => 'netcast_urest_title_one_content_form',
+                'options' => [
+                    'label' => false,
+                    'required' => false,
+                    'data_class' => 'Netcast\Urest\MainBundle\Entity\CountryContent',
                 ],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => false,
+                'required' => false
             ])
             ->add('coordinates', 'text', [
                 'label' => 'form.label.coordinates',
@@ -49,30 +65,11 @@ class CountryAdmin extends Admin
         ;
     }
 
-    // Поля, отображаемые в формах фильтров
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('title', null, ['label' => 'form.label.title'])
-            ->add('user', null, ['label' => 'form.label.author'])
-        ;
-    }
-
-    public function createQuery($context = 'list') {
-        $query = parent::createQuery($context);
-        $query
-            ->andWhere($query->getRootAlias().'.lang = :lang')
-            ->setParameter('lang', $this->getLanguage())
-        ;
-
-        return $query;
-    }
-
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->add('id','text',['label' => 'form.label.number'])
-            ->add('title', null, ['label' => 'form.label.title'])
+            ->add('content', null, ['label' => 'form.label.title'])
             ->add('coordinates', null, ['label' => 'form.label.coordinates'])
             ->add('user', 'string', ['label' => 'form.label.author', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
             ->add('created', null, ['label' => 'form.label.created'])

@@ -6,8 +6,6 @@ Netcast\Urest\MainBundle\Entity\Region:
             columns: [ country_id ]
         country_user_idx:
             columns: [ user_id ]
-        country_lang_idx:
-            columns: [ lang ]
     repositoryClass: Netcast\Urest\MainBundle\Entity\RegionRepository
     id:
         id:
@@ -16,12 +14,6 @@ Netcast\Urest\MainBundle\Entity\Region:
             generator:
                 strategy: AUTO
     fields:
-        lang:
-            type: string
-            length: '2'
-        title:
-            type: string
-            length: '255'
         coordinates:
             type: string
             length: '255'
@@ -34,10 +26,15 @@ Netcast\Urest\MainBundle\Entity\Region:
             nullable: true
 
     oneToMany:
+         region_content:
+              targetEntity: RegionContent
+              mappedBy: parent
+              cascade: ["all"]
+              orphanRemoval: true
          cities:
-             targetEntity: City
-             mappedBy: region
-             cascade: ['persist', 'remove']
+              targetEntity: City
+              mappedBy: region
+              cascade: ['persist', 'remove']
     manyToOne:
          country:
              targetEntity: Country

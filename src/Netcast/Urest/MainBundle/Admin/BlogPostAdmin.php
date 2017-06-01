@@ -28,7 +28,7 @@ class BlogPostAdmin extends Admin
             if(!$postContent->getIsDeleted())
                 $postContent->setParent($item);
             else
-                $item->removeTourContent($postContent);
+                $item->removePostContent($postContent);
         }
         foreach ($item->getImages() as $blogImages) {
             if ($blogImages->getMedia() !== null) {
@@ -53,7 +53,7 @@ class BlogPostAdmin extends Admin
             if(!$postContent->getIsDeleted())
                 $postContent->setParent($item);
             else
-                $item->removeTourContent($postContent);
+                $item->removePostContent($postContent);
         }
 
         foreach($item->getImages() as $blogImages) {
@@ -86,13 +86,7 @@ class BlogPostAdmin extends Admin
             ])
             ->add('category', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\BlogCategory',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('bc')
-                            ->where('bc.lang=:lang')
-                            ->setParameter('lang',$this->getLanguage())
-                            ->orderBy('bc.id', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'label' => 'form.label.blog_category',
                 'required' => true,
             ])
@@ -108,7 +102,6 @@ class BlogPostAdmin extends Admin
                 ],
                 'by_reference' => false,
                 'allow_add' => true,
-                'allow_delete' => true,
                 'required' => false
             ])
             ->end()

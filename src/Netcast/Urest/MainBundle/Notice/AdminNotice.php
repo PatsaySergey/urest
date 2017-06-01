@@ -70,7 +70,7 @@
                 if($key > 5) continue;
 
                 $newOrdersNoticeArray[$key]['id'] = $row->getId();
-                $newOrdersNoticeArray[$key]['order'] = $row->getToCountry()->getTitle().', '.$row->getToCity()->getTitle();
+                $newOrdersNoticeArray[$key]['order'] = $row->getToCountry()->getContent().', '.$row->getToCity()->getContent();
                 $newOrdersNoticeArray[$key]['created'] = $row->getCreated();
             }
             $result['count'] = count($newOrders);

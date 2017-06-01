@@ -15,14 +15,13 @@ class BlogCategoryAdmin extends Admin
     {
         $user = $this->getSecurityContext()->getToken()->getUser();
         $item->setUser($user);
-        $item->setLang($this->getLanguage());
         $item->setCreated(new \DateTime());
         $item->setUpdated(new \DateTime());
         foreach($item->getCategoryContent() as $postContent) {
             if(!$postContent->getIsDeleted())
                 $postContent->setParent($item);
             else
-                $item->removeTourContent($postContent);
+                $item->removeCategoryContent($postContent);
         }
     }
 
@@ -33,7 +32,7 @@ class BlogCategoryAdmin extends Admin
             if(!$postContent->getIsDeleted())
                 $postContent->setParent($item);
             else
-                $item->removeTourContent($postContent);
+                $item->removeCategoryContent($postContent);
         }
         $item->setUpdated(new \DateTime());
     }

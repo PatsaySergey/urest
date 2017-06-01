@@ -28,7 +28,7 @@ class HasI18NEntity
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getContent() {
         $criteria = Criteria::create()
@@ -40,6 +40,10 @@ class HasI18NEntity
         $criteria->where(Criteria::expr()->eq('lang', $this->defaultLocale));
         $content = $this->{$this->contentField}->matching($criteria);
         if($content->count()) return $content->first();
+    }
+
+    public function __toString() {
+        return $this->getContent() ? $this->getContent()->getTitle() : '';
     }
 
 }

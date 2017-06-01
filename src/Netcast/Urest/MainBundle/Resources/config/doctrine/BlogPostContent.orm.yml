@@ -2,7 +2,7 @@ Netcast\Urest\MainBundle\Entity\BlogPostContent:
     type: entity
     table: blog_post_content
     indexes:
-        tour_idx:
+        post_idx:
             columns: [ parent_id ]
         lang_idx:
             columns: [ lang_id ]

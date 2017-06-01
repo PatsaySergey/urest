@@ -97,10 +97,6 @@ class BlogPost extends HasI18NEntity
         $this->post_content = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function __toString() {
-        return $this->getContent() ? $this->getContent()->getTitle() : '';
-    }
-
     /**
      * Get id
      *

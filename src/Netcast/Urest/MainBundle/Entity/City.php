@@ -2,30 +2,17 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * City
  */
-class City
+class City extends HasI18NEntity
 {
-    public function __toString() {
-        return $this->title ?: '';
-    }
+
     /**
      * @var integer
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $title;
 
     /**
      * @var string
@@ -52,6 +39,27 @@ class City
      */
     private $user;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $city_content;
+
+    protected $contentField = 'city_content';
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tour;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tour = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->city_content = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -63,51 +71,40 @@ class City
         return $this->id;
     }
 
+
     /**
-     * Set lang
+     * Add city_content
      *
-     * @param string $lang
+     * @param \Netcast\Urest\MainBundle\Entity\CityContent $city_content
      * @return City
      */
-    public function setLang($lang)
+    public function addCityContent(\Netcast\Urest\MainBundle\Entity\CityContent $city_content)
     {
-        $this->lang = $lang;
+        $this->city_content[] = $city_content;
 
         return $this;
     }
 
     /**
-     * Get lang
+     * Remove city_content
      *
-     * @return string 
+     * @param \Netcast\Urest\MainBundle\Entity\CityContent $city_content
      */
-    public function getLang()
+    public function removeCityContent(\Netcast\Urest\MainBundle\Entity\CityContent $city_content)
     {
-        return $this->lang;
+        $this->city_content->removeElement($city_content);
     }
 
     /**
-     * Set title
+     * Get city_content
      *
-     * @param string $title
-     * @return City
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setTitle($title)
+    public function getCityContent()
     {
-        $this->title = $title;
-
-        return $this;
+        return $this->city_content;
     }
 
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 
     /**
      * Set coordinates
@@ -223,18 +220,7 @@ class City
     {
         return $this->user;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $tour;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tour = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add tour

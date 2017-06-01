@@ -14,8 +14,7 @@
         {
             $lang = $this->getRequest()->getLocale();
             $em = $this->getDoctrine()->getManager();
-            $cities = $em->getRepository('Netcast\Urest\MainBundle\Entity\City')->findBy(['lang' => $lang, 'in_builder' => true]);
-            $fromCountry = $em->getRepository('Netcast\Urest\MainBundle\Entity\Country')->findBy(['lang' => $lang]);
+            $cities = $em->getRepository('Netcast\Urest\MainBundle\Entity\City')->findBy(['in_builder' => true]);
             $welcomeText = $em->getRepository('Netcast\Urest\MainBundle\Entity\WellcomeMsg')->findBy(['lang' => $lang]);
             if(!empty($welcomeText)) {
                 $welcomeText = $welcomeText[0];
@@ -26,14 +25,13 @@
             $toCountry = [];
             foreach($cities as $city) {
                 $country = $city->getRegion()->getCountry();
-                $toCountry[$country->getId()] = $country->getTitle();
+                $toCountry[$country->getId()] = $country->getContent();
             }
             $apartmentTypes = $em->getRepository('Netcast\Urest\MainBundle\Entity\ApartmentType')->findBy(['lang' => $lang]);
             $data['apartmentTypes'] = $apartmentTypes;
             $data['welcomeText'] = $welcomeText;
             $data['cities'] = $cities;
             $data['toCountry'] = $toCountry;
-            $data['fromCountry'] = $fromCountry;
 
             return $this->render('NetcastUrestMainBundle:Tour:tour_builder.html.twig',$data);
         }
@@ -235,20 +233,15 @@
             $em = $this->getDoctrine()->getManager();
             $countryId = $this->getRequest()->get('id');
             $country = $em->getRepository('Netcast\Urest\MainBundle\Entity\Country')->find($countryId);
-            $lang = $this->get('request')->getLocale();
 
-            $regions = $country->getRegions()->filter(function($region) use ($lang) {
-                return $region->getLang() == $lang;
-            });
+            $regions = $country->getRegions();
 
             $response = [];
 
             foreach($regions as $region) {
-                $cities = $region->getCities()->filter(function($city) use ($lang) {
-                    return $city->getLang() == $lang;
-                });
+                $cities = $region->getCities();
                 foreach($cities as $city) {
-                    $response[$city->getId()] = $city->getTitle();
+                    $response[$city->getId()] = $city->getContent()->getTitle();
                 }
             }
 

@@ -15,7 +15,7 @@
                         <div class="col-md-4 col-sm-4 no-padd-left no-padd-xs">
                             <div class="info-tour clearfix">
                                 <div class="cell icon"><i class="fa fa-map-marker"></i> </div>
-                                <div class="cell txt">{{ tour.city.title }}, {{ tour.city.region.country.title }}</div>
+                                <div class="cell txt">{{ tour.city.content }}, {{ tour.city.region.country }}</div>
 								<span class="input-date">
 								<select id="tourDateSelect" data-href="{{ url('netcast_urest_tour_price',{id:'__id__'}) }}">
                                     {% for date in tour.tourDates %}
@@ -105,7 +105,7 @@
                                     <ul class="list-item">
                                         <li>
                                             <div class="cell icon"><i class="fa fa-map-marker"></i></div>
-                                            <div class="cell txt">{{ tour.city.title }}, {{ tour.city.region.country.title }}</div>
+                                            <div class="cell txt">{{ tour.city.title }}, {{ tour.city.region.country }}</div>
                                         </li>
                                         <li>
                                             <div class="cell icon"><i class="fa fa-calendar"></i></div>

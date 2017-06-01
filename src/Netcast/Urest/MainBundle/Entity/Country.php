@@ -2,30 +2,16 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Country
  */
-class Country
+class Country extends HasI18NEntity
 {
-    public function __toString() {
-        return $this->title ?: '';
-    }
     /**
      * @var integer
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $title;
 
     /**
      * @var string
@@ -48,6 +34,13 @@ class Country
     private $regions;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $country_content;
+
+    protected $contentField = 'country_content';
+
+    /**1
      * @var \Application\Sonata\UserBundle\Entity\User
      */
     private $user;
@@ -58,6 +51,7 @@ class Country
     public function __construct()
     {
         $this->regions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->country_content = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -68,52 +62,6 @@ class Country
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set lang
-     *
-     * @param string $lang
-     * @return Country
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return string 
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Country
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     /**
@@ -216,6 +164,40 @@ class Country
     public function getRegions()
     {
         return $this->regions;
+    }
+
+
+    /**
+     * Add country_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\CountryContent $country_content
+     * @return Country
+     */
+    public function addCountryContent(\Netcast\Urest\MainBundle\Entity\CountryContent $country_content)
+    {
+        $this->country_content[] = $country_content;
+
+        return $this;
+    }
+
+    /**
+     * Remove country_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\CountryContent $country_content
+     */
+    public function removeCountryContent(\Netcast\Urest\MainBundle\Entity\CountryContent $country_content)
+    {
+        $this->country_content->removeElement($country_content);
+    }
+
+    /**
+     * Get country_content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCountryContent()
+    {
+        return $this->country_content;
     }
 
     /**

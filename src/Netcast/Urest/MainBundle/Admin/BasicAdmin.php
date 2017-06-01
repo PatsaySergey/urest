@@ -4,6 +4,7 @@ namespace Netcast\Urest\MainBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\Form\FormError;
@@ -102,6 +103,11 @@ class BasicAdmin extends Admin
         return $this->getRequest()->getLocale();
     }
 
+    public function getLanguageInst()
+    {
+        return $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager')->getRepository('NetcastUrestMainBundle:Language')->findOneBy(['alias' => $this->getLanguage()]);
+    }
+
     public function getBatchActions()
     {
         return [];
@@ -137,10 +143,6 @@ class BasicAdmin extends Admin
         $query        = ($this->getSubject()->getId() !== null) ? $adminManager->createChildrenQuery($query, $subject) : null;
         $result       = [];
         if ($query !== null) {
-            $query
-                ->andWhere($query->getRootAlias() . '.lang = :lang')
-                ->setParameter('lang', $this->getLanguage())
-            ;
 
             foreach ($query->getQuery()->getResult() as $key => $row) {
                 foreach ($adminManager->getList()->getElements() as $listEl) {

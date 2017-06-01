@@ -6,8 +6,6 @@ Netcast\Urest\MainBundle\Entity\City:
             columns: [ region_id ]
         city_user_idx:
             columns: [ user_id ]
-        city_lang_idx:
-            columns: [ lang ]
     repositoryClass: Netcast\Urest\MainBundle\Entity\CityRepository
     id:
         id:
@@ -16,12 +14,6 @@ Netcast\Urest\MainBundle\Entity\City:
             generator:
                 strategy: AUTO
     fields:
-        lang:
-            type: string
-            length: '2'
-        title:
-            type: string
-            length: '255'
         coordinates:
             type: string
             length: '255'
@@ -49,6 +41,11 @@ Netcast\Urest\MainBundle\Entity\City:
                  name: user_id
                  referenceColumnName: id
     oneToMany:
+        city_content:
+          targetEntity: CityContent
+          mappedBy: parent
+          cascade: ["all"]
+          orphanRemoval: true
         tours:
           targetEntity: Tour
           mappedBy: city

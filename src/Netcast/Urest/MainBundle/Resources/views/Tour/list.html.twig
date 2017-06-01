@@ -12,7 +12,7 @@
                 <select name="tourCountry" onchange="$('#tourFilterForm').submit()">
                     <option value="">{{ 'site.any'|trans({},'NetcastUrestMainBundle') }}</option>
                     {% for country in tourCountries %}
-                        <option {% if app.request.get("tourCountry") == country.id %} selected {% endif %} value="{{ country.id }}">{{ country.title }}</option>
+                        <option {% if app.request.get("tourCountry") == country.id %} selected {% endif %} value="{{ country.id }}">{{ country }}</option>
                     {% endfor %}
                 </select>
                 </form>
@@ -24,7 +24,7 @@
                 <select name="tourCity" onchange="$('#tourFilterFormCity').submit()">
                     <option value="">{{ 'site.every'|trans({},'NetcastUrestMainBundle') }}</option>
                     {% for city in tourCities %}
-                        <option {% if app.request.get("tourCity") == city.id %} selected {% endif %} value="{{ city.id }}">{{ city.title }}</option>
+                        <option {% if app.request.get("tourCity") == city.id %} selected {% endif %} value="{{ city.id }}">{{ city.content }}</option>
                     {% endfor %}
                 </select>
                 </form>
@@ -47,7 +47,7 @@
                         <ul class="list-item">
                             <li>
                                 <div class="cell icon"><i class="fa fa-map-marker"></i></div>
-                                <div class="cell txt">{{ tour.city.title }}, {{ tour.city.region.country.title }}</div>
+                                <div class="cell txt">{{ tour.city.content }}, {{ tour.city.region.country }}</div>
                             </li>
                             <li>
                                 <div class="cell icon"><i class="fa fa-calendar"></i></div>

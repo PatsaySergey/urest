@@ -60,10 +60,6 @@ class BlogCategory extends HasI18NEntity
         $this->category_content = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function __toString() {
-        return $this->getContent() ? $this->getContent()->getTitle() : '';
-    }
-
     /**
      * Get id
      *

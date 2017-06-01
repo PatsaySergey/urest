@@ -485,8 +485,4 @@ class Tour extends HasI18NEntity {
     {
         return $this->pay_history;
     }
-
-    public function __toString() {
-        return $this->getContent() ? $this->getContent()->getTitle() : '';
-    }
 }

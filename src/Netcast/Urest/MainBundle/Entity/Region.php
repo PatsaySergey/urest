@@ -7,25 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Region
  */
-class Region
+class Region extends HasI18NEntity
 {
-    public function __toString() {
-        return $this->title ?: '';
-    }
     /**
      * @var integer
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $title;
 
     /**
      * @var string
@@ -58,11 +45,52 @@ class Region
     private $user;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $region_content;
+
+    protected $contentField = 'region_content';
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->region_content = new \Doctrine\Common\Collections\ArrayCollection();
         $this->cities = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add region_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\RegionContent $region_content
+     * @return Region
+     */
+    public function addRegionContent(\Netcast\Urest\MainBundle\Entity\RegionContent $region_content)
+    {
+        $this->region_content[] = $region_content;
+
+        return $this;
+    }
+
+    /**
+     * Remove region_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\RegionContent $region_content
+     */
+    public function removeRegionContent(\Netcast\Urest\MainBundle\Entity\RegionContent $region_content)
+    {
+        $this->region_content->removeElement($region_content);
+    }
+
+    /**
+     * Get region_content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRegionContent()
+    {
+        return $this->region_content;
     }
 
     /**
@@ -73,52 +101,6 @@ class Region
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set lang
-     *
-     * @param string $lang
-     * @return Region
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return string 
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return Region
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     /**

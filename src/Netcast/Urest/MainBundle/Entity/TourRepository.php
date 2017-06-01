@@ -69,7 +69,7 @@ class TourRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function searchTours($search,$lang)
+    public function searchTours($lang,$search)
     {
         $qb = $this->createQueryBuilder('tour')
             ->select(['tour','images'])
