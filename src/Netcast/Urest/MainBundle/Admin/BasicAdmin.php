@@ -205,9 +205,11 @@ class BasicAdmin extends Admin
 
     protected function toPositive($item)
     {
-        $cost = $item->getCost();
-        if ($cost < 0) {
-            $item->setCost(abs($cost));
+        if(method_exists($item,'getCost')) {
+            $cost = $item->getCost();
+            if ($cost < 0) {
+                $item->setCost(abs($cost));
+            }
         }
     }
 }

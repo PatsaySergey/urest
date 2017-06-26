@@ -132,18 +132,16 @@ class TourController extends Controller
             $domain = $this->getRequest()->getHost();
             $schema = $this->getRequest()->getScheme();
             $serverUrl = $schema.'://'.$domain.$serverUrl;
-            $request = $this->container->get('request_stack')->getCurrentRequest();
-            $currentUrl = $request->getUri();
 
             $amount = $tourDate->getPrice();
 
             $liqPay = $this->get('LiqPay');
-            $response = $form1 = $liqPay->cnb_form(array(
+            $response = $liqPay->cnb_form(array(
                 'version'        => '3',
                 'amount'         => $amount,
                 'currency'       => 'EUR',
                 'server_url'     => $serverUrl,
-                'result_url'     => $currentUrl,
+                'result_url'     => $schema.'://'.$domain.$router->generate('netcast_urest_profile_view'),
                 'description'    => 'Оплата тура на сайте u-rest.com',
                 'order_id'       => 't_'.$tourOrder->getId(),
                 'sandbox'        => 1
@@ -151,7 +149,6 @@ class TourController extends Controller
             echo $response;
             die();
         }
-
     }
 
 }

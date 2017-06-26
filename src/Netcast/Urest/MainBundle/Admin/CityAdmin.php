@@ -68,7 +68,7 @@ class CityAdmin extends Admin
                             ->setParameter('country',$country->getId())
                             ->orderBy('r.id', 'ASC');
                     },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => ['class' => 'region_entity_field'],
                 'label' => 'form.label.region',
                 'data' => $parentRegion,
@@ -80,13 +80,7 @@ class CityAdmin extends Admin
             $formMapper
                 ->add('region', 'entity', [
                     'class' => 'Netcast\Urest\MainBundle\Entity\Region',
-                    'query_builder' => function($repository) {
-                            return $repository->createQueryBuilder('r')
-                                ->where('r.lang=:lang')
-                                ->setParameter('lang',$this->getLanguage())
-                                ->orderBy('r.id', 'ASC');
-                        },
-                    'property' => 'title',
+                    'property' => 'content',
                     'attr' => ['class' => 'region_entity_field'],
                     'label' => 'form.label.region',
                     'required' => true,

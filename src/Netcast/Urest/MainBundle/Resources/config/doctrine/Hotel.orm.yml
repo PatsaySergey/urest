@@ -6,8 +6,6 @@ Netcast\Urest\MainBundle\Entity\Hotel:
             columns: [ city_id ]
         city_user_idx:
             columns: [ user_id ]
-        city_lang_idx:
-            columns: [ lang ]
     repositoryClass: Netcast\Urest\MainBundle\Entity\HotelRepository
     id:
         id:
@@ -16,16 +14,8 @@ Netcast\Urest\MainBundle\Entity\Hotel:
             generator:
                 strategy: AUTO
     fields:
-        lang:
-            type: string
-            length: '2'
-        title:
-            type: string
-            length: '255'
         stars_count:
             type: integer
-        description:
-            type: text
         created:
             type: datetime
             nullable: false
@@ -47,6 +37,11 @@ Netcast\Urest\MainBundle\Entity\Hotel:
                  referenceColumnName: id
 
     oneToMany:
+            hotel_content:
+                targetEntity: HotelContent
+                mappedBy: parent
+                cascade: ["all"]
+                orphanRemoval: true
             rooms:
                 targetEntity: HotelRoom
                 mappedBy: hotel

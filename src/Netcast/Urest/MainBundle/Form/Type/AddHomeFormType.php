@@ -49,13 +49,11 @@ class AddHomeFormType extends AbstractType {
                 'class' => 'Netcast\Urest\MainBundle\Entity\Hotel',
                 'query_builder' => function($repository) {
                         return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->andWhere('c.city=:city')
-                            ->setParameter('lang',$this->lang)
+                            ->where('c.city=:city')
                             ->setParameter('city',$this->city)
                             ->orderBy('c.id', 'ASC');
                     },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => ($this->type == 'hotel') ? 'jsAddHotelSelect' : 'jsAddHotelSelect hide'
                 ],
@@ -69,13 +67,7 @@ class AddHomeFormType extends AbstractType {
             ])
             ->add('room', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\HotelRoom',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang',$this->lang)
-                            ->orderBy('c.id', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => ($this->type == 'hotel') ? 'jsAddRoomSelect' : 'jsAddRoomSelect hide'
                 ],
@@ -90,13 +82,11 @@ class AddHomeFormType extends AbstractType {
                 'class' => 'Netcast\Urest\MainBundle\Entity\Apartment',
                 'query_builder' => function($repository) {
                         return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->andWhere('c.city=:city')
-                            ->setParameter('lang',$this->lang)
+                            ->where('c.city=:city')
                             ->setParameter('city',$this->city)
                             ->orderBy('c.id', 'ASC');
                     },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => ($this->type == 'hotel') ? 'jsAddApartmentSelect hide' : 'jsAddApartmentSelect'
                 ],

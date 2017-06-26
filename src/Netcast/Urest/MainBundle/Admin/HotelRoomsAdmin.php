@@ -26,6 +26,12 @@
                 else
                     $item->removeImage($itemImages);
             }
+            foreach($item->getRoomContent() as $roomContent) {
+                if(!$roomContent->getIsDeleted())
+                    $roomContent->setParent($item);
+                else
+                    $item->removeCityContent($roomContent);
+            }
         }
 
         // перед обновлением
@@ -39,6 +45,12 @@
                 else
                     $item->removeImage($itemImages);
             }
+            foreach($item->getRoomContent() as $roomContent) {
+                if(!$roomContent->getIsDeleted())
+                    $roomContent->setParent($item);
+                else
+                    $item->removeCityContent($roomContent);
+            }
         }
 
 
@@ -48,51 +60,16 @@
         {
             $parentHotel = $this->getParentEntity('Netcast\Urest\MainBundle\Entity\Hotel');
             $formMapper
-                ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-                ->add('title', 'text', [
-                    'label' => 'form.label.title',
-                    'trim' => true,
-                    'required' => true,
-                    'attr' => [
-                        'maxlength' => '255',
-                    ],
-                ]);
-
-                if($parentHotel !== null)
-                {
-                    $formMapper->add('hotel', 'entity', [
-                        'class' => 'Netcast\Urest\MainBundle\Entity\Hotel',
-                        'query_builder' => function($repository){
-                                return $repository->createQueryBuilder('h')
-                                    ->where('h.lang=:lang')
-                                    ->setParameter('lang',$this->getLanguage())
-                                    ->orderBy('h.title', 'ASC');
-                            },
-                        'data' =>  $parentHotel,
-                        'property' => 'title',
-                        'label' => 'form.label.hotel',
-                        'required' => true,
-                    ]);
-                }
-                else
-                {
-                    $formMapper->add('hotel', 'entity', [
-                        'class' => 'Netcast\Urest\MainBundle\Entity\Hotel',
-                        'query_builder' => function($repository) {
-                                return $repository->createQueryBuilder('r')
-                                    ->where('r.lang=:lang')
-                                    ->setParameter('lang',$this->getLanguage())
-                                    ->orderBy('r.id', 'ASC');
-                            },
-                        'property' => 'title',
-                        'label' => 'form.label.hotel',
-                        'required' => false,
-                    ]);
-                }
-
-                $formMapper
+                ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle']);
+            $formMapper->add('hotel', 'entity', [
+                'class' => 'Netcast\Urest\MainBundle\Entity\Hotel',
+                'data' =>  $parentHotel,
+                'property' => 'content',
+                'label' => 'form.label.hotel',
+                'required' => true,
+            ]);
+            $formMapper
                 ->end()
-
                 ->with('admin.tour.right',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
                     ->add('price', 'money', [
                         'label' => 'form.label.price',
@@ -106,20 +83,25 @@
                             'data-format'=>'price'
                         ],
                     ]);
-
-
                 $formMapper
                     ->end()
                     ->with('admin.empty',['class' => 'clear', 'translation_domain' => 'NetcastUrestMainBundle'])
                     ->add('clear','hidden',['mapped' => false])
                     ->end()
                     ->with('admin.tour.end',['class' => 'col-md-12', 'translation_domain' => 'NetcastUrestMainBundle'])
-                ->add('description', 'ckeditor', [
-                    'label' => 'form.label.description',
-                    'trim' => true,
-                    'constraints' => [new NotBlank()],
-                    'required' => true
-                ])
+                    ->add('roomContent', 'urest_i18n_collection', [
+                        'label' => 'form.label.content',
+                        'type' => 'netcast_urest_title_content_form',
+                        'options' => [
+                            'label' => false,
+                            'required' => false,
+                            'data_class' => 'Netcast\Urest\MainBundle\Entity\HotelRoomContent',
+                        ],
+                        'by_reference' => false,
+                        'allow_add' => true,
+                        'allow_delete' => false,
+                        'required' => false
+                    ])
                 ->add('images', 'urest_collection', [
                     'label' => 'form.label.images',
                     'type' => 'netcast_urest_media_collection_form',
@@ -151,25 +133,6 @@
             ;
         }
 
-        // Поля, отображаемые в формах фильтров
-        protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-        {
-            $datagridMapper
-                ->add('title', null, ['label' => 'form.label.title'])
-                ->add('user', null, ['label' => 'form.label.author'])
-            ;
-        }
-
-        public function createQuery($context = 'list') {
-
-            $query = parent::createQuery($context);
-            $query
-                ->andWhere($query->getRootAlias().'.lang = :lang')
-                ->setParameter('lang', $this->getLanguage())
-            ;
-
-            return $query;
-        }
 
         public function createChildrenQuery($query,$parent)
         {
@@ -184,7 +147,7 @@
         {
             $listMapper
                 ->add('id','text',['label' => 'form.label.number'])
-                ->add('title', null, ['label' => 'form.label.title'])
+                ->add('content', null, ['label' => 'form.label.title'])
                 ->add('hotel','string',['label'=>'form.label.hotel', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
                 ->add('price','string',['label'=>'form.label.price'])
                 ->add('user', 'string', ['label' => 'form.label.author', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])

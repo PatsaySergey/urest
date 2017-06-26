@@ -2,27 +2,16 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Apartment
  */
-class Apartment
+class Apartment extends HasI18NEntity
 {
     /**
      * @var integer
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $title;
 
     /**
      * @var integer
@@ -33,11 +22,6 @@ class Apartment
      * @var string
      */
     private $price;
-
-    /**
-     * @var string
-     */
-    private $description;
 
     /**
      * @var \DateTime
@@ -75,16 +59,20 @@ class Apartment
     private $video;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $apartment_content;
+
+    protected $contentField = 'apartment_content';
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->apartment_content = new \Doctrine\Common\Collections\ArrayCollection();
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
         $this->video = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    public function __toString() {
-        return $this->title ?: '';
     }
 
     /**
@@ -97,50 +85,38 @@ class Apartment
         return $this->id;
     }
 
+
     /**
-     * Set lang
+     * Add apartment_content
      *
-     * @param string $lang
+     * @param \Netcast\Urest\MainBundle\Entity\ApartmentContent $apartment_content
      * @return Apartment
      */
-    public function setLang($lang)
+    public function addApartmentContent(ApartmentContent $apartment_content)
     {
-        $this->lang = $lang;
+        $this->apartment_content[] = $apartment_content;
 
         return $this;
     }
 
     /**
-     * Get lang
+     * Remove apartment_content
      *
-     * @return string 
+     * @param \Netcast\Urest\MainBundle\Entity\ApartmentContent $apartment_content
      */
-    public function getLang()
+    public function removeApartmentContent(ApartmentContent $apartment_content)
     {
-        return $this->lang;
+        $this->apartment_content->removeElement($apartment_content);
     }
 
     /**
-     * Set title
+     * Get apartment_content
      *
-     * @param string $title
-     * @return Apartment
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setTitle($title)
+    public function getApartmentContent()
     {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
+        return $this->apartment_content;
     }
 
     /**
@@ -189,28 +165,6 @@ class Apartment
         return $this->price;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Apartment
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
 
     /**
      * Set created

@@ -11,9 +11,8 @@ class UrestCRUDController extends Controller
 {
     public function configCityAction()
     {
-        $lang = $this->getRequest()->getLocale();
         $em   = $this->getDoctrine()->getManager();
-        $city = $em->getRepository('Netcast\Urest\MainBundle\Entity\City')->findBy(['lang' => $lang]);
+        $city = $em->getRepository('Netcast\Urest\MainBundle\Entity\City')->findAll();
 
         $object = $this->admin->getNewInstance();
 

@@ -85,13 +85,7 @@ class CustomTourAdmin extends Admin {
             ])
             ->add('toCountry', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\Country',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang', $this->getLanguage())
-                            ->orderBy('c.title', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => 'country_entity_field'
                 ],
@@ -101,13 +95,7 @@ class CustomTourAdmin extends Admin {
             ])
             ->add('toCity', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\City',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang',$this->getLanguage())
-                            ->orderBy('c.id', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => 'city_entity_field'
                 ],
@@ -120,17 +108,8 @@ class CustomTourAdmin extends Admin {
                 $hotel = $room->getHotel();
                 $formMapper->add('hotel', 'entity', [
                     'class' => 'Netcast\Urest\MainBundle\Entity\Hotel',
-                    'query_builder' => function($repository) {
-                            return $repository->createQueryBuilder('c')
-                                ->where('c.lang=:lang')
-                                ->setParameter('lang',$this->getLanguage())
-                                ->orderBy('c.id', 'ASC');
-                        },
-                    'property' => 'title',
+                    'property' => 'content',
                     'data' => $hotel,
-                    'attr' => [
-                        'class' => 'city_entity_field'
-                    ],
                     'label' => 'form.label.hotel',
                     'disabled' => true,
                     'mapped' => false,
@@ -138,13 +117,7 @@ class CustomTourAdmin extends Admin {
                 ]);
                 $formMapper->add('room', 'entity', [
                     'class' => 'Netcast\Urest\MainBundle\Entity\HotelRoom',
-                    'query_builder' => function($repository) {
-                            return $repository->createQueryBuilder('c')
-                                ->where('c.lang=:lang')
-                                ->setParameter('lang',$this->getLanguage())
-                                ->orderBy('c.id', 'ASC');
-                        },
-                    'property' => 'title',
+                    'property' => 'content',
                     'attr' => [
                         'class' => 'city_entity_field'
                     ],
@@ -158,13 +131,7 @@ class CustomTourAdmin extends Admin {
             if($apartment instanceof Apartment) {
                 $formMapper->add('apartment', 'entity', [
                     'class' => 'Netcast\Urest\MainBundle\Entity\Apartment',
-                    'query_builder' => function($repository) {
-                            return $repository->createQueryBuilder('c')
-                                ->where('c.lang=:lang')
-                                ->setParameter('lang',$this->getLanguage())
-                                ->orderBy('c.id', 'ASC');
-                        },
-                    'property' => 'title',
+                    'property' => 'content',
                     'attr' => [
                         'class' => 'city_entity_field'
                     ],

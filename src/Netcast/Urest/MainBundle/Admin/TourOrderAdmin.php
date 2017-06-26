@@ -13,12 +13,9 @@ class TourOrderAdmin extends Admin {
     public function createQuery($context = 'list') {
         $query = parent::createQuery($context);
         $query
-            ->andWhere($query->getRootAlias().'.lang = :lang')
             ->andWhere($query->getRootAlias().'.payed = :payed')
-            ->setParameter('lang', $this->getLanguage())
             ->setParameter('payed', true)
         ;
-
         return $query;
     }
 

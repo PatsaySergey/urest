@@ -2,6 +2,8 @@
 
 namespace Netcast\Urest\MainBundle\LiqPay;
 
+use Psr\Log\InvalidArgumentException;
+
 class LiqPay
 {
     private $_api_url = 'https://www.liqpay.com/api/';

@@ -19,7 +19,6 @@ class ApartmentAdmin extends Admin
 
         $user = $this->getSecurityContext()->getToken()->getUser();
         $item->setUser($user);
-        $item->setLang($this->getLanguage());
         $item->setCreated(new \DateTime());
         $item->setUpdated(new \DateTime());
         $this->toPositive($item);
@@ -28,6 +27,12 @@ class ApartmentAdmin extends Admin
                 $img->setApartment($item);
             else
                 $item->removeImage($img);
+        }
+        foreach($item->getApartmentContent() as $content) {
+            if(!$content->getIsDeleted())
+                $content->setParent($item);
+            else
+                $item->removeCityContent($content);
         }
     }
 
@@ -42,6 +47,12 @@ class ApartmentAdmin extends Admin
             else
                 $item->removeImage($img);
         }
+        foreach($item->getApartmentContent() as $content) {
+            if(!$content->getIsDeleted())
+                $content->setParent($item);
+            else
+                $item->removeCityContent($content);
+        }
     }
 
     // Поля, отображаемые в формах create/edit
@@ -53,22 +64,8 @@ class ApartmentAdmin extends Admin
 
         $formMapper
             ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('title', 'text', [
-                'label' => 'form.label.title',
-                'trim' => true,
-                'required' => true,
-                'attr' => [
-                    'maxlength' => '255',
-                ],
-            ])
             ->add('types', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\ApartmentType',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('at')
-                            ->where('at.lang=:lang')
-                            ->setParameter('lang',$this->getLanguage())
-                            ->orderBy('at.id', 'ASC');
-                    },
                 'property' => 'title',
                 'label' => 'form.label.apartment_type',
                 'required' => true,
@@ -92,7 +89,6 @@ class ApartmentAdmin extends Admin
                 'invalid_message' => 'decimal_format',
                 'empty_data' => '0.00',
                 //'currency' => 'UAH',
-                'attr' => [],
                 'trim' => true,
                 'required' => true,
                 'attr' => [
@@ -103,16 +99,8 @@ class ApartmentAdmin extends Admin
             ->end()
             ->with('admin.tour.right',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
             ->add('country', 'entity', [
-                'attr'=>array('data-sonata-select2'=>'false'),
-                'attr'=>array('data-sonata-select2-allow-clear'=>'false'),
                 'class' => 'Netcast\Urest\MainBundle\Entity\Country',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang', $this->getLanguage())
-                            ->orderBy('c.title', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => 'country_entity_field'
                 ],
@@ -125,13 +113,7 @@ class ApartmentAdmin extends Admin
             ])
             ->add('region', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\Region',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('r')
-                            ->where('r.lang=:lang')
-                            ->setParameter('lang',$this->getLanguage())
-                            ->orderBy('r.title', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => 'region_entity_field'
                 ],
@@ -144,13 +126,7 @@ class ApartmentAdmin extends Admin
             ])
             ->add('city', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\City',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang',$this->getLanguage())
-                            ->orderBy('c.id', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => 'city_entity_field'
                 ],
@@ -164,11 +140,18 @@ class ApartmentAdmin extends Admin
             ->add('clear','hidden',['mapped' => false])
             ->end()
             ->with('admin.tour.end',['class' => 'col-md-12', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('description', 'ckeditor', [
-                'label' => 'form.label.description',
-                'trim' => true,
-                'constraints' => [new NotBlank()],
-                'required' => true
+            ->add('apartmentContent', 'urest_i18n_collection', [
+                'label' => 'form.label.content',
+                'type' => 'netcast_urest_title_content_form',
+                'options' => [
+                    'label' => false,
+                    'required' => false,
+                    'data_class' => 'Netcast\Urest\MainBundle\Entity\ApartmentContent',
+                ],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => false,
+                'required' => false
             ])
             ->add('images', 'urest_collection', [
                 'label' => 'form.label.images',
@@ -201,30 +184,12 @@ class ApartmentAdmin extends Admin
         ;
     }
 
-    // Поля, отображаемые в формах фильтров
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper
-            ->add('title', null, ['label' => 'form.label.title'])
-            ->add('user', null, ['label' => 'form.label.author'])
-        ;
-    }
-
-    public function createQuery($context = 'list') {
-        $query = parent::createQuery($context);
-        $query
-            ->andWhere($query->getRootAlias().'.lang = :lang')
-            ->setParameter('lang', $this->getLanguage())
-        ;
-
-        return $query;
-    }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->add('id','text',['label' => 'form.label.number'])
-            ->add('title', null, ['label' => 'form.label.title'])
+            ->add('content', null, ['label' => 'form.label.title'])
             ->add('types', null, ['label' => 'form.label.apartment_type'])
             ->add('rooms_count', 'text', ['label' => 'form.label.rooms'])
             ->add('country','string',['label'=>'form.label.country', 'template' => 'NetcastUrestMainBundle:CRUD:list_country.html.twig'])

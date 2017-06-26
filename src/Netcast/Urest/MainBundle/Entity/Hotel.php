@@ -2,37 +2,21 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Hotel
  */
-class Hotel
+class Hotel extends HasI18NEntity
 {
     /**
      * @var integer
      */
     private $id;
 
-    /**
-     * @var string
-     */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $title;
 
     /**
      * @var integer
      */
     private $stars_count;
-
-    /**
-     * @var string
-     */
-    private $description;
 
     /**
      * @var \DateTime
@@ -70,10 +54,18 @@ class Hotel
     private $video;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $hotel_content;
+
+    protected $contentField = 'hotel_content';
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->hotel_content = new \Doctrine\Common\Collections\ArrayCollection();
         $this->rooms = new \Doctrine\Common\Collections\ArrayCollection();
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
         $this->video = new \Doctrine\Common\Collections\ArrayCollection();
@@ -90,49 +82,36 @@ class Hotel
     }
 
     /**
-     * Set lang
+     * Add hotel_content
      *
-     * @param string $lang
+     * @param \Netcast\Urest\MainBundle\Entity\HotelContent $hotel_content
      * @return Hotel
      */
-    public function setLang($lang)
+    public function addHotelContent(\Netcast\Urest\MainBundle\Entity\HotelContent $hotel_content)
     {
-        $this->lang = $lang;
+        $this->hotel_content[] = $hotel_content;
 
         return $this;
     }
 
     /**
-     * Get lang
+     * Remove hotel_content
      *
-     * @return string 
+     * @param \Netcast\Urest\MainBundle\Entity\HotelContent $hotel_content
      */
-    public function getLang()
+    public function removeHotelContent(\Netcast\Urest\MainBundle\Entity\HotelContent $hotel_content)
     {
-        return $this->lang;
+        $this->hotel_content->removeElement($hotel_content);
     }
 
     /**
-     * Set title
+     * Get hotel_content
      *
-     * @param string $title
-     * @return Hotel
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setTitle($title)
+    public function getHotelContent()
     {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
+        return $this->hotel_content;
     }
 
     /**
@@ -156,29 +135,6 @@ class Hotel
     public function getStarsCount()
     {
         return $this->stars_count;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Hotel
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**
@@ -343,7 +299,7 @@ class Hotel
      * Add video
      *
      * @param \Application\Sonata\MediaBundle\Entity\Media $video
-     * @return Apartment
+     * @return Hotel
      */
     public function addVideo(\Application\Sonata\MediaBundle\Entity\Media $video=null)
     {
@@ -371,9 +327,5 @@ class Hotel
     public function getVideo()
     {
         return $this->video;
-    }
-
-    public function __toString() {
-        return $this->title ?: '';
     }
 }

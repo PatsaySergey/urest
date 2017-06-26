@@ -215,7 +215,7 @@ class TourOrder
 
     public function __toString()
     {
-        return (string) $this->tour_date->getTour()->getTitle().' ['.$this->tour_date.']';
+        return (string) $this->tour_date->getTour()->getContent()->getTitle().' ['.$this->tour_date.']';
     }
 }
 

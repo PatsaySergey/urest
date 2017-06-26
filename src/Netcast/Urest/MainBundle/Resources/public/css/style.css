@@ -185,7 +185,7 @@ textarea {
   padding:20px;
 }
 
-.builder-link h2,a {
+.builder-link h2, .builder-link a {
   display: inline-block;
   margin-right: 30px;
 }

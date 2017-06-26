@@ -40,11 +40,11 @@
                     </div>
                     <div class="table-row">
                         <div class="cell first">{{ 'site.tour_country'|trans({},'NetcastUrestMainBundle') }}:</div>
-                        <div class="cell"><b>{{ item.toCountry.title }}</b></div>
+                        <div class="cell"><b>{{ item.toCountry.content }}</b></div>
                     </div>
                     <div class="table-row">
                         <div class="cell first">{{ 'site.tour_city'|trans({},'NetcastUrestMainBundle') }}: </div>
-                        <div class="cell"><b>{{ item.toCity.title }}</b></div>
+                        <div class="cell"><b>{{ item.toCity.content }}</b></div>
                     </div>
                     <div class="table-row">
                         <div class="cell first">{{ 'site.tour_date'|trans({},'NetcastUrestMainBundle') }}: </div>
@@ -88,13 +88,13 @@
                                 <div class="cell">
                                     {% if item.room %}
                                         <span>
-                                            {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.hotel.title }}</b>»
+                                            {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.hotel.content }}</b>»
                                             <a href="" class="info-icon">
                                                 <i class="fa fa-info"></i>
                                             </a>
                                         </span>
                                                     <span class="margin-left">
-                                            {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.title }}</b>»
+                                            {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.content }}</b>»
                                             <a href="" class="info-icon">
                                                 <i class="fa fa-info"></i>
                                             </a>
@@ -102,7 +102,7 @@
                                     {% endif %}
                                     {% if item.apartment %}
                                         <span>
-                                            {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.apartment.title }}</b>»
+                                            {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.apartment.content }}</b>»
                                             <a href="" class="info-icon">
                                                 <i class="fa fa-info"></i>
                                             </a>
@@ -129,13 +129,13 @@
                                     <span class="checkbox-new"><input type="checkbox" value="{{ addHome.id }}" name="addHomeToApprove" class="btn-checkbox jsAddHomeSelect"/></span>
                                     {% if addHome.type == 'hotel' %}
                                         <span>
-                                            {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.room.hotel.title }}</b>»
+                                            {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.room.hotel.content }}</b>»
                                             <a href="" class="info-icon">
                                                 <i class="fa fa-info"></i>
                                             </a>
                                         </span>
                                         <span class="margin-left">
-                                            {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.room.title }}</b>»
+                                            {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.room.content }}</b>»
                                             <a href="" class="info-icon">
                                                 <i class="fa fa-info"></i>
                                             </a>
@@ -143,7 +143,7 @@
                                     {% endif %}
                                     {% if addHome.type == 'apartment' %}
                                         <span>
-                                            {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.apartment.title }}</b>»
+                                            {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ addHome.apartment.content }}</b>»
                                             <a href="" class="info-icon">
                                                 <i class="fa fa-info"></i>
                                             </a>
@@ -172,13 +172,13 @@
                     <div class="cell">
                         {% if item.room %}
                             <span>
-                                {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.hotel.title }}</b>»
+                                {{ 'site.hotel'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.hotel.content }}</b>»
                                 <a href="" class="info-icon">
                                     <i class="fa fa-info"></i>
                                 </a>
                             </span>
                             <span class="margin-left">
-                                {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.title }}</b>»
+                                {{ 'site.room'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.room.content }}</b>»
                                 <a href="" class="info-icon">
                                     <i class="fa fa-info"></i>
                                 </a>
@@ -186,7 +186,7 @@
                         {% endif %}
                         {% if item.apartment %}
                             <span>
-                                {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.apartment.title }}</b>»
+                                {{ 'site.apartment'|trans({},'NetcastUrestMainBundle') }} «<b>{{ item.apartment.content }}</b>»
                                 <a href="" class="info-icon">
                                     <i class="fa fa-info"></i>
                                 </a>

@@ -22,7 +22,7 @@
     </div>
     <select multiple="multiple" class="form-control multi-select" id="cityTour" style="position: absolute; left: -9999px;">
         {% for oneCity in city %}
-            <option {% if oneCity.getInBuilder %}selected="selected"{% endif %} value="{{ oneCity.id }}">{{ oneCity.title }} {{ oneCity.region.country.title }}</option>
+            <option {% if oneCity.getInBuilder %}selected="selected"{% endif %} value="{{ oneCity.id }}">{{ oneCity.content }} {{ oneCity.region.country.content }}</option>
         {% endfor %}
     </select>
     <script>

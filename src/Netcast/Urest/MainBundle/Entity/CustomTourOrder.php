@@ -130,8 +130,6 @@ class CustomTourOrder
     }
 
 
-
-
     /**
      * Constructor
      */
@@ -725,7 +723,7 @@ class CustomTourOrder
 
     public function __toString()
     {
-        return $this->toCountry->getTitle().' - '.$this->toCity->getTitle();
+        return $this->toCountry->getContent()->getTitle().' - '.$this->toCity->getContent()->getTitle();
     }
 }
 

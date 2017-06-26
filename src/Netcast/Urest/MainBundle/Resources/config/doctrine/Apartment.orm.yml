@@ -6,8 +6,6 @@ Netcast\Urest\MainBundle\Entity\Apartment:
             columns: [ city_id ]
         apartment_user_idx:
             columns: [ user_id ]
-        apartment_lang_idx:
-            columns: [ lang ]
     repositoryClass: Netcast\Urest\MainBundle\Entity\ApartmentRepository
     id:
         id:
@@ -16,20 +14,12 @@ Netcast\Urest\MainBundle\Entity\Apartment:
             generator:
                 strategy: AUTO
     fields:
-        lang:
-            type: string
-            length: '2'
-        title:
-            type: string
-            length: '255'
         rooms_count:
            type: string
            length: '255'
         price:
              type: string
              length: '100'
-        description:
-            type: text
         created:
             type: datetime
             nullable: false
@@ -54,6 +44,11 @@ Netcast\Urest\MainBundle\Entity\Apartment:
               inversedBy: apartments
 
     oneToMany:
+            apartment_content:
+                targetEntity: ApartmentContent
+                mappedBy: parent
+                cascade: ["all"]
+                orphanRemoval: true
             images:
                 targetEntity: ApartmentImages
                 mappedBy: apartment

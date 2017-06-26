@@ -8,17 +8,9 @@ Netcast\Urest\MainBundle\Entity\HotelRoom:
             generator:
                 strategy: AUTO
     fields:
-        lang:
-            type: string
-            length: '2'
-        title:
-            type: string
-            length: '255'
         price:
             type: string
             length: '255'
-        description:
-            type: text
         created:
             type: datetime
             nullable: false
@@ -36,7 +28,12 @@ Netcast\Urest\MainBundle\Entity\HotelRoom:
              targetEntity: Hotel
              inversedBy: rooms
     oneToMany:
-             images:
+            room_content:
+                targetEntity: HotelRoomContent
+                mappedBy: parent
+                cascade: ["all"]
+                orphanRemoval: true
+            images:
                 targetEntity: RoomImages
                 mappedBy: room
                 cascade: ['persist', 'remove']

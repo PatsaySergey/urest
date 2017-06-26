@@ -62,16 +62,8 @@
                     ],
                 ])
                 ->add('country', 'entity', [
-                    'attr'=>array('data-sonata-select2'=>'false'),
-                    'attr'=>array('data-sonata-select2-allow-clear'=>'false'),
                     'class' => 'Netcast\Urest\MainBundle\Entity\Country',
-                    'query_builder' => function($repository) {
-                            return $repository->createQueryBuilder('c')
-                                ->where('c.lang=:lang')
-                                ->setParameter('lang', $this->getLanguage())
-                                ->orderBy('c.title', 'ASC');
-                        },
-                    'property' => 'title',
+                    'property' => 'content',
                     'attr' => [
                         'class' => 'country_entity_field'
                     ],
@@ -84,13 +76,7 @@
                 ])
                 ->add('region', 'entity', [
                     'class' => 'Netcast\Urest\MainBundle\Entity\Region',
-                    'query_builder' => function($repository) {
-                            return $repository->createQueryBuilder('r')
-                                ->where('r.lang=:lang')
-                                ->setParameter('lang',$this->getLanguage())
-                                ->orderBy('r.title', 'ASC');
-                        },
-                    'property' => 'title',
+                    'property' => 'content',
                     'attr' => [
                         'class' => 'region_entity_field'
                     ],
@@ -103,13 +89,7 @@
                 ])
                 ->add('city', 'entity', [
                     'class' => 'Netcast\Urest\MainBundle\Entity\City',
-                    'query_builder' => function($repository) {
-                            return $repository->createQueryBuilder('c')
-                                ->where('c.lang=:lang')
-                                ->setParameter('lang',$this->getLanguage())
-                                ->orderBy('c.id', 'ASC');
-                        },
-                    'property' => 'title',
+                    'property' => 'content',
                     'attr' => [
                         'class' => 'city_entity_field'
                     ],
