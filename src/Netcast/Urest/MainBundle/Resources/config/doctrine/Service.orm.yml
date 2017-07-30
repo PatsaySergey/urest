@@ -8,15 +8,6 @@ Netcast\Urest\MainBundle\Entity\Service:
             generator:
                 strategy: AUTO
     fields:
-        title:
-            type: string
-            length: 255
-        lang:
-            type: string
-            length: '2'
-            nullable: false
-        description:
-            type: text
         price:
             type: string
             length: 255
@@ -48,6 +39,11 @@ Netcast\Urest\MainBundle\Entity\Service:
                    name: user_id
                    referenceColumnName: id
     oneToMany:
+            service_content:
+                    targetEntity: ServiceContent
+                    mappedBy: parent
+                    cascade: ["all"]
+                    orphanRemoval: true
             options:
                 targetEntity: Options
                 mappedBy: service

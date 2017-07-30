@@ -151,7 +151,12 @@ fos_user_registration_loginza_check:
 
 netcast_urest_tour_builder:
     pattern:  /{_locale}/tour_builder
-    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:index, _locale: "%locale%" }
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:new, _locale: "%locale%" }
+    methods: [GET]
+
+netcast_urest_tour_builder_new:
+    pattern:  /{_locale}/tour_builder_new
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:new, _locale: "%locale%" }
     methods: [GET]
 
 netcast_urest_tour_builder_get_hotels:
@@ -282,4 +287,10 @@ netcast_urest_admin_get_apartments:
 netcast_urest_search:
     pattern:  /{_locale}/search
     defaults: { _controller: NetcastUrestMainBundle:Search:index, _locale: "%locale%" }
+    methods: [GET]
+
+
+netcast_urest_tour_builder_get_services_new:
+    pattern:  /{_locale}/tour_builder/services/{id}
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getServicesNew, _locale: "%locale%" }
     methods: [GET]

@@ -386,4 +386,19 @@ class Apartment extends HasI18NEntity
     {
         return $this->tour;
     }
+
+
+    public function getMainImage() {
+        if(!$this->images) return null;
+        foreach ($this->images as $image) {
+            if($image->getMain()) return $image;
+        }
+        return null;
+    }
+
+    public function getAddress() {
+        $country = $this->getCity()->getRegion()->getCountry();
+        $city = $this->getCity();
+        return $country->getContent().', '.$city->getContent();
+    }
 }

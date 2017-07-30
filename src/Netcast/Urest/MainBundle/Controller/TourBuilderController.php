@@ -10,6 +10,90 @@
 
     class TourBuilderController extends Controller
     {
+
+        public function newAction() {
+            $lang = $this->getRequest()->getLocale();
+            $em = $this->getDoctrine()->getManager();
+            $welcomeText = $em->getRepository('Netcast\Urest\MainBundle\Entity\WellcomeMsg')->findBy(['lang' => $lang]);
+
+            $pr = $this->container->get('sonata.media.provider.image');
+
+            $priceExt = $this->container->get('netcast.urest.twig.price');
+
+            $hotels = $em->getRepository('NetcastUrestMainBundle:Hotel')->getHotelsArray($pr,$priceExt);
+            $apartments = $em->getRepository('NetcastUrestMainBundle:Apartment')->getApartmentsArray($pr,$priceExt);
+            $items  = array_merge($hotels,$apartments);
+
+            $apTypes = $em->getRepository('NetcastUrestMainBundle:ApartmentType')->findBy(['lang' => $lang]);
+            $apTypesArray = [];
+            $apTypesArray[] = [
+                'title' => 'Все типы',
+                'id' => 0,
+            ];
+            foreach ($apTypes as $row) {
+                $apTypesArray[] = [
+                    'title' => $row->getTitle(),
+                    'id' => $row->getId(),
+                ];
+            }
+
+            return $this->render('NetcastUrestMainBundle:Tour:tour_builder_new.html.twig',[
+                'welcomeText' => $welcomeText,
+                'apTypes' => $apTypesArray,
+                'items' => $items,
+                'icon' => $priceExt->getIcon(),
+                'itemTypes' => [
+                    ['value' => null, 'text' => 'Все'],
+                    ['value' => 'hotel', 'text'=> 'Отели'],
+                    ['value' => 'apartment', 'text'=>  'Апартементы']
+                ]
+            ]);
+        }
+
+        public function getServicesNewAction($id) {
+            $pr = $this->container->get('sonata.media.provider.image');
+            $em = $this->getDoctrine()->getManager();
+            $services = $em->getRepository('NetcastUrestMainBundle:Service')->findBy(['city' => $id]);
+            $priceExt = $this->container->get('netcast.urest.twig.price');
+            $result = [];
+            foreach ($services as $row) {
+                $options = $row->getOptions();
+                $optionsRes = [];
+                foreach ($options as $option) {
+                    $mainImg = $option->getMainImage();
+                    $format = $pr->getFormatName($mainImg->getMedia(), 'reference');
+                    $mainImgPath = $pr->generatePublicUrl($mainImg->getMedia(), $format);
+                    $AddImg = [];
+                    foreach ($option->getImages() as $rImg) {
+                        $format = $pr->getFormatName($rImg->getMedia(), 'reference');
+                        $AddImg[] = $pr->generatePublicUrl($rImg->getMedia(), $format);
+                    }
+                    $optionItem = [
+                        'title' => $option->getContent()->getTitle(),
+                        'description' => $option->getContent()->getContent(),
+                        'image' => $mainImgPath,
+                        'type' => $row->getType(),
+                        'images' => $AddImg,
+                        'price' => $priceExt->getPrice($option->getPrice(),true),
+                        'priceStr' => $priceExt->getPrice($option->getPrice()),
+                    ];
+                    $optionsRes[] = $optionItem;
+                }
+                $item = [
+                    'title' => $row->getContent()->getTitle(),
+                    'description' => $row->getContent()->getContent(),
+                    'type' => $row->getType(),
+                    'image' => $this->container->get('templating.helper.assets')->getUrl('bundles/netcasturestmain/img/s-logo.png'),
+                    'images' => [],
+                    'items' => $optionsRes,
+                    'price' => $priceExt->getPrice($row->getPrice(),true),
+                    'priceStr' => $priceExt->getPrice($row->getPrice()),
+                ];
+                $result[] = $item;
+            }
+            return new JsonResponse($result);
+        }
+
         public function indexAction()
         {
             $lang = $this->getRequest()->getLocale();

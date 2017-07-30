@@ -1,6 +1,7 @@
 Netcast\Urest\MainBundle\Entity\HotelRoom:
     type: entity
     table: hotel_rooms
+    repositoryClass: Netcast\Urest\MainBundle\Entity\HotelRoomRepository
     id:
         id:
             type: integer

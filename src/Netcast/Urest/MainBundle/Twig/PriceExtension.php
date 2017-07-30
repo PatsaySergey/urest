@@ -43,7 +43,9 @@ class PriceExtension extends \Twig_Extension
             $icon = $currency->getCurrencyIcon();
         }
         self::$icon = $icon;
+
         $price = round($price*$rate);
+
         if($withoutCurrency) {
             return $price;
         }
@@ -52,6 +54,17 @@ class PriceExtension extends \Twig_Extension
 
     public function getIcon()
     {
+        if(!self::$icon) {
+            $currency = null;
+            $request = $this->container->get('request_stack')->getCurrentRequest();
+            $cookies = $request->cookies;
+            if ($cookies->has('CURRENCY')) {
+                $currCurrencyCode = $cookies->get('CURRENCY');
+                $currency = $this->doctrine->getRepository('Netcast\Urest\MainBundle\Entity\CurrencyRate')->findOneBy(['currency_code' => $currCurrencyCode, 'display' => true]);
+            }
+            $icon = is_null($currency) ? $this->defaultCurrencyIcon : $currency->getCurrencyIcon();
+            self::$icon = $icon;
+        }
         return '<i class="fa '.self::$icon.'"></i>';
     }
 

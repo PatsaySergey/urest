@@ -1,0 +1,403 @@
+{% extends "NetcastUrestMainBundle::base.html.twig" %}
+{% block pageCss %}
+    {% stylesheets filter='cssrewrite'
+    'bundles/netcasturestmain/css/font-awesome.min.css'
+    'bundles/netcasturestmain/css/mCustomScrollbar.min.css'
+    'bundles/netcasturestmain/css/swiper.min.css'
+    'bundles/netcasturestmain/css/index.min.css'
+    'bundles/netcasturestmain/css/builder.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock pageCss %}
+{% block content %}
+<main class="content" data-page="u-rest" id="builder" style="visibility: hidden; height: 700px">
+    <div class="container" >
+        <div class="sub-head">
+            <div class="sub-head__cap">Добро пожаловать в TourBuilder!</div>
+            <div class="sub-head__txt"> Программа TourBuilder поможет Вам быстро и удобно спланировать и забронировать свой индивидуальный тур в on-line режиме. </div>
+        </div>
+    </div>
+    {% verbatim %}
+    <div class="container js-u-first-set">
+    <div class="u-kit" v-if="showOrder">
+            <div class="u-kit__l-side">
+                <div class="u-kit__cap">Новый тур</div>
+                <div class="u-kit__date">{{tour.from}} / {{tour.to}}</div>
+                <div class="u-kit__price"> {{tour.cost}}&nbsp;
+                    <span class="u-kit__currency">{{ currencyIcon }}</span>
+                </div>
+            </div>
+            <div class="u-kit__r-side">
+                <div class="u-kit__item">
+                    <div class="u-kit__item-photo" :style="'background-image:url('+tour.accommodation.item.image+')'">
+                        <button class="u-kit__change plain-btn js-kit__change" v-on:click="changeAccommodation">Изменить</button>
+                    </div>
+                    <div class="u-kit__item-info">
+                        <span class="u-kit__item-cap">{{tour.accommodation.item.title}}</span>
+                        <div class="u-kit__item-rate s-rate s-rate-5" v-show="currItem.type == 'hotel'">
+                            <i v-for="i in new Array(tour.accommodation.item.stars)" class="fa fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="u-kit__close js-u-kit-close" v-on:click="changeAccommodation">
+                        <i class="fa fa-close"></i>
+                    </div>
+                </div>
+                <div class="u-kit__item" v-show="currItem.type == 'hotel'">
+                    <div class="u-kit__item-photo" :style="'background-image:url('+tour.accommodation.room.image+')'">
+                        <button class="u-kit__change plain-btn js-kit__change" v-on:click="changeAccommodation">Изменить</button>
+                    </div>
+                    <div class="u-kit__item-info">
+                        <span class="u-kit__item-cap">{{tour.accommodation.room.title}}</span>
+                        <span class="u-kit__price" v-html="tour.accommodation.room.priceStr"></span>
+                    </div>
+                    <div class="u-kit__close js-u-kit-close" v-on:click="changeAccommodation">
+                        <i class="fa fa-close"></i>
+                    </div>
+                </div>
+                <div class="u-kit__item" v-for="(item,key) in tour.services">
+                    <div class="u-kit__item-photo" :style="'background-image:url('+item.image+')'">
+                    </div>
+                    <div class="u-kit__item-info">
+                        <span class="u-kit__item-cap">{{item.title}}</span>
+                        <span class="u-kit__price" ><i class="fa fa-usd"></i> {{item.cost}}</span>
+                    </div>
+                    <div class="u-kit__close js-u-kit-close" v-on:click="deleteService(key)">
+                        <i class="fa fa-close"></i>
+                    </div>
+                </div>
+            </div>
+            <hr class="u-kit__hr" v-show="endOrder">
+              <div class="u-kit__f-group" v-show="endOrder">
+                <div class="u-kit__f-group-cap">Ваш комментарий</div>
+                <textarea class="u-kit__f-group-input" name="u-comment" placeholder="Введите текст"></textarea>
+                <button class="active-btn">Оформить заказ</button>
+              </div>
+        </div>
+        <div class="u-filter" v-show="stepOne">
+              <div class="u-filter__title">МАРШРУТ И ДАТЫ</div>
+              <div class="u-filter__body">
+                <div class="uf-group uf-group_country">
+                  <div class="uf-group__cap">Ваш тур начинается тут</div>
+                  <div class="uf-group__input">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <input type="hidden" :value="filter.city" >
+                    <input id="jsCity" v-model="cityAutoComplete" class="js-countries" type="text" name="country" placeholder="Введите город или страну"> </div>
+                </div>
+                <div class="uf-group uf-group_date">
+                  <div class="uf-group__cap">Приезд</div>
+                  <div class="uf-group__input">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <input v-model="tour.from" class="datepicker js-datepicker from" readonly="readonly" type="text" size="30" name="day-start"> </div>
+                </div>
+                <div class="uf-group uf-group_date">
+                  <div class="uf-group__cap">Отбытие</div>
+                  <div class="uf-group__input">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <input v-model="tour.to" class="datepicker js-datepicker to" readonly="readonly" type="text" size="30" name="day-end"> </div>
+                </div>
+              </div>
+        </div>
+        <div class="u-filter" v-show="stepOne">
+          <div class="u-filter__title">Проживание</div>
+          <div class="u-filter__body">
+            <div class="uf-group uf-group_radiotab">
+              <div class="uf-group__cap">Вид жилья</div>
+              <div class="uf-group__input uf-group__input_category">
+                <input id="apart-type-0" v-model="filter.type" value="" type="radio" name="apart-type" checked>
+                <label for="apart-type-0" style="margin-bottom: 0px; font-weight: normal">Все виды</label>
+                <input id="apart-type-1" v-model="filter.type" value="hotel" type="radio" name="apart-type">
+                <label for="apart-type-1" style="margin-bottom: 0px; font-weight: normal">Отель</label>
+                <input id="apart-type-2" v-model="filter.type" value="apartment" type="radio" name="apart-type">
+                <label for="apart-type-2" style="margin-bottom: 0px; font-weight: normal">Апартаменты</label>
+              </div>
+            </div>
+            <div class="uf-group uf-group_rate" v-show="showStars">
+              <div class="uf-group__cap">Количество звезд</div>
+              <div class="uf-group__input uf-group__input_rate">
+                <input id="u-star-1" v-model="filter.stars" value="1" type="radio" name="u-rate">
+                <input id="u-star-2" v-model="filter.stars" value="2" type="radio" name="u-rate">
+                <input id="u-star-3" v-model="filter.stars" value="3" type="radio" name="u-rate">
+                <input id="u-star-4" v-model="filter.stars" value="4" type="radio" name="u-rate">
+                <input id="u-star-5" v-model="filter.stars" value="5" type="radio" name="u-rate">
+                <label for="u-star-1">
+                  <i class="fa fa-star-o"></i>
+                </label>
+                <label for="u-star-2">
+                  <i class="fa fa-star-o"></i>
+                </label>
+                <label for="u-star-3">
+                  <i class="fa fa-star-o"></i>
+                </label>
+                <label for="u-star-4">
+                  <i class="fa fa-star-o"></i>
+                </label>
+                <label for="u-star-5">
+                  <i class="fa fa-star-o"></i>
+                </label>
+              </div>
+            </div>
+            <div class="uf-group uf-group_select" v-show="showApFilter">
+              <div class="uf-group__cap">Категория</div>
+              <div class="uf-group__input">
+                <select class="js-select nostyle apType" v-model="filter.apType" name="category" data-width="155">
+                    <option v-for="option in apTypes" v-bind:value="option.id">{{option.title}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="uf-group uf-group_select" v-show="showApFilter">
+              <div class="uf-group__cap">Комнаты</div>
+              <div class="uf-group__input">
+                <select class="js-select nostyle apRooms" v-model="filter.apRooms" name="room-count" data-width="84">
+                    <option v-for="(option,key) in apRooms" v-bind:value="key">{{option}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="uf-group uf-group_range">
+              <div class="uf-group__cap">Цена
+                <input class="js-price-range-input" type="text" readonly name="price-range"> </div>
+              <div class="uf-group__input">
+                <div class="js-price-range-slider"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-hotel-result"  v-show="stepOne">
+            <div v-for="item in items" class="u-card js-u-card" v-on:click="selItem(item,$event)">
+                <div class="u-card__media-w">
+                    <img class="u-card__media" :src="item.image">
+                </div>
+                <div class="u-card__info">
+                    <div class="u-card__cap">{{ item.title }}</div>
+                    <div class="u-card__price"  v-html="item.priceStr"> </div>
+                    <div v-if="item.type === 'hotel'" :class="'u-card__rate s-rate s-rate-'+item.stars">
+                        <i v-for="i in new Array(item.stars)" class="fa fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="u-full-card js-full-card" id="itemCard" v-show="stepOne" style="z-index: 100;">
+            <div class="u-full-card__main-body">
+                <div class="u-card">
+                    <div class="u-card__media-w js-u-card-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" v-for="img in currItem.images">
+                                <img class="u-card__media" :src="img">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="u-card__info">
+                        <div class="u-card__cap">{{currItem.title}}</div>
+                        <div class="u-card__price" v-html="currItem.priceStr"></div>
+                        <div v-if="currItem.type === 'hotel'" :class="'u-card__rate s-rate s-rate-'+currItem.stars">
+                            <i v-for="i in new Array(currItem.stars)" class="fa fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="u-full-card__info">
+                    <div class="u-full-card__fpart">
+                        <div class="u-full-card__adds">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>{{currItem.address}}</div>
+                        <div class="u-full-card__descr">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <p v-html="currItem.description"></p>
+                        </div>
+                    </div>
+                    <div class="u-full-card__spart">
+                        <div class="u-full-card__cap" v-show="currItem.type == 'hotel'">Выбор номера</div>
+                        <button v-show="currItem.type == 'apartment'" class="u-card-option__btn js-card-option-btn" v-on:click="selectHome">Выбрать</button>
+                        <div class="u-full-card__option-list js-custom-scroll js-card-option-list" v-show="currItem.type == 'hotel'">
+                            <div v-for="room in currItem.rooms" class="u-card-option js-card-option">
+                                <div class="u-card-option__seats-num">
+                                    <i class="fa fa-user"></i>
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="u-card-option__main-body">
+                                    <div class="u-card-option__name">{{room.title}}</div>
+                                    <div class="u-card-option__price" v-html="room.priceStr"></div>
+                                    <div class="u-card-option__more-info-btn js-more-info-btn" v-on:click="selRoom(room)">
+                                        <div class="fa fa-info-circle"></div>Подробнее</div>
+                                </div>
+                                <button class="u-card-option__btn js-card-option-btn" v-on:click="selectAccommodation(room)">Выбрать</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="u-full-card__add-body js-full-card-add-body">
+                <div class="u-full-card__small-slider-w">
+                    <div class="u-full-card__head">{{currRoom.title}}
+                        <div class="u-full-card__price" v-html="currRoom.priceStr"></div>
+                    </div>
+                    <div class="u-full-card__small-slider js-small-card-slider">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" v-for="img in currRoom.images">
+                                <img class="u-card__media" :src="img">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-btn-prev js-smsbp">
+                        <div class="fa fa-angle-left"></div>
+                    </div>
+                    <div class="swiper-btn-next js-smsbn">
+                        <div class="fa fa-angle-right"></div>
+                    </div>
+                </div>
+                <div class="u-full-card__info">
+                    <div class="u-full-card__txt" v-html="currRoom.description"></div>
+                    <ul class="u-full-card__list">
+                        <li>Безкоштовний WiFi</li>
+                        <li>Автостоянка</li>
+                        <li>Розміщення з домашніми тваринами</li>
+                        <li>Трансфер до/з аеропорту</li>
+                        <li>Номери для некурців</li>
+                        <li>Безкоштовний WiFi</li>
+                        <li>Автостоянка</li>
+                        <li>Розміщення з домашніми тваринами</li>
+                        <li>Трансфер до/з аеропорту</li>
+                        <li>Номери для некурців</li>
+                        <li>Обслуговування номерів</li>
+                        <li>Пляж неподалік</li>
+                        <li>Пляж неподалік</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="u-full-card__close js-full-card-close" v-on:click="closeFullCard">
+                <i class="fa fa-close"></i>
+            </div>
+        </div>
+        {% endverbatim %}
+    </div>
+    <div class="container second-set js-u-second-set"  v-show="stepTwo" style="display: block">
+        {% verbatim %}
+        <div class="u-filter">
+            <div class="u-filter__title">Дополнительные услуги</div>
+            <div class="u-filter__body u-filter__list-set">
+                <div class="uf-group uf-group_cat">
+                    <div class="uf-group__cap uf-group__cap_alt">
+                        <i class="fa fa-car" aria-hidden="true"></i>Транспорт</div>
+                    <div class="uf-group__input">
+                        <label v-for="service in services" v-on:change="showService(service,$event)">
+                            <input type="checkbox" class="servicesCB">
+                            <span>{{service.title}}</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="uf-group uf-group_cat">
+                    <div class="uf-group__cap uf-group__cap_alt">
+                        <i class="fa fa-child" aria-hidden="true"></i>Развлечения</div>
+                    <div class="uf-group__input">
+
+                    </div>
+                </div>
+                <div class="uf-group uf-group_cat">
+                    <div class="uf-group__cap uf-group__cap_alt">
+                        <i class="fa fa-cutlery" aria-hidden="true"></i>Еда</div>
+                    <div class="uf-group__input">
+
+                    </div>
+                </div>
+                <div class="uf-group uf-group_cat">
+                    <div class="uf-group__cap uf-group__cap_alt">
+                        <i class="fa fa-fa" aria-hidden="true"></i>Другое</div>
+                    <div class="uf-group__input">
+
+                    </div>
+                </div>
+            </div>
+            <button class="u-filter__show-more plain-btn js-fc-show-more">Показать еще</button>
+        </div>
+
+        <div class="u-filter-result" v-if="showServiceList">
+          <div class="u-card js-u-card js-service-card" v-for="item in currService.items" v-on:click="setServiceItem(item,$event)">
+            <div class="u-card__media-w">
+              <img class="u-card__media" :src="item.image">
+            </div>
+            <div class="u-card__info">
+              <div class="u-card__cap">{{item.title}}</div>
+              <div class="u-card__price" v-html="item.priceStr"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="u-full-card js-full-card" id="serviceCard">
+          <div class="u-full-card__main-body">
+            <div class="u-card">
+              <div class="u-card__media-w">
+                <img class="u-card__media" :src="displayService.image">
+              </div>
+              <div class="u-card__info">
+                <div class="u-card__cap">{{displayService.title}}</div>
+                <div class="u-card__price" v-html="displayService.priceStr"></div>
+              </div>
+            </div>
+            <div class="u-full-card__info">
+              <div class="u-full-card__fpart">
+                <div class="u-full-card__adds">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>{{displayService.title}}</div>
+                <div class="u-full-card__descr">
+                  <i class="fa fa-info-circle" aria-hidden="true"></i>
+                  <p v-html="displayService.description"></p>
+                </div>
+
+              </div>
+              <div class="u-full-card__spart">
+                <div class="u-full-card__cap" v-show="displayService.type == 'day' || displayService.type == 'day_option'">Время аренды</div>
+                <div class="u-full-card__option-list u-full-card__inputs-w">
+                  <div class="uf-group uf-group_date" v-show="displayService.type == 'day' || displayService.type == 'day_option'">
+                    <div class="uf-group__cap">С</div>
+                    <div class="uf-group__input">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                      <input class="datepicker js-datepicker froms" v-model="displayService.from" readonly="readonly" type="text" size="30" name="day-start"> </div>
+                  </div>
+                  <div class="uf-group uf-group_date" v-show="displayService.type == 'day' || displayService.type == 'day_option'">
+                    <div class="uf-group__cap">По</div>
+                    <div class="uf-group__input">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                      <input class="datepicker js-datepicker tos" v-model="displayService.to" readonly="readonly" type="text" size="30" name="day-end"> </div>
+                  </div>
+                  <div class="u-card-option active js-card-option">
+                    <div class="u-card-option__main-body">
+                      <div class="u-card-option__price">{{displayService.cost}}
+                        <span class="u-card-option__currency">{{ currencyIcon }}</span>
+                      </div>
+                    </div>
+                    <button class="u-card-option__btn js-card-option-btn" v-on:click="addService">Выбрать</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="u-full-card__close js-full-card-close" v-on:click="closeFullCard">
+                <i class="fa fa-close"></i>
+            </div>
+        </div>
+
+        {% endverbatim %}
+        <button class="active-btn" v-on:click="showEnd">Завершить бронирование</button>
+    </div>
+</main>
+
+{% endblock content %}
+
+{% block pageScripts %}
+    {% javascripts
+    '@NetcastUrestMainBundle/Resources/public/js/jquery.mCustomScrollbar.concat.min.js'
+    '@NetcastUrestMainBundle/Resources/public/js/swiper.jquery.min.js'
+    '@NetcastUrestMainBundle/Resources/public/js/u-rest.js'
+    '@NetcastUrestMainBundle/Resources/public/js/vue.js'
+    '@NetcastUrestMainBundle/Resources/public/js/tourBuilderNew.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        var TourBuilder = new TourBuilder({
+            acPath: '{{ path('netcast_urest_city_list') }}',
+            servicesPath: '{{ path('netcast_urest_tour_builder_get_services_new',{id:'__id__'}) }}',
+            types: {{ itemTypes|json_encode|raw }},
+            apTypes: {{ apTypes|json_encode|raw }},
+            currencyIcon: '{{ icon }}'
+       },{{ items|json_encode|raw }});
+    </script>
+{% endblock pageScripts %}

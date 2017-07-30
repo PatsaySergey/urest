@@ -9,18 +9,10 @@ Netcast\Urest\MainBundle\Entity\Options:
             generator:
                 strategy: AUTO
     fields:
-        lang:
-            type: string
-            length: '2'
-        title:
-            type: string
-            length: '255'
         price:
             type: string
             length: '255'
             nullable: true
-        description:
-            type: text
         created:
             type: datetime
             nullable: false
@@ -38,6 +30,11 @@ Netcast\Urest\MainBundle\Entity\Options:
              targetEntity: Service
              inversedBy: options
     oneToMany:
+         options_content:
+             targetEntity: OptionsContent
+             mappedBy: parent
+             cascade: ["all"]
+             orphanRemoval: true
          images:
              targetEntity: OptionImages
              mappedBy: option

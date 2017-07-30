@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Options
  */
-class Options
+class Options extends HasI18NEntity
 {
     /**
      * @var integer
@@ -17,22 +17,7 @@ class Options
     /**
      * @var string
      */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var string
-     */
     private $price;
-
-    /**
-     * @var string
-     */
-    private $description;
 
     /**
      * @var \DateTime
@@ -65,12 +50,20 @@ class Options
     private $video;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $options_content;
+
+    protected $contentField = 'options_content';
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
         $this->video = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->options_content = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -84,49 +77,36 @@ class Options
     }
 
     /**
-     * Set lang
+     * Add options_content
      *
-     * @param string $lang
+     * @param \Netcast\Urest\MainBundle\Entity\OptionsContent $options_content
      * @return Options
      */
-    public function setLang($lang)
+    public function addOptionsContent(OptionsContent $options_content)
     {
-        $this->lang = $lang;
+        $this->options_content[] = $options_content;
 
         return $this;
     }
 
     /**
-     * Get lang
+     * Remove options_content
      *
-     * @return string 
+     * @param \Netcast\Urest\MainBundle\Entity\OptionsContent $options_content
      */
-    public function getLang()
+    public function removeOptionsContent(OptionsContent $options_content)
     {
-        return $this->lang;
+        $this->options_content->removeElement($options_content);
     }
 
     /**
-     * Set title
+     * Get options_content
      *
-     * @param string $title
-     * @return Options
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setTitle($title)
+    public function getOptionsContent()
     {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
+        return $this->options_content;
     }
 
     /**
@@ -150,29 +130,6 @@ class Options
     public function getPrice()
     {
         return $this->price;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Options
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**
@@ -304,7 +261,7 @@ class Options
      * Add video
      *
      * @param \Application\Sonata\MediaBundle\Entity\Media $video
-     * @return Apartment
+     * @return Options
      */
     public function addVideo(\Application\Sonata\MediaBundle\Entity\Media $video=null)
     {
@@ -334,8 +291,16 @@ class Options
         return $this->video;
     }
 
+    public function getMainImage() {
+        if(!$this->images) return null;
+        foreach ($this->images as $image) {
+            if($image->getMain()) return $image;
+        }
+        return null;
+    }
+
     public function __toString() {
-        return $this->title ?: '';
+        return $this->getContent() ? $this->getContent()->getTitle() : '';
     }
 
 }

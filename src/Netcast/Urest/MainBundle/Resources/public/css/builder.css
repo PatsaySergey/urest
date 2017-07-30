@@ -1,0 +1,57 @@
+#aCountry {
+    position: absolute;
+    left: 32px;
+    top: 8px;
+    font-size: 14px;
+    color: #555555;
+}
+
+.bItem {
+    margin-left: 15px;
+    margin-top: 15px;
+    min-height: 255px;
+}
+
+.second-set label {
+    font-weight: normal;
+    font-family: "Roboto",sans-serif;
+}
+
+.u-full-card__descr ul {
+    margin-top: 13px;
+    list-style: none;
+    letter-spacing: -0.075em;
+}
+
+.u-full-card__descr ul li:before{
+    content: '';
+    display: inline-block;
+    position: relative;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    vertical-align: middle;
+    left: 1px;
+    margin-right: 2px;
+    background: #898989;
+}
+
+.u-full-card__descr ul li+li {
+    margin-top: 7px;
+}
+
+.uf-group_radiotab input:checked+label {
+    background: #23b6a8;
+}
+
+.ui-slider-handle.ui-state-default {
+    background: #23b6a8;
+}
+
+.uf-group_cat label {
+    font-size: 16px;
+}
+
+.uf-group_range input {
+    font-weight: bold;
+}

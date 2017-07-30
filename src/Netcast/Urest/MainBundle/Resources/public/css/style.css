@@ -789,7 +789,7 @@ header {
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 5; }
+  z-index: 110; }
 
 .affix {
   top: 0;
@@ -2236,7 +2236,6 @@ footer {
 .ui-widget-content {
       z-index: 300;
       background: white;
-      width: 202px!important;
   }
 
 .ui-widget-content li{
@@ -2244,11 +2243,10 @@ footer {
 }
 
 .main-wrapper {
-  background: url("../../../../../../../../../../Users/kiev135/Desktop/urest/assets/img/bg-main-page.png") no-repeat top center;
   font-family: "Roboto";
   font-size: 18px;
-  height: 932px;
-  padding-top: 267px;
+  padding-top: 183px;
+  margin-top: -67px; }
   margin-top: -67px; }
   @media (min-width: 768px) and (max-width: 991px) {
     .main-wrapper {

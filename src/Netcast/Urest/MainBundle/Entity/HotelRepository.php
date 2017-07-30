@@ -3,6 +3,7 @@
 namespace Netcast\Urest\MainBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Sonata\MediaBundle\Provider\ImageProvider;
 
 /**
  * HotelRepository
@@ -12,4 +13,59 @@ use Doctrine\ORM\EntityRepository;
  */
 class HotelRepository extends EntityRepository
 {
+    public function getHotelsArray(ImageProvider $pr,$priceExt)
+    {
+        $result = [];
+        $items = $this->createQueryBuilder('hotel')->getQuery()->getResult();
+        foreach ($items as $key => $item) {
+            $mainImg = $item->getMainImage();
+            $mainImgPath = null;
+            if($mainImg) {
+                $format = $pr->getFormatName($mainImg->getMedia(), 'reference');
+                $mainImgPath = $pr->generatePublicUrl($mainImg->getMedia(), $format);
+            }
+            $addImg = [];
+            foreach ($item->getImages() as $img) {
+                $format = $pr->getFormatName($img->getMedia(), 'reference');
+                $addImg[] = $pr->generatePublicUrl($img->getMedia(), $format);
+            }
+            $rooms = [];
+            foreach ($item->getRooms() as $i => $room) {
+                $rMainImg = $room->getMainImage();
+                $rMainImgPath = null;
+                if($rMainImg) {
+                    $format = $pr->getFormatName($rMainImg->getMedia(), 'reference');
+                    $rMainImgPath = $pr->generatePublicUrl($rMainImg->getMedia(), $format);
+                }
+                $rAddImg = [];
+                foreach ($room->getImages() as $rImg) {
+                    $format = $pr->getFormatName($rImg->getMedia(), 'reference');
+                    $rAddImg[] = $pr->generatePublicUrl($rImg->getMedia(), $format);
+                }
+                $rooms[$i] = [
+                    'title' => $room->getContent()->getTitle(),
+                    'description' => $room->getContent()->getContent(),
+                    'price' => $priceExt->getPrice($room->getPrice(),true),
+                    'priceStr' => $priceExt->getPrice($room->getPrice()),
+                    'image' => $rMainImgPath,
+                    'images' => $rAddImg,
+                ];
+            }
+            $result[$key] = [
+                'title' => $item->getContent()->getTitle(),
+                'description' => $item->getContent()->getContent(),
+                'type' => 'hotel',
+                'image' => $mainImgPath,
+                'rooms' => $rooms,
+                'city' => $item->getCity()->getId(),
+                'stars' => $item->getStarsCount(),
+                'address' => $item->getAddress(),
+                'images' => $addImg,
+                'minPrice' => $priceExt->getPrice($item->getMinPrice(),true),
+                'maxPrice' => $priceExt->getPrice($item->getMaxPrice(),true),
+                'priceStr' => $priceExt->getPrice($item->getMinPrice()).' - '.$priceExt->getPrice($item->getMaxPrice()),
+            ];
+        }
+        return $result;
+    }
 }

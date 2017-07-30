@@ -303,6 +303,15 @@ class HotelRoom extends HasI18NEntity
         }
         return $title;
     }
+
+    public function getMainImage() {
+        if(!$this->images) return null;
+        foreach ($this->images as $image) {
+            if($image->getMain()) return $image;
+        }
+        return null;
+    }
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -342,4 +351,6 @@ class HotelRoom extends HasI18NEntity
     {
         return $this->tour;
     }
+
+
 }

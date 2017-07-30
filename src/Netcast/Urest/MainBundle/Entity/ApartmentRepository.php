@@ -3,6 +3,7 @@
 namespace Netcast\Urest\MainBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Sonata\MediaBundle\Provider\ImageProvider;
 
 /**
  * ApartmentRepository
@@ -26,6 +27,39 @@ class ApartmentRepository extends EntityRepository
             ->orderBy('apartment.title','ASC')
         ;
         return $qb->getQuery()->getResult();
+    }
+
+    public function getApartmentsArray(ImageProvider $pr,$priceExt)
+    {
+        $result = [];
+        $items = $this->createQueryBuilder('apartment')->getQuery()->getResult();
+        foreach ($items as $key => $item) {
+            $mainImg = $item->getMainImage();
+            $mainImgPath = null;
+            if($mainImg) {
+                $format = $pr->getFormatName($mainImg->getMedia(), 'reference');
+                $mainImgPath = $pr->generatePublicUrl($mainImg->getMedia(), $format);
+            }
+            $addImg = [];
+            foreach ($item->getImages() as $img) {
+                $format = $pr->getFormatName($img->getMedia(), 'reference');
+                $addImg[] = $pr->generatePublicUrl($img->getMedia(), $format);
+            }
+            $result[$key] = [
+                'title' => $item->getContent()->getTitle(),
+                'description' => $item->getContent()->getContent(),
+                'type' => 'apartment',
+                'image' => $mainImgPath,
+                'city' => $item->getCity()->getId(),
+                'address' => $item->getAddress(),
+                'apType' => $item->getTypes()->getId(),
+                'apRooms' => $item->getRoomsCount(),
+                'images' => $addImg,
+                'price' => $priceExt->getPrice($item->getPrice(),true),
+                'priceStr' => $priceExt->getPrice($item->getPrice()),
+            ];
+        }
+        return $result;
     }
 
 }

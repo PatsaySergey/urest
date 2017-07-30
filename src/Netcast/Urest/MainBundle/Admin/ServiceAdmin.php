@@ -22,10 +22,15 @@
             }
             $user = $this->getSecurityContext()->getToken()->getUser();
             $item->setUser($user);
-            $item->setLang($this->getLanguage());
             $item->setCreated(new \DateTime());
             $item->setUpdated(new \DateTime());
             $this->toPositive($item);
+            foreach($item->getServiceContent() as $sContent) {
+                if(!$sContent->getIsDeleted())
+                    $sContent->setParent($item);
+                else
+                    $item->removeServiceContent($sContent);
+            }
         }
 
         // перед обновлением
@@ -38,6 +43,13 @@
             }
             $this->toPositive($item);
             $item->setUpdated(new \DateTime());
+
+            foreach($item->getServiceContent() as $roomContent) {
+                if(!$roomContent->getIsDeleted())
+                    $roomContent->setParent($item);
+                else
+                    $item->removeServiceContent($roomContent);
+            }
         }
 
 
@@ -53,14 +65,6 @@
             $country = (null === $city)?$city:$city->getRegion()->getCountry();
             $formMapper
                 ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-                ->add('title', 'text', [
-                    'label' => 'form.label.title',
-                    'trim' => true,
-                    'required' => true,
-                    'attr' => [
-                        'maxlength' => '255',
-                    ],
-                ])
                 ->add('country', 'entity', [
                     'class' => 'Netcast\Urest\MainBundle\Entity\Country',
                     'property' => 'content',
@@ -132,31 +136,28 @@
                 ->add('clear','hidden',['mapped' => false])
                 ->end()
                 ->with('admin.tour.end',['class' => 'col-md-12', 'translation_domain' => 'NetcastUrestMainBundle'])
-                ->add('description', 'ckeditor', [
-                    'label' => 'form.label.description',
-                    'trim' => true,
-                    'constraints' => [new NotBlank()],
-                    'required' => true
+                ->add('serviceContent', 'urest_i18n_collection', [
+                    'label' => 'form.label.content',
+                    'type' => 'netcast_urest_title_content_form',
+                    'options' => [
+                        'label' => false,
+                        'required' => false,
+                        'data_class' => 'Netcast\Urest\MainBundle\Entity\ServiceContent',
+                    ],
+                    'by_reference' => false,
+                    'allow_add' => true,
+                    'allow_delete' => false,
+                    'required' => false
                 ])
                 ->end()
             ;
-        }
-
-        public function createQuery($context = 'list') {
-            $query = parent::createQuery($context);
-            $query
-                ->andWhere($query->getRootAlias().'.lang = :lang')
-                ->setParameter('lang', $this->getLanguage())
-            ;
-
-            return $query;
         }
 
         protected function configureListFields(ListMapper $listMapper)
         {
             $listMapper
                 ->add('id','text',['label' => 'form.label.number'])
-                ->add('title', null, ['label' => 'form.label.title'])
+                ->add('content', null, ['label' => 'form.label.title'])
                 ->add('user', 'string', ['label' => 'form.label.author', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
                 ->add('created', null, ['label' => 'form.label.created'])
                 ->add('_action', 'actions', [

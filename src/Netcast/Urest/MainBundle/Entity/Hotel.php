@@ -328,4 +328,34 @@ class Hotel extends HasI18NEntity
     {
         return $this->video;
     }
+
+    public function getMainImage() {
+        if(!$this->images) return null;
+        foreach ($this->images as $image) {
+            if($image->getMain()) return $image;
+        }
+        return null;
+    }
+
+    public function getMinPrice() {
+        $price = 0;
+        foreach ($this->getRooms() as $rom) {
+            if(!$price || $price > $rom->getPrice()) $price = $rom->getPrice();
+        }
+        return $price;
+    }
+
+    public function getMaxPrice() {
+        $price = 0;
+        foreach ($this->getRooms() as $rom) {
+            if(!$price || $price < $rom->getPrice()) $price = $rom->getPrice();
+        }
+        return $price;
+    }
+
+    public function getAddress() {
+        $country = $this->getCity()->getRegion()->getCountry();
+        $city = $this->getCity();
+        return $country->getContent().', '.$city->getContent();
+    }
 }

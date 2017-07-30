@@ -80,7 +80,7 @@ $(function(){
 
 	//$('.carousel').carousel();
 
-	$('input.btn-checkbox,input.btn-radio, select').styler();
+	$('input.btn-checkbox,input.btn-radio, select').not('.nostyle').styler();
 
     $('.jsCurrency').click(function(){
         var code = $(this).find('.content').data('code');

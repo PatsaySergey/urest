@@ -2,12 +2,10 @@
 
 namespace Netcast\Urest\MainBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Service
  */
-class Service
+class Service extends HasI18NEntity
 {
     /**
      * @var integer
@@ -17,22 +15,7 @@ class Service
     /**
      * @var string
      */
-    private $title;
-
-    /**
-     * @var string
-     */
     private $type;
-
-    /**
-     * @var string
-     */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $description;
 
     /**
      * @var string
@@ -70,11 +53,19 @@ class Service
     private $user;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $service_content;
+
+    protected $contentField = 'service_content';
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->options = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->service_content = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -88,22 +79,42 @@ class Service
     }
 
     /**
-     * Set title
+     * Add service_content
      *
-     * @param string $title
+     * @param \Netcast\Urest\MainBundle\Entity\ServiceContent $service_content
      * @return Service
      */
-    public function setTitle($title)
+    public function addServiceContent(ServiceContent $service_content)
     {
-        $this->title = $title;
+        $this->service_content[] = $service_content;
 
         return $this;
     }
 
     /**
+     * Remove service_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\ServiceContent $service_content
+     */
+    public function removeServiceContent(ServiceContent $service_content)
+    {
+        $this->service_content->removeElement($service_content);
+    }
+
+    /**
+     * Get service_content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getServiceContent()
+    {
+        return $this->service_content;
+    }
+
+    /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -121,62 +132,6 @@ class Service
         $this->type = $type;
 
         return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set lang
-     *
-     * @param string $lang
-     * @return Service
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return string 
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Service
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**
@@ -352,7 +307,7 @@ class Service
 
 
     public function __toString() {
-        return $this->title ?: '';
+        return $this->getContent() ? $this->getContent()->getTitle() : '';
     }
     /**
      * @var \Doctrine\Common\Collections\Collection

@@ -58,6 +58,8 @@ class MainController extends Controller
                 'value' => [
                         'city' => $row['ci'],
                         'country' => $row['id'],
+                        'ct' => $row['ct'],
+                        'cot' => $row['title'],
                     ]
             ];
         }
