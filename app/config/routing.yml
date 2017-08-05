@@ -1,36 +1,54 @@
 netcast_urest_main:
     resource: "@NetcastUrestMainBundle/Resources/config/routing.yml"
     prefix:   /
+    requirements:
+        _locale: ru|en|uk
 
 sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
     prefix: /admin
+    requirements:
+        _locale: ru|en|uk
 
 sonata_user_security:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_security_1.xml"
+    requirements:
+        _locale: ru|en|uk
 
 sonata_user_resetting:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_resetting_1.xml"
     prefix: /{_locale}/resetting
+    requirements:
+        _locale: ru|en|uk
 
 sonata_user_profile:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_profile_1.xml"
     prefix: /{_locale}/profile
+    requirements:
+        _locale: ru|en|uk
 
 sonata_user_register:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_registration_1.xml"
     prefix: /{_locale}/register
+    requirements:
+        _locale: ru|en|uk
 
 sonata_user_change_password:
     resource: "@SonataUserBundle/Resources/config/routing/sonata_change_password_1.xml"
     prefix: /{_locale}/profile
+    requirements:
+        _locale: ru|en|uk
     
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /{_locale}/admin
+    requirements:
+        _locale: ru|en|uk
     
 _sonata_admin:
     resource: .
     type: sonata_admin
     prefix: /{_locale}/admin
+    requirements:
+        _locale: ru|en|uk
 

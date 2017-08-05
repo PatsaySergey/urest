@@ -25,7 +25,7 @@
                 <div class="u-kit__cap">Новый тур</div>
                 <div class="u-kit__date">{{tour.from}} / {{tour.to}}</div>
                 <div class="u-kit__price"> {{tour.cost}}&nbsp;
-                    <span class="u-kit__currency">{{ currencyIcon }}</span>
+                    <span class="u-kit__currency" v-html="currencyIcon"></span>
                 </div>
             </div>
             <div class="u-kit__r-side">
@@ -70,8 +70,8 @@
             <hr class="u-kit__hr" v-show="endOrder">
               <div class="u-kit__f-group" v-show="endOrder">
                 <div class="u-kit__f-group-cap">Ваш комментарий</div>
-                <textarea class="u-kit__f-group-input" name="u-comment" placeholder="Введите текст"></textarea>
-                <button class="active-btn">Оформить заказ</button>
+                <textarea class="u-kit__f-group-input" v-model="tour.comment" name="u-comment" placeholder="Введите текст"></textarea>
+                <button class="active-btn" v-on:click="sendTour">Оформить заказ</button>
               </div>
         </div>
         <div class="u-filter" v-show="stepOne">
@@ -246,7 +246,7 @@
                 </div>
                 <div class="u-full-card__info">
                     <div class="u-full-card__txt" v-html="currRoom.description"></div>
-                    <ul class="u-full-card__list">
+                    <!--<ul class="u-full-card__list">
                         <li>Безкоштовний WiFi</li>
                         <li>Автостоянка</li>
                         <li>Розміщення з домашніми тваринами</li>
@@ -260,7 +260,7 @@
                         <li>Обслуговування номерів</li>
                         <li>Пляж неподалік</li>
                         <li>Пляж неподалік</li>
-                    </ul>
+                    </ul>-->
                 </div>
             </div>
             <div class="u-full-card__close js-full-card-close" v-on:click="closeFullCard">
@@ -360,7 +360,7 @@
                   <div class="u-card-option active js-card-option">
                     <div class="u-card-option__main-body">
                       <div class="u-card-option__price">{{displayService.cost}}
-                        <span class="u-card-option__currency">{{ currencyIcon }}</span>
+                        <span class="u-card-option__currency" v-html="currencyIcon"></span>
                       </div>
                     </div>
                     <button class="u-card-option__btn js-card-option-btn" v-on:click="addService">Выбрать</button>
@@ -394,10 +394,11 @@
     <script type="text/javascript">
         var TourBuilder = new TourBuilder({
             acPath: '{{ path('netcast_urest_city_list') }}',
+            addPath: '{{ path('netcast_urest_tour_builder_add') }}',
             servicesPath: '{{ path('netcast_urest_tour_builder_get_services_new',{id:'__id__'}) }}',
             types: {{ itemTypes|json_encode|raw }},
             apTypes: {{ apTypes|json_encode|raw }},
-            currencyIcon: '{{ icon }}'
+            currencyIcon: '{{ icon|raw }}'
        },{{ items|json_encode|raw }});
     </script>
 {% endblock pageScripts %}

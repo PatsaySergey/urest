@@ -1052,42 +1052,6 @@ header .main-menu .btn-builder:hover {
   height: 380px;
 }
 
-.main-form {
-  position: absolute;
-  text-align: center;
-  top: 180px;
-  z-index: 200;
-  width: 100%;
-}
-
-.main-form .form-item {
-  display: inline-block;
-  padding: 10px;
-}
-
-.main-form .form-item .input-addon{
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: white;
-}
-
-.main-form .form-item button{
-  padding: 10px;
-  background: linear-gradient(to bottom, #23b6a8 0%, #23b685 100%);
-  color: white;
-  border: none;
-}
-
-
-.main-form .form-group input {
-  color: #fff;
-  border: 1px solid #fff;
-  font-size: 14px;
-  background: transparent;
-  height: 40px; }
-
-
 #main-carousel {
   margin-top: -86px;
   position: relative; }
@@ -2247,7 +2211,6 @@ footer {
   font-size: 18px;
   padding-top: 183px;
   margin-top: -67px; }
-  margin-top: -67px; }
   @media (min-width: 768px) and (max-width: 991px) {
     .main-wrapper {
       padding-top: 150px; } }
@@ -2720,7 +2683,7 @@ footer {
     .main-wrapper .btn-gotrip:after,
     .main-wrapper .btn-gotrip:hover:after {
       content: "";
-      background: url("../../../../../../../../../../Users/kiev135/Desktop/urest/assets/img/arrow.png") no-repeat right center;
+      background: url("../img/arrow.png") no-repeat right center;
       position: absolute;
       right: 0;
       width: 12px;

@@ -33,7 +33,7 @@ class Language
      */
     protected $display;
 
-
+    protected $url;
 
 
     /**
@@ -44,6 +44,16 @@ class Language
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setUrl($url) {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getUrl() {
+        return $this->url;
     }
 
     /**

@@ -43,6 +43,7 @@ class HotelRepository extends EntityRepository
                     $rAddImg[] = $pr->generatePublicUrl($rImg->getMedia(), $format);
                 }
                 $rooms[$i] = [
+                    'id' => $room->getId(),
                     'title' => $room->getContent()->getTitle(),
                     'description' => $room->getContent()->getContent(),
                     'price' => $priceExt->getPrice($room->getPrice(),true),

@@ -201,10 +201,10 @@
             {#<script type="text/javascript">
                 LOGINZA.token_url = '{{ url('fos_user_registration_loginza_check', {}, false)|url_encode }}';
             </script>#}
-            <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-            <script type="text/javascript" src="https://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+            <script src="//maps.google.com/maps/api/js?sensor=true"></script>
             {% javascripts
                 '@NetcastUrestMainBundle/Resources/public/js/libs/jquery/jquery.min.js'
+                '@NetcastUrestMainBundle/Resources/public/js/ib.js'
                 '@NetcastUrestMainBundle/Resources/public/js/libs/owl-carousel/owl.carousel.js'
                 '@NetcastUrestMainBundle/Resources/public/js/libs/form-styler/jquery.formstyler.min.js'
                 '@NetcastUrestMainBundle/Resources/public/js/libs/datepicker/moment.js'

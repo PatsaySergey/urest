@@ -12,7 +12,9 @@
             <div class="thumbnail thumbnail-big">
                 <h3 class="header-title">{{ post.content.title }}</h3>
                 {% if post.images[0] is defined %}
+                    <a href="{{ url('netcast_urest_post_view', { category : post.category.alias, alias : post.alias }) }}">
                     {% media post.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                    </a>
                 {% endif %}
                 <div class="caption clearfix">
                     <div class="inner-caption">

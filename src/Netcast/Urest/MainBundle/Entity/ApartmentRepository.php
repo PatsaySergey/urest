@@ -46,6 +46,7 @@ class ApartmentRepository extends EntityRepository
                 $addImg[] = $pr->generatePublicUrl($img->getMedia(), $format);
             }
             $result[$key] = [
+                'id' => $item->getId(),
                 'title' => $item->getContent()->getTitle(),
                 'description' => $item->getContent()->getContent(),
                 'type' => 'apartment',

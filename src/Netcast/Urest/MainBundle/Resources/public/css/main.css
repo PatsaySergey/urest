@@ -1,0 +1,78 @@
+.main-form {
+    height: 180px;
+    width: 100%;
+    text-align: center;
+    padding-top: 60px;
+    background: url("../img/main.jpg") no-repeat right center;
+}
+
+.main-form .form-item {
+    display: inline-block;
+    padding: 10px;
+}
+
+.main-form .form-item input::-webkit-input-placeholder {color:#ffffff;}
+.main-form .form-item input::-webkit-input-placeholder {color:#ffffff;}
+.main-form .form-item input:-moz-placeholder {color:#ffffff;}
+.main-form .form-item input:-ms-input-placeholder {color:#ffffff;}
+
+.main-form .form-item .input-addon{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+}
+
+.main-form .form-item button:hover{
+    background: #2debd8;
+    background: -moz-linear-gradient(top, #2debd8 0%, #2bdea2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2debd8), color-stop(100%, #2bdea2));
+    background: -webkit-linear-gradient(top, #2debd8 0%, #2bdea2 100%);
+    background: -o-linear-gradient(top, #2debd8 0%, #2bdea2 100%);
+    background: -ms-linear-gradient(top, #2debd8 0%, #2bdea2 100%);
+    background: linear-gradient(to bottom, #2debd8 0%, #2bdea2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2debd8', endColorstr='#2bdea2',GradientType=0 );
+}
+.main-form .form-item button{
+    font-family: 'Roboto Slab', 'Roboto', serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 10px 20px;
+    background: #23b6a8;
+    background: -moz-linear-gradient(top, #23b6a8 0%, #23b685 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #23b6a8), color-stop(100%, #23b685));
+    background: -webkit-linear-gradient(top, #23b6a8 0%, #23b685 100%);
+    background: -o-linear-gradient(top, #23b6a8 0%, #23b685 100%);
+    background: -ms-linear-gradient(top, #23b6a8 0%, #23b685 100%);
+    background: linear-gradient(to bottom, #23b6a8 0%, #23b685 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23b6a8', endColorstr='#23b685',GradientType=0 );
+    color: white;
+    border: none;
+}
+
+
+.main-form .form-group input {
+    color: #fff;
+    border: 1px solid #fff;
+    font-size: 14px;
+    background: transparent;
+    height: 40px; }
+
+
+.block-article .thumbnail {
+    min-height: 450px;
+    height: 450px;
+}
+
+.block-article .thumbnail .caption {
+    height: 195px;
+}
+
+.ui-autocomplete.ui-widget-content {
+    width: 422px!important;
+    background: #f7f7f7;
+    border: 1px white solid;
+}
+
+.ui-autocomplete.ui-widget-content li{
+    padding: 5px;
+}

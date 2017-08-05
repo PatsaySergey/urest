@@ -15,7 +15,7 @@
             $data = [];
             $data['countries'] = $country;
             $data['contacts'] = (isset($country[0])) ? $contactRepository->getContactByCountry($lang,$country[0]['id']) : [];
-            return $this->render('NetcastUrestMainBundle:Contact:contact.html.twig', $data);
+            return $this->render('NetcastUrestMainBundle:Contact:Contact.html.twig', $data);
         }
 
         public function getOfficeAction($countryId)

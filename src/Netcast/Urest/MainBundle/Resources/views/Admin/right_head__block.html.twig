@@ -10,7 +10,7 @@
             <ul class="dropdown-menu pull-right">
                 {% for lang in languagemenu(1) %}
                     <li class="{% if lang.alias == app.request.locale %}active{% endif %}">
-                        <a href="{{ path('sonata_admin_dashboard', {_locale : lang.alias}) }}">
+                        <a href="{{ lang.url }}">
                             <img src="{{ asset(lang.getIcon) }}" />
                             <span>{{ lang.title }}</span>
                         </a>

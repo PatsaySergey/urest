@@ -3,6 +3,7 @@ services:
         class: Netcast\Urest\MainBundle\Twig\LenguageMenuExtension
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@service_container"
         tags:
             - { name: twig.extension }
     netcast.urest.twig.smart_slice:

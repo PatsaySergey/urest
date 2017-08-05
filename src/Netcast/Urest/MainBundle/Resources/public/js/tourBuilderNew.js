@@ -27,10 +27,10 @@ TourBuilder.prototype.initEvents = function() {
         slide: function (event, ui) {
             that.vBuilder.filter.priceMin = ui.values[0];
             that.vBuilder.filter.priceMax = ui.values[1];
-            $priceRangeSliderInput.val(ui.values[0] + " "+that.params.currencyIcon+" - " + ui.values[1] + " "+that.params.currencyIcon);
+            $priceRangeSliderInput.val(ui.values[0] + " - " + ui.values[1]);
         }
     });
-    $priceRangeSliderInput.val($priceRangeSlider.slider("values", 0) + " "+that.params.currencyIcon+" - " + $priceRangeSlider.slider("values", 1) + " "+that.params.currencyIcon);
+    $priceRangeSliderInput.val($priceRangeSlider.slider("values", 0) + " - " + $priceRangeSlider.slider("values", 1) );
     var select = $('select');
     select.styler();
     select.on('change.styler', function(e){
@@ -115,6 +115,55 @@ TourBuilder.prototype.init = function (items) {
             }
         },
         methods: {
+            sendTour: function() {
+                var url = that.params.addPath;
+                var data = this.buildDataToSend();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    success: function(response) {
+                        if(response.success) window.location.href = response.link;
+                    },
+                    dataType: 'JSON'
+                });
+                console.log(data);
+            },
+            buildDataToSend: function() {
+                var isApartment = this.tour.accommodation.item.type == 'apartment' ? 1 : 0;
+
+                var data = {
+                    fromCountry : ' ',
+                    comment : this.tour.comment,
+                    toCity : this.filter.city,
+                    isApartment : isApartment,
+                    dateStart : this.tour.from,
+                    dateEnd : this.tour.to,
+                };
+                if(isApartment) {
+                    data.apartment = this.tour.accommodation.item.id;
+                } else {
+                    data.room = this.tour.accommodation.room.id;
+                }
+                if(this.tour.services.length) {
+                    data.services = [];
+                    $.each(this.tour.services, function(i,service) {
+                        var serviceId = (service.type == "day_option" || service.type == "option") ? service.parentId : service.id;
+                        var oneService = {
+                            'id': serviceId
+                        };
+                        if(service.type == "day_option" || service.type == "day") {
+                            oneService.reservation = service.from+'/'+service.to;
+                        }
+                        if(service.type == "day_option" || service.type == "option") {
+                            oneService.option = service.id;
+                        }
+                        data.services.push(oneService);
+                    });
+
+                }
+                return data;
+            },
             uCardSwiper : function(sliderClass) {
                 return new Swiper('.'+sliderClass, {
                     nextButton: '.js-sbn',
@@ -134,6 +183,7 @@ TourBuilder.prototype.init = function (items) {
                 }
             },
             showEnd: function() {
+                $( 'body' ).scrollTop( 0 );
                 this.stepOne = false;
                 this.stepTwo = false;
                 this.endOrder = true;
@@ -162,6 +212,7 @@ TourBuilder.prototype.init = function (items) {
                 this.currRoom = room;
             },
             changeAccommodation: function() {
+                if(!this.cityAutoComplete) this.filter.city = null;
                 this.stepTwo = false;
                 this.showOrder = false;
                 this.stepOne = true;
@@ -196,6 +247,7 @@ TourBuilder.prototype.init = function (items) {
                 this.showCard($fullCard,$thisCard);
             },
             addService: function() {
+                if(this.displayService.type == 'option' || this.displayService.type == 'day_option') this.displayService.parentId = this.currService.id;
                 this.tour.services.push(this.displayService);
                 this.calculate();
                 this.closeFullCard();
@@ -225,6 +277,7 @@ TourBuilder.prototype.init = function (items) {
                     item: this.currItem,
                     room: room
                 };
+                this.filter.city = this.currItem.city;
                 if(room) this.tour.accommodation.item.price = room.price;
                 if(!room) this.tour.accommodation.room = {};
                 this.showOrder = true;

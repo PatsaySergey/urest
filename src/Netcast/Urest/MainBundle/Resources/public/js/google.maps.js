@@ -18,6 +18,7 @@
     }
 
     GoogleMaps.prototype.setMarkers = function(markersOption) {
+    console.log(markersOption);
         if(Object.keys(markersOption.items).length) {
             this.addMarkers(markersOption.items,markersOption.type);
         }

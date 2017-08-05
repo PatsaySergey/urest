@@ -1,7 +1,7 @@
 {% for key, contact in contacts %}
     <div class="col-sm-6 col-xs-12">
         <div class="contact-info padd-right">
-            <h3>{{ contact.city.title }}</h3>
+            <h3>{{ contact.city.content.title }}</h3>
             <hr/>
             {{ contact.description|raw }}
             <ul class="contact-adress">

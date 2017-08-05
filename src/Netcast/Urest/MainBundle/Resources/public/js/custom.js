@@ -31,17 +31,6 @@ $(function(){
 		}
 	});
 
-	$("#main-carousel").owlCarousel({
-		autoPlay: 5000,
-		stopOnHover: true,
-		navigation: false,
-		pagination: true,
-		singleItem: true,
-		addClassActive: true,
-		transitionStyle: "fade",
-		navigationText: ["", ""]
-
-	});
 	$("#tour-carousel").owlCarousel({
 		autoPlay: 5000,
 		stopOnHover: true,
@@ -227,6 +216,12 @@ $(function(){
 		pauseOnHover:false,
 		pauseOnInteraction:true,
 		title:''
+	});
+
+	$('#thumb-scroller .ts-wrapper a').on('click',function(e){
+		e.preventDefault();
+		var src = $(this).find('img').attr('src');
+		$('.owl-item.active img').attr('src',src);
 	});
 
 

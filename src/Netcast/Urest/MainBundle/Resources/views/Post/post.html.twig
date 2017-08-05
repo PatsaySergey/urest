@@ -13,11 +13,11 @@
             <div id="thumb-scroller" class="thumb-scroller">
                 <ul class="ts-list">
                     {% for image in post.images %}
-                        {% if not image.main %}
+
                             <li>
                                 <a href="" target="_parent">{% media image.media,'reference' with {'class' : "img_responsive"} %}</a>
                             </li>
-                        {% endif %}
+
                     {% endfor %}
                 </ul>
             </div>
@@ -25,11 +25,11 @@
         <h3 class="header-title">{{ post.content.title }}</h3>
         <div id="tour-carousel" class="carousel owl-carousel owl-theme">
             {% for image in post.images %}
-                {% if not image.main %}
+
                     <div class="item">
                         {% media image.media,'reference' with {'class' : "img_responsive"} %}
                     </div>
-                {% endif %}
+
             {% endfor %}
         </div>
         <div class="clearfix"></div>
@@ -84,59 +84,16 @@
                 </div>
             </div>
         </div>
-    </div>
-    {% if otherPosts|length >= 2 %}
-    <div class="block-quote bg-white">
-        <div id="quote-carousel" class="carousel owl-carousel owl-theme">
-            <div class="carousel-slide">
-                <div class="col-md-6 col-sm-6 no-padd">
-                    <div class="item brd-right">
-                        <div class="media">
-                            <div class="col-md-3 col-sm-4 text-center no-padd">
-                                <a href="{{ url('netcast_urest_post_view', { category : otherPosts[0].category.alias, alias : otherPosts[0].alias }) }}">
-                                    {% if otherPosts[0].images[0] is defined %}
-                                        {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
-                                    {% endif %}
-                                </a>
-                            </div>
-                            <div class="clearfix visible-xs spacer"></div>
-                            <div class="col-md-9 col-sm-8 no-padd">
-                                <p>
-                                    {{ otherPosts[0].title }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 no-padd hidden-xs">
-                    <div class="item">
-                        <div class="media">
-                            <div class="col-md-9 col-sm-8 no-padd">
-                                <p>
-                                    {{ otherPosts[1].title }}
-                                </p>
-                            </div>
-                            <div class="clearfix visible-xs"></div>
-                            <div class="col-md-3 col-sm-4 text-center no-padd">
-                                <a href="{{ url('netcast_urest_post_view', { category : otherPosts[1].category.alias, alias : otherPosts[1].alias }) }}">
-                                    {% if otherPosts[1].images[0] is defined %}
-                                        {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
-                                    {% endif %}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
+    </div> 
+    
+    
 
     {% if otherPosts|length %}
     <div class="container">
         <h2 class="header-title">{{ 'site.read_also'|trans({},'NetcastUrestMainBundle') }}</h2>
         <div class="row">
             {% for otherPost in otherPosts %}
+		{% if otherPost %}
                 <div class="col-md-4 col-sm-12 col-xs-12 no-padd-xs">
                     <div class="thumbnail thumbnail-middle">
                         {% if otherPost.images[0] is defined %}
@@ -151,6 +108,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

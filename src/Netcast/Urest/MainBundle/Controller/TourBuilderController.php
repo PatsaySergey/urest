@@ -69,6 +69,7 @@
                         $AddImg[] = $pr->generatePublicUrl($rImg->getMedia(), $format);
                     }
                     $optionItem = [
+                        'id' => $option->getId(),
                         'title' => $option->getContent()->getTitle(),
                         'description' => $option->getContent()->getContent(),
                         'image' => $mainImgPath,
@@ -80,6 +81,7 @@
                     $optionsRes[] = $optionItem;
                 }
                 $item = [
+                    'id' => $row->getId(),
                     'title' => $row->getContent()->getTitle(),
                     'description' => $row->getContent()->getContent(),
                     'type' => $row->getType(),
@@ -127,13 +129,13 @@
             $em = $this->getDoctrine()->getManager();
             $tourOrder = new CustomTourOrder();
             $tourOrder->setLang($lang);
-            $tourOrder->setAddInfo($lang);
+            $tourOrder->setAddInfo($data['comment']);
             $tourOrder->setStatus(0);
             $fromCountry = $data['fromCountry'];
             $toCityId = $data['toCity'];
             $toCity = $em->getRepository('Netcast\Urest\MainBundle\Entity\City')->find($toCityId);
             $toCountry = $toCity->getRegion()->getCountry();
-            if(isset($data['isApartment'])) {
+            if(isset($data['isApartment']) && $data['isApartment']) {
                 $apartmentId = $data['apartment'];
                 $apartment = $em->getRepository('Netcast\Urest\MainBundle\Entity\Apartment')->find($apartmentId);
                 $tourOrder->setApartment($apartment);
@@ -164,7 +166,7 @@
                         $tourServices->setService($serviceObj);
                         $tourServices->setTour($tourOrder);
                         if(isset($service['reservation'])) {
-                            $range = explode('-',$service['reservation']);
+                            $range = explode('/',$service['reservation']);
                             $serviceDateStart = new \DateTime($range[0]);
                             $serviceDateEnd = new \DateTime($range[1]);
                             $tourServices->setDateStart($serviceDateStart);

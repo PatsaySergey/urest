@@ -254,11 +254,11 @@ class CustomTourServices
 
     public function __toString()
     {
-        $serviceTitle = $this->getService()->getTitle();
+        $serviceTitle = $this->getService()->getContent()->getTitle();
         $title = $serviceTitle;
         $option = $this->getOption();
         if(!is_null($option)) {
-            $title .= ' ('.$option->getTitle().')';
+            $title .= ' ('.$option->getContent()->getTitle().')';
         }
         $startDate = $this->getDateStart();
         $endDate = $this->getDateEnd();

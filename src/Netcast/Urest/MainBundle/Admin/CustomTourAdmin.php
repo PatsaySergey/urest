@@ -37,7 +37,7 @@ class CustomTourAdmin extends Admin {
     {
         $object = $this->getSubject();
         $showMapper
-            ->add('fromCountry')
+            //->add('fromCountry')
             ->add('toCountry')
             ->add('toCity')
             ->add('dateStart')
@@ -79,10 +79,10 @@ class CustomTourAdmin extends Admin {
             ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle']);
 
         $formMapper
-            ->add('fromCountry', 'text', [
+            /*->add('fromCountry', 'text', [
                 'label' => 'form.label.fromCountry',
                 'read_only' => true
-            ])
+            ])*/
             ->add('toCountry', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\Country',
                 'property' => 'content',
@@ -260,7 +260,7 @@ class CustomTourAdmin extends Admin {
     {
         $listMapper
             ->add('id','text',['label' => 'form.label.number'])
-            ->add('fromCountry', null, ['label' => 'form.label.fromCountry'])
+            //->add('fromCountry', null, ['label' => 'form.label.fromCountry'])
             ->add('toCountry', null, ['label' => 'form.label.toCountry'])
             ->add('toCity', null, ['label' => 'admin.layout.city', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
             ->add('dateStart', null, ['label' => 'form.label.dateStart'])

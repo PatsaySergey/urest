@@ -21,13 +21,7 @@ class TourServicesFormType extends AbstractType {
         $builder
             ->add('service', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\Service',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang',$this->lang)
-                            ->orderBy('c.id', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'class' => 'tourServiceSelect',
                     'style' => 'max-width: 200px;'
@@ -40,13 +34,7 @@ class TourServicesFormType extends AbstractType {
         $builder
             ->add('option', 'entity', [
                 'class' => 'Netcast\Urest\MainBundle\Entity\Options',
-                'query_builder' => function($repository) {
-                        return $repository->createQueryBuilder('c')
-                            ->where('c.lang=:lang')
-                            ->setParameter('lang',$this->lang)
-                            ->orderBy('c.id', 'ASC');
-                    },
-                'property' => 'title',
+                'property' => 'content',
                 'attr' => [
                     'style' => 'max-width: 200px',
                     'class' => 'tourOptionSelect',

@@ -55,3 +55,12 @@
 .uf-group_range input {
     font-weight: bold;
 }
+
+.filter-hotel-result {
+    margin-bottom: 220px;
+}
+
+.ui-autocomplete.ui-widget-content li{
+    padding: 5px;
+    min-height: 30px;
+}

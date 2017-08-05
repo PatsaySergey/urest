@@ -1,5 +1,12 @@
 {% extends "NetcastUrestMainBundle::base.html.twig" %}
-
+{% block pageCss %}
+    {% stylesheets filter='cssrewrite'
+        'bundles/netcasturestmain/css/main.css'
+        'bundles/netcasturestmain/css/dp.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock pageCss %}
 {% block content %}
     <div class="main-form">
         <form action="{{ path('netcast_urest_tour_list') }}">
@@ -11,24 +18,13 @@
                 </label>
             </div>
             <div class="form-item form-group" style="position: relative">
-                    <input type="text" name="date" class="form-control required" id="jsDate" placeholder="Выберите дату">
-                    <span class="input-addon"><i class="fa fa-calendar"></i></span>
+                <input type="text" name="date" class="form-control required" id="jsDate" placeholder="Выберите дату">
+                <span class="input-addon"><i class="fa fa-calendar"></i></span>
             </div>
             <div class="form-item">
                 <button type="submit">Найти</button>
             </div>
         </form>
-    </div>
-    <div id="main-carousel" class="owl-carousel owl-theme">
-        {{ include('NetcastUrestMainBundle:Main:mainSlider.html.twig',{ sliders : sliders }, with_context = false) }}
-    </div>
-
-    <div class="block-info">
-        <div class="container">
-            <div class="row">
-                {{ include('NetcastUrestMainBundle:Main:servisesBlock.html.twig',{ services : services }, with_context = false) }}
-            </div>
-        </div>
     </div>
 
     <div class="block-article">
@@ -98,45 +94,14 @@
             </div>
         </div>
     </div>
-
-    <div class="clearfix"></div>
-   {# <div class="testimonials">
+    <div class="block-info">
         <div class="container">
-            <h2 class="text-uppercase">{{ 'site.reviews'|trans({},'NetcastUrestMainBundle') }}<br class="visible-xs"> {{ 'site.clients'|trans({},'NetcastUrestMainBundle') }}</h2>
             <div class="row">
-                {% for review in reviews %}
-                <div class="item col-md-4">
-                    <div class="quote-box">
-                        <blockquote class="quote">
-                            {{ review.review|raw }}
-                        </blockquote>
-                    </div>
-                    <div class="people">
-                        <div class="cell">
-                            {% if review.avatar is not empty %}
-                                {% media review.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
-                            {% else %}
-                                {% media review.user.avatar, 'reference' with {'class' : "img-circle user-pic img-thumbnail"} %}
-                            {% endif %}
-                        </div>
-                        <div class="cell">
-                            <p class="details">
-                                <span class="name">
-                                    {% if review.nickname is not empty %}
-                                        {{ review.nickname }}
-                                    {% else %}
-                                        {{ review.user.nickname }}
-                                    {% endif %}
-                                </span>
-                                <span class="title">@kfriedson</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+                {{ include('NetcastUrestMainBundle:Main:servisesBlock.html.twig',{ services : services }, with_context = false) }}
             </div>
         </div>
-    </div>#}
+    </div>
+    <div class="clearfix"></div>
 {% endblock content %}
 
  {% block pageScripts %}
@@ -147,14 +112,28 @@
                  event.preventDefault();
                  var id = ui.item.value.city;
                  var countryId = ui.item.value.country;
-                 var label = ui.item.label;
+                 var label = ui.item.value.ct;
+                 console.log(ui.item);
                  $( "#jsCity" ).val(label);
                  $( "#jsCityId" ).val(id);
                  $( "#jsCountryId" ).val(countryId);
              }
 
          });
-
-         $('#jsDate').daterangepicker({ timePicker: false, format: 'DD.MM.YYYY' });
+         var date = new Date();
+         var start = new Date();
+         start.setDate(date.getDate()+1);
+         var end = new Date();
+         end.setDate(date.getDate()+2);
+         $('#jsDate').daterangepicker({
+             timePicker: false,
+             format: 'DD.MM.YYYY',
+             minDate: date,
+             locale: {
+                 applyLabel: 'Выбрать'
+             },
+             startDate: start,
+             endDate: end
+         });
      </script>
  {% endblock pageScripts %}

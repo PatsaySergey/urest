@@ -4,9 +4,9 @@
         <div class="cell">
             <span>
                 <i class="fa fa-check-square-o"></i>
-                {{ service.service.title }}
+                {{ service.service.content.title }}
                 {% if service.option %}
-                    - {{ service.option.title }}
+                    - {{ service.option.content.title }}
                 {% endif %}
                 {% if service.dateStart %}
                     [ c {{ service.dateStart|date('d.m.Y') }} по {{ service.dateEnd|date('d.m.Y') }} ]

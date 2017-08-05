@@ -12,15 +12,14 @@
      */
     class ContactRepository extends EntityRepository
     {
-        public function getContactCountry($lang)
+        public function getContactCountry()
         {
             $qb = $this->createQueryBuilder('contact')
-                ->select(['country.title','country.id','country.coordinates'])
+                ->select(['country_content.title','country.id','country.coordinates'])
                 ->join('contact.city', 'city')
                 ->join('city.region', 'region')
                 ->join('region.country', 'country', 'WITH', 'region.country = country.id')
-                ->andWhere('contact.lang = :lang')
-                ->setParameter('lang', $lang)
+                ->join('country.country_content', 'country_content')
                 ->groupBy('country.id')
             ;
             return $qb->getQuery()->getResult();
@@ -34,8 +33,6 @@
                 ->join('city.region', 'region')
                 ->join('region.country', 'country')
                 ->where('country = :country')
-                ->andWhere('contact.lang = :lang')
-                ->setParameter('lang', $lang)
                 ->setParameter('country', $country)
             ;
             return $qb->getQuery()->getResult();
