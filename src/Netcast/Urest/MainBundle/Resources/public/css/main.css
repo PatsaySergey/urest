@@ -18,8 +18,8 @@
 
 .main-form .form-item .input-addon{
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 5px;
+    right: 10px;
     color: white;
 }
 
@@ -76,3 +76,28 @@
 .ui-autocomplete.ui-widget-content li{
     padding: 5px;
 }
+
+@media (max-width: 600px) {
+    main .main-form {
+        padding-top: 0px;
+        height: 200px;
+    }
+
+    main .form-item.form-group {
+        display: block;
+        position: relative;
+        margin-bottom: 0px;
+    }
+
+    main .form-item.form-group input{
+        width: 250px;
+    }
+
+    main .main-form .form-item .input-addon {
+        right: 10px;
+        top: 5px;
+    }
+
+}
+
+

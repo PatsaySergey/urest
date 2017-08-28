@@ -6,6 +6,8 @@
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Netcast\Urest\MainBundle\Entity\CustomTourOrder;
     use Netcast\Urest\MainBundle\Entity\CustomTourServices;
+    use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 
     class TourBuilderController extends Controller
@@ -120,6 +122,36 @@
             $data['toCountry'] = $toCountry;
 
             return $this->render('NetcastUrestMainBundle:Tour:tour_builder.html.twig',$data);
+        }
+
+        protected function randomPassword() {
+            $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
+            for ($i = 0; $i < 8; $i++) {
+                $n = rand(0, count($alphabet)-1);
+                $pass[$i] = $alphabet[$n];
+            }
+            return implode('',$pass);
+        }
+
+        public function registerAction(Request $Request) {
+            $data = $Request->request->all();
+            $translator  = $this->get('translator');
+            if(empty($data['username']) || empty($data['email'])) return new JsonResponse(['status' => 'fail', 'data' => $translator->trans('invalid.request',[],'NetcastUrestMainBundle')]);
+            $userManager = $this->container->get('fos_user.user_manager');
+            $cUser = $userManager->findUserByUsername($data['username']);
+            if($cUser) return new JsonResponse(['status' => 'fail', 'data' => $translator->trans('not.unique.username',[],'NetcastUrestMainBundle')]);
+            $cUser = $userManager->findUserByEmail($data['email']);
+            if($cUser) return new JsonResponse(['status' => 'fail', 'data' => $translator->trans('not.unique.email',[],'NetcastUrestMainBundle')]);
+            $user = $userManager->createUser();
+            $user->setUsername($data['username']);
+            $user->setFirstname($data['username']);
+            $user->setEmail($data['email']);
+            $user->setPassword($this->randomPassword());
+            $userManager->updateUser($user);
+            $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
+            $this->get('security.context')->setToken($token);
+                    $this->get('session')->set('_security_main', ($token));
+            return new JsonResponse(['status' => 'success']);
         }
 
         public function addTourAction()

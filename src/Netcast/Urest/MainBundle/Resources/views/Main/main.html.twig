@@ -17,9 +17,16 @@
                     <input type="hidden" id="jsCountryId" name="tourCountry">
                 </label>
             </div>
-            <div class="form-item form-group" style="position: relative">
-                <input type="text" name="date" class="form-control required" id="jsDate" placeholder="Выберите дату">
-                <span class="input-addon"><i class="fa fa-calendar"></i></span>
+            <div class="form-item form-group">
+                <label style="position: relative">
+                    <input autocapitalize="off"
+                           readonly="readonly"
+                           autocomplete="off"
+                           spellcheck="false"
+                           autocorrect="off"
+                           type="text" name="date" class="form-control required" id="jsDate" placeholder="Выберите дату">
+                    <span class="input-addon"><i class="fa fa-calendar"></i></span>
+                </label>
             </div>
             <div class="form-item">
                 <button type="submit">Найти</button>
@@ -35,7 +42,9 @@
                     {% for tour in lastTours %}
                     <div class="thumbnail">
                         {% if tour.tourImages[0] is defined %}
+                            <a href="{{ url('netcast_urest_tour_view',{ id : tour.id }) }}">
                             {% media tour.tourImages[0].media,'reference' with {'class' : "img_responsive"} %}
+                            </a>
                         {% endif %}
                         <div class="caption clearfix">
                             <div class="caption-header">
@@ -68,7 +77,9 @@
                         <div class="thumbnail">
                             <div class="image-holder">
                                 {% if post.images[0] is defined %}
+                                    <a href="{{ url('netcast_urest_post_view', { category : post.category.alias, alias : post.alias }) }}">
                                     {% media post.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                                    </a>
                                 {% endif %}
                                 <div class="img-caption">
                                     <span class="pull-left">{{ post.category.content.title }}</span>

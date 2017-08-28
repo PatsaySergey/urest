@@ -8,6 +8,14 @@ TourBuilder.prototype.initEvents = function() {
     var that = this;
     $( "#jsCity" ).autocomplete({
         source: that.params.acPath,
+        /*create: function () {
+            $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                console.log(item);
+                return $('<li>')
+                    .append('<a>' + item.label + '<br>' + item.value + '</a>')
+                    .appendTo(ul);
+            };
+        },*/
         select: function( event, ui ) {
             event.preventDefault();
             var id = ui.item.value.city;
@@ -63,6 +71,10 @@ TourBuilder.prototype.init = function (items) {
     this.vBuilder = new Vue({
         el: '#builder',
         data: {
+            hasUser: false,
+            authBlock: false,
+            log_error: '',
+            reg_error: '',
             currencyIcon: that.params.currencyIcon,
             tour: {
                 accommodation: {},
@@ -72,7 +84,16 @@ TourBuilder.prototype.init = function (items) {
                 from: dateFrom.toISOString().substr(0,10),
                 to: dateTo.toISOString().substr(0,10),
             },
+            user: {
+                login: null,
+                password: null
+            },
+            newUser: {
+                username: null,
+                email: null
+            },
             endOrder: false,
+            lastEvent: false,
             cardSlider: null,
             services: {},
             currItem: {},
@@ -115,7 +136,67 @@ TourBuilder.prototype.init = function (items) {
             }
         },
         methods: {
+            checkEmail: function(emailAddress) {
+                var sQtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
+                var sDtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
+                var sAtom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';
+                var sQuotedPair = '\\x5c[\\x00-\\x7f]';
+                var sDomainLiteral = '\\x5b(' + sDtext + '|' + sQuotedPair + ')*\\x5d';
+                var sQuotedString = '\\x22(' + sQtext + '|' + sQuotedPair + ')*\\x22';
+                var sDomain_ref = sAtom;
+                var sSubDomain = '(' + sDomain_ref + '|' + sDomainLiteral + ')';
+                var sWord = '(' + sAtom + '|' + sQuotedString + ')';
+                var sDomain = sSubDomain + '(\\x2e' + sSubDomain + ')*';
+                var sLocalPart = sWord + '(\\x2e' + sWord + ')*';
+                var sAddrSpec = sLocalPart + '\\x40' + sDomain; // complete RFC822 email address spec
+                var sValidEmail = '^' + sAddrSpec + '$'; // as whole string
+
+                var reValidEmail = new RegExp(sValidEmail);
+
+                return reValidEmail.test(emailAddress);
+            },
+            login: function() {
+                var that = this;
+                that.log_error = '';
+                $.ajax({
+                    url: '/login_check',
+                    method: 'POST',
+                    data: {
+                        _username: this.user.login,
+                        _password: this.user.password
+                    },
+                    success: function(response) {
+                        if(response.success) return that.addTour();
+                        that.log_error = 'Не верное имя пользователя или пароль';
+                    },
+                    dataType: 'json'
+                })
+            },
+            register: function() {
+                var thatV = this;
+                thatV.reg_error = '';
+                if(!this.checkEmail(this.newUser.email)) return thatV.reg_error = 'Неверный формат e-mail';
+                $.ajax({
+                    method: 'POST',
+                    url: that.params.registerUrl,
+                    data: {username: this.newUser.username, email: this.newUser.email},
+                    success: function(response) {
+                        if(response.status == 'fail') return thatV.reg_error = response.data;
+                        return thatV.addTour();
+                    },
+                    dataType: 'json'
+                })
+            },
             sendTour: function() {
+                if(!this.hasUser) {
+                    this.authBlock = true;
+                    this.showOrder = false;
+                    return;
+                    console.log('dsas');
+                }
+                this.addTour();
+            },
+            addTour: function() {
                 var url = that.params.addPath;
                 var data = this.buildDataToSend();
                 $.ajax({
@@ -183,16 +264,19 @@ TourBuilder.prototype.init = function (items) {
                 }
             },
             showEnd: function() {
+                $('.js-ukit-toggle-btn').click();
                 $( 'body' ).scrollTop( 0 );
                 this.stepOne = false;
                 this.stepTwo = false;
                 this.endOrder = true;
             },
             closeFullCard: function() {
+                $('.container.second-set').removeClass('opened');
                 var $fullCard = $('.js-full-card');
                 var $fullCardAddBody = $fullCard.find('.js-full-card-add-body');
                 $fullCard.removeClass('open');
                 $fullCardAddBody.slideUp();
+                $('body').removeClass('no-scroll');
             },
             openFullCard: function ($fullCard, $clickedCard) {
                 if(!this.cardSlider){
@@ -200,23 +284,34 @@ TourBuilder.prototype.init = function (items) {
                 } else {
                     this.cardSlider.update(true);
                 }
-                $fullCard.css('left', 0).css('top', $clickedCard.offset().top).addClass('open');
+                if(window.innerWidth >= 768) {
+                    $fullCard.css('left', 0).css('top', $clickedCard.offset().top).addClass('open');
+                } else {
+                    $('body').addClass('no-scroll');
+                    $fullCard.addClass('open');
+                }
             },
             selItem: function(item,$event) {
+                this.lastEvent = $event;
                 this.currItem = item;
                 var $fullCard = $('#itemCard');
+                var $info = $fullCard.find('.u-card__info');
                 var $thisCard = $($event.target).closest('.js-u-card');
                 this.showCard($fullCard,$thisCard);
             },
             selRoom: function(room) {
+                var $wrapper = $('.filter-hotel-result');
+                $wrapper.addClass('selRoom');
                 this.currRoom = room;
             },
             changeAccommodation: function() {
+                alert();
                 if(!this.cityAutoComplete) this.filter.city = null;
                 this.stepTwo = false;
                 this.showOrder = false;
                 this.stepOne = true;
                 this.closeFullCard();
+                var that = this;
             },
             showService : function(service,$event) {
                 this.closeFullCard();
@@ -226,6 +321,9 @@ TourBuilder.prototype.init = function (items) {
                 if(service.type == 'line' || service.type == 'day') {
                     this.currService.items = [];
                     this.currService.items.push(service);
+                    setTimeout(function(){
+                        $('.js-service-card:first').click();
+                    },500);
                 }
                 this.showServiceList = true;
             },
@@ -237,6 +335,7 @@ TourBuilder.prototype.init = function (items) {
                 this.displayService.title = (this.displayService.title.substr(0,-1) == ' ') ? this.displayService.title.substr(0,this.displayService.title.length-1) : this.displayService.title+' ';
             },
             setServiceItem: function(item,$event) {
+                $('.container.second-set').addClass('opened');
                 this.displayService = item;
                 var $fullCard = $('#serviceCard');
                 var $thisCard = $($event.target).closest('.js-u-card');
@@ -289,6 +388,7 @@ TourBuilder.prototype.init = function (items) {
                     type: 'GET',
                     success: function(result) {
                         thatVue.services = result;
+                        if(!result.length) thatVue.showEnd();
                     },
                     dataType: 'json'
                 })
@@ -349,6 +449,13 @@ TourBuilder.prototype.init = function (items) {
         },
 
         mounted: function () {
+            $('body').on('click','.js-fc-show-more', function () {
+                $(this).slideUp().closest('.u-filter').find('.u-filter__body').slideDown();
+            });
+
+            $('body').on('click','.js-ukit-toggle-btn', function () {
+                $(this).closest('.u-kit').toggleClass('open').find('.js-ukit-toggle-body').slideToggle();
+            });
             $('#builder').css('visibility','visible');
             $('#builder').css('height','auto');
             that.initEvents();

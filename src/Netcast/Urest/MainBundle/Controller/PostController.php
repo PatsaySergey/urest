@@ -15,6 +15,7 @@
             foreach($posts as $post) {
                 $item = [];
                 $coordinates = explode(',',$post->getCoordinates());
+                if(!$post->getContent()) continue;
                 $item['description'] = $post->getContent()->getPreviewText();
 
                 $postImages = $post->getImages();

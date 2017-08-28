@@ -17,7 +17,6 @@
             $user = $this->getSecurityContext()->getToken()->getUser();
             $item->setUser($user);
 
-            $item->setLang($this->getLanguage());
             $item->setCreated(new \DateTime());
             $item->setUpdated(new \DateTime());
             foreach($item->getImages() as $itemImages) {
@@ -52,8 +51,6 @@
                     $item->removeCityContent($roomContent);
             }
         }
-
-
 
         // Поля, отображаемые в формах create/edit
         protected function configureFormFields(FormMapper $formMapper)

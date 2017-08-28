@@ -17,12 +17,12 @@
                                 <div class="cell icon"><i class="fa fa-map-marker"></i> </div>
                                 <div class="cell txt">{{ tour.city.content }}, {{ tour.city.region.country }}</div>
 								<span class="input-date">
-								<select id="tourDateSelect" data-href="{{ url('netcast_urest_tour_price',{id:'__id__'}) }}">
-                                    {% for date in tour.tourDates %}
-                                        <option value="{{ date.id }}">{{ date.dateFrom|date('Y-m-d') }} - {{ date.dateTo|date('Y-m-d') }}</option>
-                                    {% endfor %}
-                                </select>
-							</span>
+                                    <select id="tourDateSelect" data-href="{{ url('netcast_urest_tour_price',{id:'__id__'}) }}">
+                                        {% for date in tour.tourDates %}
+                                            <option value="{{ date.id }}">{{ date.dateFrom|date('Y-m-d') }} - {{ date.dateTo|date('Y-m-d') }}</option>
+                                        {% endfor %}
+                                    </select>
+							    </span>
                                 <hr/>
                                 <div class="cell icon"><i class="fa fa-building-o"></i>  </div>
                                 <div class="cell txt">

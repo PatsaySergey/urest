@@ -18,7 +18,6 @@
     }
 
     GoogleMaps.prototype.setMarkers = function(markersOption) {
-    console.log(markersOption);
         if(Object.keys(markersOption.items).length) {
             this.addMarkers(markersOption.items,markersOption.type);
         }
@@ -33,10 +32,10 @@
             if(value.icon) {
                 markerOptions.icon = value.icon;
             }
-            var marker=new google.maps.Marker(markerOptions);
+            var marker = new google.maps.Marker(markerOptions);
             marker.setMap(gMaps.map);
             gMaps.map.setCenter(position);
-            var infoWrapper = $('.infobox-wrapper');
+            var infoWrapper = $('.infobox-wrapper').clone();
             if(type == 'tour') {
                 infoWrapper.find('.name-hotel').html(value.accommodation);
             } else {
@@ -45,9 +44,8 @@
             infoWrapper.find('.title').html('<a href="'+value.url+'">'+value.title+'</a>');
             infoWrapper.find('.description').html(value.description);
             infoWrapper.find('#infoImg').attr('src',value.img);
-
             var infowindow = new InfoBox({
-                content: document.getElementById("infobox"),
+                content: infoWrapper.find("#infobox").get(0),
                 disableAutoPan: false,
                 maxWidth: 150,
                 pixelOffset: new google.maps.Size(-140, 0),

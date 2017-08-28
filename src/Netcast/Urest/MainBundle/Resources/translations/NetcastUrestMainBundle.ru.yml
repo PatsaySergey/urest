@@ -366,3 +366,8 @@ breadcrumb.link_footer_gallery_v_list: Галарея видео в футере
 breadcrumb.link_footer_gallery_video_list: Галарея видео в футере
 breadcrumb.link_footer_gallery_images_list: Галарея изображений в футере
 breadcrumb.link_footer_gallery_i_list: Галарея изображений в футере
+
+
+not.unique.username: Пользователь с таким имененм уже существует
+not.unique.email: Пользователь с таким email уже существует
+invalid.request: Ошибка при создании заказа

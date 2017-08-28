@@ -21,14 +21,17 @@
     {% verbatim %}
     <div class="container js-u-first-set">
     <div class="u-kit" v-if="showOrder">
-            <div class="u-kit__l-side">
+            <div class="u-kit__l-side js-ukit-toggle-btn">
                 <div class="u-kit__cap">Новый тур</div>
                 <div class="u-kit__date">{{tour.from}} / {{tour.to}}</div>
                 <div class="u-kit__price"> {{tour.cost}}&nbsp;
                     <span class="u-kit__currency" v-html="currencyIcon"></span>
                 </div>
             </div>
-            <div class="u-kit__r-side">
+            <div class="u-kit__r-side js-ukit-toggle-body">
+                <div class="u-kit__close js-u-kit-close" v-on:click="changeAccommodation">
+                        <i class="fa fa-close"></i>
+                </div>
                 <div class="u-kit__item">
                     <div class="u-kit__item-photo" :style="'background-image:url('+tour.accommodation.item.image+')'">
                         <button class="u-kit__change plain-btn js-kit__change" v-on:click="changeAccommodation">Изменить</button>
@@ -38,9 +41,6 @@
                         <div class="u-kit__item-rate s-rate s-rate-5" v-show="currItem.type == 'hotel'">
                             <i v-for="i in new Array(tour.accommodation.item.stars)" class="fa fa-star"></i>
                         </div>
-                    </div>
-                    <div class="u-kit__close js-u-kit-close" v-on:click="changeAccommodation">
-                        <i class="fa fa-close"></i>
                     </div>
                 </div>
                 <div class="u-kit__item" v-show="currItem.type == 'hotel'">
@@ -74,6 +74,56 @@
                 <button class="active-btn" v-on:click="sendTour">Оформить заказ</button>
               </div>
         </div>
+
+
+        <div class="u-filter" v-show="authBlock">
+          <div class="u-filter__title">Завеpшение бронирования</div>
+          <div class="u-filter__body u-filter__body_flex">
+            <div class="u-filter__half">
+              <div class="u-filter__subtitle">Для завершения бронирования войдите</div>
+              <div class="uf-group uf-group_plain">
+                <div class="uf-group__cap">Имя</div>
+                <div class="uf-group__input">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  <input type="text" v-model="user.login" placeholder="Введите имя">
+                </div>
+                <p style="color:red; font-size: 12px;" v-html="log_error"></p>
+              </div>
+              <div class="uf-group uf-group_plain">
+                <div class="uf-group__cap">Пароль</div>
+                <div class="uf-group__input">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  <input type="text" v-model="user.password" placeholder="Введите пароль"> </div>
+              </div>
+              <div class="uf-group__block">
+                <span style="visibility: hidden">С помощью:</span>
+                <i style="visibility: hidden" class="social fa fa-facebook" aria-hidden="true"></i>
+                <i style="visibility: hidden" class="social fa fa-google-plus" aria-hidden="true"></i>
+              </div>
+              <button class="uf-group__submit submit-btn" v-on:click="login">Войти</button>
+            </div>
+            <div class="u-filter__half">
+              <div class="u-filter__subtitle">Или зарегестрируйтесь</div>
+              <div class="uf-group uf-group_plain">
+                <div class="uf-group__cap">Имя</div>
+                <div class="uf-group__input">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  <input type="text" v-model="newUser.username" placeholder="Введите имя">
+                  </div>
+                  <p style="color:red; font-size: 12px;" v-html="reg_error"></p>
+              </div>
+              <div class="uf-group uf-group_plain">
+                <div class="uf-group__cap">E-mail</div>
+                <div class="uf-group__input">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  <input type="text" v-model="newUser.email" placeholder="Введите почту"> </div>
+              </div>
+              <button class="uf-group__submit uf-group__submit_alone submit-btn" v-on:click="register">Зарегестрироваться</button>
+            </div>
+          </div>
+        </div>
+
+
         <div class="u-filter" v-show="stepOne">
               <div class="u-filter__title">МАРШРУТ И ДАТЫ</div>
               <div class="u-filter__body">
@@ -306,7 +356,7 @@
                     </div>
                 </div>
             </div>
-            <button class="u-filter__show-more plain-btn js-fc-show-more">Показать еще</button>
+            <!--<button class="u-filter__show-more plain-btn js-fc-show-more">Показать еще</button>-->
         </div>
 
         <div class="u-filter-result" v-if="showServiceList">
@@ -375,7 +425,7 @@
         </div>
 
         {% endverbatim %}
-        <button class="active-btn" v-on:click="showEnd">Завершить бронирование</button>
+        <button class="active-btn active-js-btn" v-on:click="showEnd">Завершить бронирование</button>
     </div>
 </main>
 
@@ -393,7 +443,9 @@
     {% endjavascripts %}
     <script type="text/javascript">
         var TourBuilder = new TourBuilder({
+            hasUser: {% if app.user %} true {% else %} false {% endif %},
             acPath: '{{ path('netcast_urest_city_list') }}',
+            registerUrl: '{{ path('netcast_urest_register_tour') }}',
             addPath: '{{ path('netcast_urest_tour_builder_add') }}',
             servicesPath: '{{ path('netcast_urest_tour_builder_get_services_new',{id:'__id__'}) }}',
             types: {{ itemTypes|json_encode|raw }},

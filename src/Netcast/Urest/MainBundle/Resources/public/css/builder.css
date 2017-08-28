@@ -56,11 +56,25 @@
     font-weight: bold;
 }
 
-.filter-hotel-result {
-    margin-bottom: 220px;
+@media only screen and (max-width: 767px) {
+    .u-kit__f-group {
+         display: block;
+    }
 }
+
 
 .ui-autocomplete.ui-widget-content li{
     padding: 5px;
     min-height: 30px;
+}
+
+.ui-autocomplete.ui-widget-content li .time{
+    padding: 5px;
+    min-height: 30px;
+}
+
+
+
+.container.second-set.opened .active-js-btn{
+    margin-top: 430px;
 }

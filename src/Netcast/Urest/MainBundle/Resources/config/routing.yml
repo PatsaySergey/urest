@@ -294,3 +294,9 @@ netcast_urest_tour_builder_get_services_new:
     pattern:  /{_locale}/tour_builder/services/{id}
     defaults: { _controller: NetcastUrestMainBundle:TourBuilder:getServicesNew, _locale: "%locale%" }
     methods: [GET]
+
+
+netcast_urest_register_tour:
+    pattern:  /{_locale}/tour_builder/register
+    defaults: { _controller: NetcastUrestMainBundle:TourBuilder:register, _locale: "%locale%" }
+    methods: [POST]

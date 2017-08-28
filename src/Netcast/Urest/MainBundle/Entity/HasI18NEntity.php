@@ -40,6 +40,10 @@ class HasI18NEntity
         $criteria->where(Criteria::expr()->eq('lang', $this->defaultLocale));
         $content = $this->{$this->contentField}->matching($criteria);
         if($content->count()) return $content->first();
+
+        if($content = $this->{$this->contentField}->count()) return $this->{$this->contentField}->first();
+
+
     }
 
     public function __toString() {
