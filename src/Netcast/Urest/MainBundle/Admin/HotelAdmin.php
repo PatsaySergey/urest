@@ -159,6 +159,10 @@
                     'allow_delete' => false,
                     'required' => false
                 ])
+                ->add('active', 'checkbox', [
+                    'label' => 'form.label.active',
+                    'required' => false
+                ])
                 ->end()
             ;
         }

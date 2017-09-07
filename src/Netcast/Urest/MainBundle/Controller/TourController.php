@@ -19,7 +19,7 @@ class TourController extends Controller
             $item = [];
             $coordinates = explode(',',$post->getCoordinates());
             $item['title'] = $post->getContent()->getTitle();
-            $item['description'] = $post->getContent()->getDescription();
+            $item['description'] = $post->getContent()->getAnnouncement();
             $item['accommodation'] = $post->getContent()->getAccommodation();
             $tourImages = $post->getTourImages();
             foreach($tourImages as $row) {

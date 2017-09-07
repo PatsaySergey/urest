@@ -16,7 +16,7 @@ class HotelRepository extends EntityRepository
     public function getHotelsArray(ImageProvider $pr,$priceExt)
     {
         $result = [];
-        $items = $this->createQueryBuilder('hotel')->getQuery()->getResult();
+        $items = $this->createQueryBuilder('hotel')->where('hotel.active = :active')->setParameter('active',true)->getQuery()->getResult();
         foreach ($items as $key => $item) {
             $mainImg = $item->getMainImage();
             $mainImgPath = null;

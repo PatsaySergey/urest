@@ -3,7 +3,8 @@
     width: 100%;
     text-align: center;
     padding-top: 60px;
-    background: url("../img/main.jpg") no-repeat right center;
+    background: url("../img/main.jpg") center;
+    background-size: 100%;
 }
 
 .main-form .form-item {
@@ -59,8 +60,8 @@
 
 
 .block-article .thumbnail {
-    min-height: 450px;
-    height: 450px;
+    min-height: 500px;
+    height: 500px;
 }
 
 .block-article .thumbnail .caption {
@@ -76,6 +77,9 @@
 .ui-autocomplete.ui-widget-content li{
     padding: 5px;
 }
+
+
+
 
 @media (max-width: 600px) {
     main .main-form {

@@ -101,12 +101,16 @@
                                 <a href="{{ url('netcast_urest_main_page') }}" class="logo-img text-center visible-sm">
                                     <img src="{{ asset('bundles/netcasturestmain/img/footer-logo.png') }}" alt=""/>
                                 </a>
-                                <a href="#" class="logo-img text-center visible-xs">
+                                <a href="{{ url('netcast_urest_main_page') }}" class="logo-img text-center visible-xs">
                                     <img src="{{ asset('bundles/netcasturestmain/img/header-logo-small.png') }}" alt=""/>
                                 </a>
                             </div>
                             <div class="col-xs-4 col-sm-4 visible-xs visible-sm no-padd">
-                                <a href="" class="menu-user pull-right"  data-toggle="modal" data-target="#login-modal-mobile"><i class="fa fa-user"></i></a>
+                                {% if app.user %}
+                                    <a href="{{ url('netcast_urest_profile_view') }}" class="menu-user pull-right" ><i class="fa fa-user"></i></a>
+                                {% else %}
+                                    <a href="" class="menu-user pull-right"  data-toggle="modal" data-target="#login-modal-mobile"><i class="fa fa-user"></i></a>
+                                {% endif %}
                             </div>
                             <div class="navbar-header">
                                 <a class="navbar-brand brand-container nobg hidden-sm hidden-xs" href="{{ url('netcast_urest_main_page') }}">

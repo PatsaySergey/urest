@@ -20,6 +20,10 @@ Netcast\Urest\MainBundle\Entity\Apartment:
         price:
              type: string
              length: '100'
+        active:
+             type: boolean
+             options:
+                default: 1
         created:
             type: datetime
             nullable: false

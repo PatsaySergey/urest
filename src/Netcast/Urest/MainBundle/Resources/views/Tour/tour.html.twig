@@ -1,4 +1,7 @@
 {% extends "NetcastUrestMainBundle::base.html.twig" %}
+    {% block pageCss %}
+         <link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
+    {% endblock pageCss %}
 {% block content %}
     <div class="main-content bg-white">
         <div class="block-tour">
@@ -9,7 +12,7 @@
                     <div class="col-md-8">
                         {% for image in tour.tourImages %}
                             {% if image.main %}
-                                {% media image.media,'reference' with {'class' : "img_responsive"} %}
+                                {% media image.media,'reference' with {'class' : "img_responsive main_img"} %}
                             {% endif %}
                         {% endfor %}
                         <div class="col-md-4 col-sm-4 no-padd-left no-padd-xs">
@@ -70,22 +73,13 @@
             </div>
             <div class="container">
                 <h2 class="header-title"> ФОТОГРАФИИ И ВИДЕО</h2>
-                <div class="scroll-img-box">
-                    <div id="thumb-scroller" class="thumb-scroller">
-                        <ul class="ts-list">
-                            {% for image in tour.tourImages %}
-                                {% if image.main %}
-                                    <li>
-                                        <a href="" target="_parent">
-                                            {% media image.media,'reference' with {'class' : "img_responsive"} %}
-                                        </a>
-                                    </li>
-
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
+                <div class="fotorama"
+                     data-nav="thumbs">
+                    {% for image in tour.tourImages %}
+                        {% media image.media,'reference' with {'class' : "img_responsive"} %}
+                    {% endfor %}
                 </div>
+
             </div>
         </div>
     </div>
@@ -143,3 +137,7 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block pageScripts %}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script> <!-- 16 KB -->
+{% endblock pageScripts %}

@@ -219,4 +219,4 @@ admin.btn.remove_img: Remove
 
 not.unique.username: User with this name already exists
 not.unique.email: User with this email already exists
-invalid.request: Ошибка при создании заказа
+invalid.request: An error occurred while creating the order

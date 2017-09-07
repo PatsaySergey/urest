@@ -17,13 +17,16 @@
     font-family: "Roboto",sans-serif;
 }
 
-.u-full-card__descr ul {
+
+
+
+.u-full-card__descr ul, .u-full-card__txt ul {
     margin-top: 13px;
     list-style: none;
     letter-spacing: -0.075em;
 }
 
-.u-full-card__descr ul li:before{
+.u-full-card__descr ul li:before, .u-full-card__txt ul li:before{
     content: '';
     display: inline-block;
     position: relative;
@@ -62,6 +65,9 @@
     }
 }
 
+.ui-autocomplete li .tb-info {
+    font-size: 10px;
+}
 
 .ui-autocomplete.ui-widget-content li{
     padding: 5px;
@@ -78,3 +84,27 @@
 .container.second-set.opened .active-js-btn{
     margin-top: 430px;
 }
+
+.u-card__cap {
+    text-overflow: ellipsis;
+}
+
+.ui-datepicker.ui-widget.ui-widget-content {
+    z-index: 101!important;
+}
+
+@media only screen and (min-width: 767px) {
+    .hotel-info {
+        max-height: 260px;
+    }
+
+    .hotel-info .mCSB_container {
+        padding-left: 20px;
+    }
+
+    .u-full-card__add-body {
+        height: 355px;
+    }
+}
+
+

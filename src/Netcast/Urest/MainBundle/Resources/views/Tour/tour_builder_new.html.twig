@@ -4,8 +4,9 @@
     'bundles/netcasturestmain/css/font-awesome.min.css'
     'bundles/netcasturestmain/css/mCustomScrollbar.min.css'
     'bundles/netcasturestmain/css/swiper.min.css'
-    'bundles/netcasturestmain/css/index.min.css'
+    'bundles/netcasturestmain/css/index.css'
     'bundles/netcasturestmain/css/builder.css'
+    'bundles/netcasturestmain/css/jquery.fancybox.min.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -14,15 +15,15 @@
 <main class="content" data-page="u-rest" id="builder" style="visibility: hidden; height: 700px">
     <div class="container" >
         <div class="sub-head">
-            <div class="sub-head__cap">Добро пожаловать в TourBuilder!</div>
-            <div class="sub-head__txt"> Программа TourBuilder поможет Вам быстро и удобно спланировать и забронировать свой индивидуальный тур в on-line режиме. </div>
+            <div class="sub-head__cap">{{ 'tour_builder.wellcome'|trans({}, "NetcastUrestMainBundle") }}</div>
+            <div class="sub-head__txt">{{ 'tour_builder.wellcome_text'|trans({}, "NetcastUrestMainBundle") }}</div>
         </div>
     </div>
     {% verbatim %}
     <div class="container js-u-first-set">
     <div class="u-kit" v-if="showOrder">
             <div class="u-kit__l-side js-ukit-toggle-btn">
-                <div class="u-kit__cap">Новый тур</div>
+                <div class="u-kit__cap">{% endverbatim %}{{ 'tour_builder.new_tour'|trans({}, "NetcastUrestMainBundle") }}{% verbatim %}</div>
                 <div class="u-kit__date">{{tour.from}} / {{tour.to}}</div>
                 <div class="u-kit__price"> {{tour.cost}}&nbsp;
                     <span class="u-kit__currency" v-html="currencyIcon"></span>
@@ -34,7 +35,7 @@
                 </div>
                 <div class="u-kit__item">
                     <div class="u-kit__item-photo" :style="'background-image:url('+tour.accommodation.item.image+')'">
-                        <button class="u-kit__change plain-btn js-kit__change" v-on:click="changeAccommodation">Изменить</button>
+                        <button class="u-kit__change plain-btn js-kit__change" v-on:click="changeAccommodation">{% endverbatim %}{{ 'admin.btn.change_img'|trans({}, "NetcastUrestMainBundle") }}{% verbatim %}</button>
                     </div>
                     <div class="u-kit__item-info">
                         <span class="u-kit__item-cap">{{tour.accommodation.item.title}}</span>
@@ -45,7 +46,7 @@
                 </div>
                 <div class="u-kit__item" v-show="currItem.type == 'hotel'">
                     <div class="u-kit__item-photo" :style="'background-image:url('+tour.accommodation.room.image+')'">
-                        <button class="u-kit__change plain-btn js-kit__change" v-on:click="changeAccommodation">Изменить</button>
+                        <button class="u-kit__change plain-btn js-kit__change" v-on:click="changeAccommodation">{% endverbatim %}{{ 'admin.btn.change_img'|trans({}, "NetcastUrestMainBundle") }}{% verbatim %}</button>
                     </div>
                     <div class="u-kit__item-info">
                         <span class="u-kit__item-cap">{{tour.accommodation.room.title}}</span>
@@ -69,46 +70,46 @@
             </div>
             <hr class="u-kit__hr" v-show="endOrder">
               <div class="u-kit__f-group" v-show="endOrder">
-                <div class="u-kit__f-group-cap">Ваш комментарий</div>
-                <textarea class="u-kit__f-group-input" v-model="tour.comment" name="u-comment" placeholder="Введите текст"></textarea>
-                <button class="active-btn" v-on:click="sendTour">Оформить заказ</button>
+                <div class="u-kit__f-group-cap">{% endverbatim %}{{ 'tour_builder.comment'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
+                <textarea class="u-kit__f-group-input" v-model="tour.comment" name="u-comment" placeholder="{% endverbatim %}{{ 'tour_builder.enter_text'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}"></textarea>
+                <button class="active-btn" v-on:click="sendTour">{% endverbatim %}{{ 'tour_builder.create_order'|trans({},'NetcastUrestMainBundle') }}Оформить заказ{% verbatim %}</button>
               </div>
         </div>
 
 
         <div class="u-filter" v-show="authBlock">
-          <div class="u-filter__title">Завеpшение бронирования</div>
+          <div class="u-filter__title">{% endverbatim %}{{ 'tour_builder.finish_booking'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
           <div class="u-filter__body u-filter__body_flex">
             <div class="u-filter__half">
-              <div class="u-filter__subtitle">Для завершения бронирования войдите</div>
+              <div class="u-filter__subtitle">{% endverbatim %}{{ 'tour_builder.login'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
               <div class="uf-group uf-group_plain">
-                <div class="uf-group__cap">Имя</div>
+                <div class="uf-group__cap">{% endverbatim %}{{ 'form.label.firstname'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                 <div class="uf-group__input">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
-                  <input type="text" v-model="user.login" placeholder="Введите имя">
+                  <input type="text" v-model="user.login" placeholder="{% endverbatim %}{{ 'tour_builder.enter_name'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}">
                 </div>
                 <p style="color:red; font-size: 12px;" v-html="log_error"></p>
               </div>
               <div class="uf-group uf-group_plain">
-                <div class="uf-group__cap">Пароль</div>
+                <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.password'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                 <div class="uf-group__input">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
-                  <input type="text" v-model="user.password" placeholder="Введите пароль"> </div>
+                  <input type="text" v-model="user.password" placeholder="{% endverbatim %}{{ 'tour_builder.enter_password'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}"> </div>
               </div>
               <div class="uf-group__block">
                 <span style="visibility: hidden">С помощью:</span>
                 <i style="visibility: hidden" class="social fa fa-facebook" aria-hidden="true"></i>
                 <i style="visibility: hidden" class="social fa fa-google-plus" aria-hidden="true"></i>
               </div>
-              <button class="uf-group__submit submit-btn" v-on:click="login">Войти</button>
+              <button class="uf-group__submit submit-btn" v-on:click="login">{% endverbatim %}{{ 'site.login'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</button>
             </div>
             <div class="u-filter__half">
-              <div class="u-filter__subtitle">Или зарегестрируйтесь</div>
+              <div class="u-filter__subtitle">{% endverbatim %}{{ 'tour_builder.or_register'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
               <div class="uf-group uf-group_plain">
-                <div class="uf-group__cap">Имя</div>
+                <div class="uf-group__cap">{% endverbatim %}{{ 'form.label.firstname'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                 <div class="uf-group__input">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
-                  <input type="text" v-model="newUser.username" placeholder="Введите имя">
+                  <input type="text" v-model="newUser.username" placeholder="{% endverbatim %}{{ 'tour_builder.enter_name'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}">
                   </div>
                   <p style="color:red; font-size: 12px;" v-html="reg_error"></p>
               </div>
@@ -116,32 +117,32 @@
                 <div class="uf-group__cap">E-mail</div>
                 <div class="uf-group__input">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
-                  <input type="text" v-model="newUser.email" placeholder="Введите почту"> </div>
+                  <input type="text" v-model="newUser.email" placeholder="{% endverbatim %}{{ 'tour_builder.enter_email'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}"> </div>
               </div>
-              <button class="uf-group__submit uf-group__submit_alone submit-btn" v-on:click="register">Зарегестрироваться</button>
+              <button class="uf-group__submit uf-group__submit_alone submit-btn" v-on:click="register">{% endverbatim %}{{ 'tour_builder.register'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</button>
             </div>
           </div>
         </div>
 
 
         <div class="u-filter" v-show="stepOne">
-              <div class="u-filter__title">МАРШРУТ И ДАТЫ</div>
+              <div class="u-filter__title">{% endverbatim %}{{ 'tour_builder.route_and_dates'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
               <div class="u-filter__body">
                 <div class="uf-group uf-group_country">
-                  <div class="uf-group__cap">Ваш тур начинается тут</div>
+                  <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.start_here'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                   <div class="uf-group__input">
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                     <input type="hidden" :value="filter.city" >
-                    <input id="jsCity" v-model="cityAutoComplete" class="js-countries" type="text" name="country" placeholder="Введите город или страну"> </div>
+                    <input id="jsCity" v-model="cityAutoComplete" class="js-countries" type="text" name="country" placeholder="{% endverbatim %}{{ 'tour_builder.city_or_country'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}"> </div>
                 </div>
                 <div class="uf-group uf-group_date">
-                  <div class="uf-group__cap">Приезд</div>
+                  <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.arrival'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                   <div class="uf-group__input">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     <input v-model="tour.from" class="datepicker js-datepicker from" readonly="readonly" type="text" size="30" name="day-start"> </div>
                 </div>
                 <div class="uf-group uf-group_date">
-                  <div class="uf-group__cap">Отбытие</div>
+                  <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.departure'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                   <div class="uf-group__input">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     <input v-model="tour.to" class="datepicker js-datepicker to" readonly="readonly" type="text" size="30" name="day-end"> </div>
@@ -149,21 +150,21 @@
               </div>
         </div>
         <div class="u-filter" v-show="stepOne">
-          <div class="u-filter__title">Проживание</div>
+          <div class="u-filter__title">{% endverbatim %}{{ 'tour_builder.accomodation'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
           <div class="u-filter__body">
             <div class="uf-group uf-group_radiotab">
-              <div class="uf-group__cap">Вид жилья</div>
+              <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.accomodation_type'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
               <div class="uf-group__input uf-group__input_category">
                 <input id="apart-type-0" v-model="filter.type" value="" type="radio" name="apart-type" checked>
-                <label for="apart-type-0" style="margin-bottom: 0px; font-weight: normal">Все виды</label>
+                <label for="apart-type-0" style="margin-bottom: 0px; font-weight: normal">{% endverbatim %}{{ 'tour_builder.all_types'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</label>
                 <input id="apart-type-1" v-model="filter.type" value="hotel" type="radio" name="apart-type">
-                <label for="apart-type-1" style="margin-bottom: 0px; font-weight: normal">Отель</label>
+                <label for="apart-type-1" style="margin-bottom: 0px; font-weight: normal">{% endverbatim %}{{ 'tour_builder.hotel'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</label>
                 <input id="apart-type-2" v-model="filter.type" value="apartment" type="radio" name="apart-type">
-                <label for="apart-type-2" style="margin-bottom: 0px; font-weight: normal">Апартаменты</label>
+                <label for="apart-type-2" style="margin-bottom: 0px; font-weight: normal">{% endverbatim %}{{ 'tour_builder.appartment'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</label>
               </div>
             </div>
             <div class="uf-group uf-group_rate" v-show="showStars">
-              <div class="uf-group__cap">Количество звезд</div>
+              <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.stars_count'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
               <div class="uf-group__input uf-group__input_rate">
                 <input id="u-star-1" v-model="filter.stars" value="1" type="radio" name="u-rate">
                 <input id="u-star-2" v-model="filter.stars" value="2" type="radio" name="u-rate">
@@ -188,7 +189,7 @@
               </div>
             </div>
             <div class="uf-group uf-group_select" v-show="showApFilter">
-              <div class="uf-group__cap">Категория</div>
+              <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.category'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
               <div class="uf-group__input">
                 <select class="js-select nostyle apType" v-model="filter.apType" name="category" data-width="155">
                     <option v-for="option in apTypes" v-bind:value="option.id">{{option.title}}</option>
@@ -196,7 +197,7 @@
               </div>
             </div>
             <div class="uf-group uf-group_select" v-show="showApFilter">
-              <div class="uf-group__cap">Комнаты</div>
+              <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.rooms'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
               <div class="uf-group__input">
                 <select class="js-select nostyle apRooms" v-model="filter.apRooms" name="room-count" data-width="84">
                     <option v-for="(option,key) in apRooms" v-bind:value="key">{{option}}</option>
@@ -204,7 +205,7 @@
               </div>
             </div>
             <div class="uf-group uf-group_range">
-              <div class="uf-group__cap">Цена
+              <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.price'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}
                 <input class="js-price-range-input" type="text" readonly name="price-range"> </div>
               <div class="uf-group__input">
                 <div class="js-price-range-slider"></div>
@@ -219,7 +220,7 @@
                     <img class="u-card__media" :src="item.image">
                 </div>
                 <div class="u-card__info">
-                    <div class="u-card__cap">{{ item.title }}</div>
+                    <div class="u-card__cap" :title="item.title">{{ item.title }}</div>
                     <div class="u-card__price"  v-html="item.priceStr"> </div>
                     <div v-if="item.type === 'hotel'" :class="'u-card__rate s-rate s-rate-'+item.stars">
                         <i v-for="i in new Array(item.stars)" class="fa fa-star"></i>
@@ -251,12 +252,12 @@
                             <i class="fa fa-map-marker" aria-hidden="true"></i>{{currItem.address}}</div>
                         <div class="u-full-card__descr">
                             <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            <p v-html="currItem.description"></p>
+                            <div v-html="currItem.description" class="js-custom-scroll hotel-info"></div>
                         </div>
                     </div>
                     <div class="u-full-card__spart">
-                        <div class="u-full-card__cap" v-show="currItem.type == 'hotel'">Выбор номера</div>
-                        <button v-show="currItem.type == 'apartment'" class="u-card-option__btn js-card-option-btn" v-on:click="selectHome">Выбрать</button>
+                        <div class="u-full-card__cap" v-show="currItem.type == 'hotel'">{% endverbatim %}{{ 'tour_builder.room_select'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
+                        <button v-show="currItem.type == 'apartment'" class="u-card-option__btn js-card-option-btn" v-on:click="selectHome">{% endverbatim %}{{ 'tour_builder.select'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</button>
                         <div class="u-full-card__option-list js-custom-scroll js-card-option-list" v-show="currItem.type == 'hotel'">
                             <div v-for="room in currItem.rooms" class="u-card-option js-card-option">
                                 <div class="u-card-option__seats-num">
@@ -267,9 +268,9 @@
                                     <div class="u-card-option__name">{{room.title}}</div>
                                     <div class="u-card-option__price" v-html="room.priceStr"></div>
                                     <div class="u-card-option__more-info-btn js-more-info-btn" v-on:click="selRoom(room)">
-                                        <div class="fa fa-info-circle"></div>Подробнее</div>
+                                        <div class="fa fa-info-circle"></div>{% endverbatim %}{{ 'tour_builder.detail'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                                 </div>
-                                <button class="u-card-option__btn js-card-option-btn" v-on:click="selectAccommodation(room)">Выбрать</button>
+                                <button class="u-card-option__btn js-card-option-btn" v-on:click="selectAccommodation(room)">{% endverbatim %}{{ 'tour_builder.select'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</button>
                             </div>
                         </div>
                     </div>
@@ -283,7 +284,9 @@
                     <div class="u-full-card__small-slider js-small-card-slider">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide" v-for="img in currRoom.images">
-                                <img class="u-card__media" :src="img">
+                                <a :href="img" data-fancybox="group" :data-caption="currRoom.title">
+                                    <img class="u-card__media" :src="img">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -322,11 +325,11 @@
     <div class="container second-set js-u-second-set"  v-show="stepTwo" style="display: block">
         {% verbatim %}
         <div class="u-filter">
-            <div class="u-filter__title">Дополнительные услуги</div>
+            <div class="u-filter__title">{% endverbatim %}{{ 'tour_builder.add_services'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
             <div class="u-filter__body u-filter__list-set">
                 <div class="uf-group uf-group_cat">
                     <div class="uf-group__cap uf-group__cap_alt">
-                        <i class="fa fa-car" aria-hidden="true"></i>Транспорт</div>
+                        <i class="fa fa-car" aria-hidden="true"></i>{% endverbatim %}{{ 'tour_builder.transport'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                     <div class="uf-group__input">
                         <label v-for="service in services" v-on:change="showService(service,$event)">
                             <input type="checkbox" class="servicesCB">
@@ -336,21 +339,21 @@
                 </div>
                 <div class="uf-group uf-group_cat">
                     <div class="uf-group__cap uf-group__cap_alt">
-                        <i class="fa fa-child" aria-hidden="true"></i>Развлечения</div>
+                        <i class="fa fa-child" aria-hidden="true"></i>{% endverbatim %}{{ 'tour_builder.add_services'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                     <div class="uf-group__input">
 
                     </div>
                 </div>
                 <div class="uf-group uf-group_cat">
                     <div class="uf-group__cap uf-group__cap_alt">
-                        <i class="fa fa-cutlery" aria-hidden="true"></i>Еда</div>
+                        <i class="fa fa-cutlery" aria-hidden="true"></i>{% endverbatim %}{{ 'tour_builder.food'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                     <div class="uf-group__input">
 
                     </div>
                 </div>
                 <div class="uf-group uf-group_cat">
                     <div class="uf-group__cap uf-group__cap_alt">
-                        <i class="fa fa-fa" aria-hidden="true"></i>Другое</div>
+                        <i class="fa fa-fa" aria-hidden="true"></i>{% endverbatim %}{{ 'tour_builder.other'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                     <div class="uf-group__input">
 
                     </div>
@@ -393,16 +396,16 @@
 
               </div>
               <div class="u-full-card__spart">
-                <div class="u-full-card__cap" v-show="displayService.type == 'day' || displayService.type == 'day_option'">Время аренды</div>
+                <div class="u-full-card__cap" v-show="displayService.type == 'day' || displayService.type == 'day_option'">{% endverbatim %}{{ 'tour_builder.rent_time'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                 <div class="u-full-card__option-list u-full-card__inputs-w">
                   <div class="uf-group uf-group_date" v-show="displayService.type == 'day' || displayService.type == 'day_option'">
-                    <div class="uf-group__cap">С</div>
+                    <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.from'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                     <div class="uf-group__input">
                       <i class="fa fa-calendar" aria-hidden="true"></i>
                       <input class="datepicker js-datepicker froms" v-model="displayService.from" readonly="readonly" type="text" size="30" name="day-start"> </div>
                   </div>
                   <div class="uf-group uf-group_date" v-show="displayService.type == 'day' || displayService.type == 'day_option'">
-                    <div class="uf-group__cap">По</div>
+                    <div class="uf-group__cap">{% endverbatim %}{{ 'tour_builder.to'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</div>
                     <div class="uf-group__input">
                       <i class="fa fa-calendar" aria-hidden="true"></i>
                       <input class="datepicker js-datepicker tos" v-model="displayService.to" readonly="readonly" type="text" size="30" name="day-end"> </div>
@@ -413,7 +416,7 @@
                         <span class="u-card-option__currency" v-html="currencyIcon"></span>
                       </div>
                     </div>
-                    <button class="u-card-option__btn js-card-option-btn" v-on:click="addService">Выбрать</button>
+                    <button class="u-card-option__btn js-card-option-btn" v-on:click="addService">{% endverbatim %}{{ 'tour_builder.select'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}</button>
                   </div>
                 </div>
               </div>
@@ -423,9 +426,8 @@
                 <i class="fa fa-close"></i>
             </div>
         </div>
-
+        <button class="active-btn active-js-btn" v-on:click="showEnd">{% endverbatim %}{{ 'tour_builder.end_booking'|trans({},'NetcastUrestMainBundle') }}{% verbatim %}Завершить бронирование</button>
         {% endverbatim %}
-        <button class="active-btn active-js-btn" v-on:click="showEnd">Завершить бронирование</button>
     </div>
 </main>
 
@@ -437,6 +439,7 @@
     '@NetcastUrestMainBundle/Resources/public/js/swiper.jquery.min.js'
     '@NetcastUrestMainBundle/Resources/public/js/u-rest.js'
     '@NetcastUrestMainBundle/Resources/public/js/vue.js'
+    '@NetcastUrestMainBundle/Resources/public/js/jquery.fancybox.min.js'
     '@NetcastUrestMainBundle/Resources/public/js/tourBuilderNew.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>

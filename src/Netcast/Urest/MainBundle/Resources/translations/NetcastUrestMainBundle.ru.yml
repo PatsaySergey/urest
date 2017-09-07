@@ -308,7 +308,7 @@ site:
   read_also: ЧИТАЙТЕ  ТАКЖЕ
   day_out: дней назад
   send: Отправить
-  country: СТРАНА
+  country: Страна
   faq_text: ВОПРОСЫ И ОТВЕТЫ
   addit: Подробнее
   selected_option_available: ВЫБРАННЫЙ ВАРИАНТ ДОСТУПЕН
@@ -371,3 +371,47 @@ breadcrumb.link_footer_gallery_i_list: Галарея изображений в 
 not.unique.username: Пользователь с таким имененм уже существует
 not.unique.email: Пользователь с таким email уже существует
 invalid.request: Ошибка при создании заказа
+
+
+
+tour_builder:
+    wellcome: Добро пожаловать в TourBuilder!
+    wellcome_text: Программа TourBuilder поможет Вам быстро и удобно спланировать и забронировать свой индивидуальный тур в on-line режиме.
+    new_tour: Новый тур
+    comment: Ваш комментарий
+    enter_text: Введите текст
+    create_order: Оформить заказ
+    finish_booking: Завеpшение бронирования
+    login: Для завершения бронирования войдите
+    enter_name: Введите имя
+    password: Пароль
+    enter_password: Введите пароль
+    or_register: Или зарегестрируйтесь
+    enter_email: Введите почту
+    register: Зарегестрироваться
+    route_and_dates: МАРШРУТ И ДАТЫ
+    start_here: Ваш тур начинается тут
+    city_or_country: Введите город или страну
+    arrival: Приезд
+    departure: Отбытие
+    accomodation: Проживание
+    accomodation_type: Вид жилья
+    all_types: Все виды
+    hotel: Отелии
+    appartment: Апартаменты
+    stars_count: Количество звезд
+    category: Категория
+    rooms: Комнаты
+    price: Цена
+    room_select: Выбор номера
+    select: Выбрать
+    detail: Подробнее
+    add_services: Дополнительные услуги
+    transport: Транспорт
+    entertainment: Развлечения
+    food: Еда
+    other: Другое
+    rent_time: Время аренды
+    from: С
+    to: По
+    end_booking: Завершить бронирование

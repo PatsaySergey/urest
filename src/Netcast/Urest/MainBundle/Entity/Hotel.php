@@ -60,6 +60,8 @@ class Hotel extends HasI18NEntity
 
     protected $contentField = 'hotel_content';
 
+    protected $active;
+
     /**
      * Constructor
      */
@@ -357,5 +359,15 @@ class Hotel extends HasI18NEntity
         $country = $this->getCity()->getRegion()->getCountry();
         $city = $this->getCity();
         return $country->getContent().', '.$city->getContent();
+    }
+
+    public function setActive($active) {
+        $this->active = $active;
+
+        return  $this;
+    }
+
+    public function getActive() {
+        return  $this->active;
     }
 }

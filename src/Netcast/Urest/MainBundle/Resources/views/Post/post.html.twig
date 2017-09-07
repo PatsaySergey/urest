@@ -1,4 +1,14 @@
 {% extends "NetcastUrestMainBundle::base.html.twig" %}
+
+        {% block pageCss %}
+            <link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
+            {% stylesheets filter='cssrewrite'
+            'bundles/netcasturestmain/css/post.css'
+            %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock pageCss %}
+
 {% block content %}
 {% include 'NetcastUrestMainBundle:Map:map.html.twig' with {'top': 0} only %}
 <div class="main-content">
@@ -9,7 +19,14 @@
 <div class="clearfix big-spacer big-spacer"></div>
 <div class="container width-970 no-padd-xs">
     <div class="tour-info bg-white">
-        <div class="scroll-img-box">
+        <div class="fotorama"
+             data-nav="thumbs">
+            {% for image in post.images %}
+                {% media image.media,'reference' with {'class' : "img_responsive"} %}
+            {% endfor %}
+        </div>
+
+        {#<div class="scroll-img-box">
             <div id="thumb-scroller" class="thumb-scroller">
                 <ul class="ts-list">
                     {% for image in post.images %}
@@ -21,9 +38,9 @@
                     {% endfor %}
                 </ul>
             </div>
-        </div>
+        </div>#}
         <h3 class="header-title">{{ post.content.title }}</h3>
-        <div id="tour-carousel" class="carousel owl-carousel owl-theme">
+        {#<div id="tour-carousel" class="carousel owl-carousel owl-theme">
             {% for image in post.images %}
 
                     <div class="item">
@@ -31,10 +48,10 @@
                     </div>
 
             {% endfor %}
-        </div>
+        </div>#}
         <div class="clearfix"></div>
         <div class="inner-content">
-            <div class="right-block pull-right">
+            <div class="right-block pull-right hidden-xs">
                 <div class="title">
                     <h3>consectetuer
                         adipiscing</h3>
@@ -121,6 +138,7 @@
 {% endblock content %}
 
 {% block pageScripts %}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script> <!-- 16 KB -->
     {% javascripts
     '@NetcastUrestMainBundle/Resources/public/js/google.maps.js'
     %}

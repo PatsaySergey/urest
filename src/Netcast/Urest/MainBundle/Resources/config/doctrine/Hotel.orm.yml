@@ -19,6 +19,10 @@ Netcast\Urest\MainBundle\Entity\Hotel:
         created:
             type: datetime
             nullable: false
+        active:
+            type: boolean
+            options:
+                default: 1
         updated:
             type: datetime
             nullable: true

@@ -32,7 +32,7 @@ class ApartmentRepository extends EntityRepository
     public function getApartmentsArray(ImageProvider $pr,$priceExt)
     {
         $result = [];
-        $items = $this->createQueryBuilder('apartment')->getQuery()->getResult();
+        $items = $this->createQueryBuilder('apartment')->where('apartment.active = :active')->setParameter('active',true)->getQuery()->getResult();
         foreach ($items as $key => $item) {
             $mainImg = $item->getMainImage();
             $mainImgPath = null;

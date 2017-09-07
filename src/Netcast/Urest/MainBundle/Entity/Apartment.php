@@ -53,6 +53,8 @@ class Apartment extends HasI18NEntity
      */
     private $types;
 
+    private $active;
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -400,5 +402,15 @@ class Apartment extends HasI18NEntity
         $country = $this->getCity()->getRegion()->getCountry();
         $city = $this->getCity();
         return $country->getContent().', '.$city->getContent();
+    }
+
+    public function setActive($active) {
+        $this->active = $active;
+
+        return  $this;
+    }
+
+    public function getActive() {
+        return  $this->active;
     }
 }

@@ -95,23 +95,23 @@
             <div class="modal-header">
                 <div class="switch-block">
                     <div class="switch-wrapper">
-                        <input id="inp-1" type="checkbox" class="register switch-toggle">
+                        <input id="inp-1" type="checkbox" checked="checked" class="register switch-toggle">
                         <label for="inp-1" class="switch-button-background">
                             <span class="switch-button-button"></span>
                         </label>
                     </div>
                     <div class="clearfix"></div>
                     <div class="col-xs-6 no-padd">
-                        <span class="switch-label-on active pull-right">{{ 'site.auth'|trans({},'NetcastUrestMainBundle') }}</span>
+                        <span class="switch-label-on  pull-right">{{ 'site.auth'|trans({},'NetcastUrestMainBundle') }}</span>
                     </div>
                     <div class="col-xs-6 no-padd">
-                        <span class="switch-label-off pull-left">{{ 'site.registration'|trans({},'NetcastUrestMainBundle') }}</span>
+                        <span class="switch-label-off active pull-left">{{ 'site.registration'|trans({},'NetcastUrestMainBundle') }}</span>
                     </div>
                     <div class="clearfix"></div>
                 </div>
             </div>
             <div class="modal-body">
-                <div class="registration switch-tab-off">
+                <div class="registration switch-tab-on">
                     <form action="{{ path('netcast_urest_register') }}" method="POST" id="regFormMob" autocapitalize="off" autocomplete="off">
                         <div class="box-input">
                             <label class="title" for="name">{{ 'site.name'|trans({},'NetcastUrestMainBundle') }}</label>
@@ -170,15 +170,15 @@
                         <a class="btn" id="regBtnMob"><i class="fa fa-chevron-right"></i> {{ 'site.registered'|trans({},'NetcastUrestMainBundle') }}</a>
                     </div>
                 </div>
-                <div class="authorization switch-tab-on" style="display:none;">
+                <div class="authorization switch-tab-off" style="display:none;">
                     <form id="enterFormMob" action="{{ path('fos_user_security_check') }}">
                         <div class="box-input">
                             <label class="title" for="login">{{ 'site.login_name'|trans({},'NetcastUrestMainBundle') }}</label>
-                            <input type="text" id="login" class="form-control">
+                            <input type="text" id="login" name="_username" class="form-control">
                         </div>
                         <div class="box-input box-password">
                             <label class="title" for="password">{{ 'site.password'|trans({},'NetcastUrestMainBundle') }}</label>
-                            <input type="password" id="password" class="form-control">
+                            <input type="password" id="password" name="_password" class="form-control">
                         </div>
                     </form>
                     <div class="clearfix"></div>

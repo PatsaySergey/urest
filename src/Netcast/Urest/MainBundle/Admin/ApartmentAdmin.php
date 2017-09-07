@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ApartmentAdmin extends Admin
-{
+    {
 
     // перед созданием
     public function prePersist($item)
@@ -178,6 +178,10 @@ class ApartmentAdmin extends Admin
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => false,
+                'required' => false
+            ])
+            ->add('active', 'checkbox', [
+                'label' => 'form.label.active',
                 'required' => false
             ])
             ->end()

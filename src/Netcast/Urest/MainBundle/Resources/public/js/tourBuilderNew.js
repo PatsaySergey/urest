@@ -8,14 +8,13 @@ TourBuilder.prototype.initEvents = function() {
     var that = this;
     $( "#jsCity" ).autocomplete({
         source: that.params.acPath,
-        /*create: function () {
+        create: function () {
             $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-                console.log(item);
                 return $('<li>')
-                    .append('<a>' + item.label + '<br>' + item.value + '</a>')
+                    .append('<a>' + item.label + '<br><span class="tb-info">На период ' + that.vBuilder.tour.from+' - '+ that.vBuilder.tour.to+ '</span></a>')
                     .appendTo(ul);
             };
-        },*/
+        },
         select: function( event, ui ) {
             event.preventDefault();
             var id = ui.item.value.city;
@@ -25,6 +24,8 @@ TourBuilder.prototype.initEvents = function() {
             that.vBuilder.cityAutoComplete = cityT;
         }
     });
+
+
     var $priceRangeSliderInput = $(".js-price-range-input");
     var $priceRangeSlider = $(".js-price-range-slider");
     $priceRangeSlider.slider({
@@ -175,6 +176,7 @@ TourBuilder.prototype.init = function (items) {
             register: function() {
                 var thatV = this;
                 thatV.reg_error = '';
+                alert(this.checkEmail(this.newUser.email))
                 if(!this.checkEmail(this.newUser.email)) return thatV.reg_error = 'Неверный формат e-mail';
                 $.ajax({
                     method: 'POST',
@@ -273,13 +275,31 @@ TourBuilder.prototype.init = function (items) {
             closeFullCard: function() {
                 $('.container.second-set').removeClass('opened');
                 var $fullCard = $('.js-full-card');
+                var $jsCustomScroll = $('.js-custom-scroll');
+                $jsCustomScroll.mCustomScrollbar("destroy");
                 var $fullCardAddBody = $fullCard.find('.js-full-card-add-body');
                 $fullCard.removeClass('open');
                 $fullCardAddBody.slideUp();
                 $('body').removeClass('no-scroll');
             },
             openFullCard: function ($fullCard, $clickedCard) {
-                if(!this.cardSlider){
+
+                var $jsCustomScroll = $('.js-custom-scroll');
+                setTimeout(function() {
+                    if ($jsCustomScroll.length && window.innerWidth >= 768) {
+                        $jsCustomScroll.mCustomScrollbar({
+                            mouseWheel: {enable: true},
+                            advanced: { updateOnContentResize: true, updateOnBrowserResize: true },
+                            // theme: "dark-3",
+                            scrollEasing: "linear",
+                            // autoDraggerLength: false
+                        });
+                    }
+                },500);
+                console.log($clickedCard.offset().top);
+                console.log(parseInt($clickedCard.offset().top));
+                $('body').scrollTop(parseInt($clickedCard.offset().top)-70);
+                if(!this.cardSlider) {
                     this.cardSlider = this.uCardSwiper('js-u-card-swiper');
                 } else {
                     this.cardSlider.update(true);
