@@ -2592,7 +2592,7 @@ input {
   padding-right: 1px;
 }
 
-.social:after {
+.social:before {
   content: '';
   display: inline-block;
   position: absolute;

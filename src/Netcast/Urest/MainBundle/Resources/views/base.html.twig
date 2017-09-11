@@ -109,7 +109,7 @@
                                 {% if app.user %}
                                     <a href="{{ url('netcast_urest_profile_view') }}" class="menu-user pull-right" ><i class="fa fa-user"></i></a>
                                 {% else %}
-                                    <a href="" class="menu-user pull-right"  data-toggle="modal" data-target="#login-modal-mobile"><i class="fa fa-user"></i></a>
+                                    <a href="" class="menu-user pull-right" id="jsUserLink" data-toggle="modal" data-target="#login-modal-mobile"><i class="fa fa-user"></i></a>
                                 {% endif %}
                             </div>
                             <div class="navbar-header">

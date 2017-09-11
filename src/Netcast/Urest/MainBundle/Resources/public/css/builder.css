@@ -103,8 +103,12 @@
     }
 
     .u-full-card__add-body {
-        height: 355px;
+        max-height: 355px;
     }
 }
 
+
+.social-network {
+    width: 207px;
+}
 

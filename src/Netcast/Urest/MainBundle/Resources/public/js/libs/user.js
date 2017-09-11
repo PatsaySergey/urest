@@ -44,7 +44,11 @@ $(document).ready(function() {
             success: function(response) {
                 $self.find('.errorReg').remove();
                 if (response.success) {
-                    $('#signup-modal').modal('toggle');
+                    $('#signup-modal').modal('hide');
+                    $('#login-modal-mobile').modal('hide');
+                    $('#jsUserLink').removeAttr('data-toggle');
+                    $('#jsUserLink').removeAttr('data-target');
+                    $('#jsUserLink').attr('href',response.profile);
                     $('li.user-bar.hidden-sm.hidden-xs > span').remove();
                     $('li.user-bar.hidden-sm.hidden-xs').append(
                         '<span><a href="' + response.profile + '">' + response.name + ', здравствуйте</a></span>' +

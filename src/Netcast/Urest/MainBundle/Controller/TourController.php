@@ -100,6 +100,8 @@ class TourController extends Controller
         }
         $data['tour'] = $tour;
         $data['tourAdd'] = $tourAdd;
+        $mapOptions = $this->buildMapOptions([$tour]);
+        $data['mapOptions'] = $mapOptions;
         return $this->render('NetcastUrestMainBundle:Tour:tour.html.twig', $data);
     }
 

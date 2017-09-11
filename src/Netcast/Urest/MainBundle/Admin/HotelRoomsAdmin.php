@@ -56,6 +56,9 @@
         protected function configureFormFields(FormMapper $formMapper)
         {
             $parentHotel = $this->getParentEntity('Netcast\Urest\MainBundle\Entity\Hotel');
+            $room = $this->getSubject();
+            if(!$parentHotel) $parentHotel = $room->getHotel();
+
             $formMapper
                 ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle']);
             $formMapper->add('hotel', 'entity', [

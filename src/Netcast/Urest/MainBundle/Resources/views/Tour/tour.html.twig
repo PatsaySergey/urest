@@ -50,7 +50,7 @@
                             <div class="infobox-wrapper">
                                 <div id="infobox">
                                     <div class="cell icon-tour">
-                                        <img src="../assets/img/img-thumb-small.png" alt="">
+                                        <img id="infoImg" src="" alt="">
                                     </div>
                                     <div class="cell description-tour">
                                         <p class="title">Phasellus ut tempor urna</p>
@@ -140,4 +140,15 @@
 
 {% block pageScripts %}
     <script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script> <!-- 16 KB -->
+
+    {% javascripts
+        '@NetcastUrestMainBundle/Resources/public/js/google.maps.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var GoogleMaps = new GoogleMaps();
+        GoogleMaps.setMarkers({{ mapOptions|raw }});
+    </script>
+
 {% endblock pageScripts %}

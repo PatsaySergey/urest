@@ -2839,6 +2839,10 @@ footer {
   font-family: "Roboto";
   color: #898989;
   font-size: 18px; }
+
+.block-tour #map {
+  margin-left: 14px;
+}
   @media (min-width: 992px) {
     .block-tour .header-title {
       padding: 0 43px; } }
@@ -2848,6 +2852,7 @@ footer {
   .block-tour .img-tour {
     width: 100%; }
   .block-tour #map {
+    margin-left: 0px;
     height: 300px; }
   .block-tour .info-tour {
     font-size: 14px;

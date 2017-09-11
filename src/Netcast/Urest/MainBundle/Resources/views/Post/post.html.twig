@@ -8,8 +8,8 @@
             <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
         {% endblock pageCss %}
-
 {% block content %}
+
 {% include 'NetcastUrestMainBundle:Map:map.html.twig' with {'top': 0} only %}
 <div class="main-content">
 <div class="block-faq-2">
@@ -114,7 +114,9 @@
                 <div class="col-md-4 col-sm-12 col-xs-12 no-padd-xs">
                     <div class="thumbnail thumbnail-middle">
                         {% if otherPost.images[0] is defined %}
-                            {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                            <a href="{{ url('netcast_urest_post_view', { category : otherPost.category.alias, alias : otherPost.alias }) }}">
+                                {% media otherPost.images[0].media,'reference' with {'class' : "img_responsive"} %}
+                            </a>
                         {% endif %}
                         <div class="caption clearfix">
                             <h4>{{ otherPost.content.title }}

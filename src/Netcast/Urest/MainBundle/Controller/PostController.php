@@ -3,6 +3,7 @@
     namespace Netcast\Urest\MainBundle\Controller;
 
     use Netcast\Urest\MainBundle\Controller\MainController as Controller;
+    use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
     class PostController extends Controller
     {
@@ -99,15 +100,16 @@
             $em = $this->getDoctrine()->getManager();
             $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogPost');
             $post = $postRepository->findOneBy(['alias' => $alias]);
+            if (!$post) {
+                throw $this->createNotFoundException($this->get('translator')->trans('page404',[],'NetcastUrestMainBundle'));
+            }
             $categoryRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\BlogCategory');
             $category = $categoryRepository->findOneBy(['alias' => $category]);
             if(!$category) {
                 throw $this->createNotFoundException($this->get('translator')->trans('page404',[],'NetcastUrestMainBundle'));
             }
             $otherPosts = $postRepository->getLastPostsByCategory($category->getId(), 3, $post->getId());
-            if (!$post) {
-                throw $this->createNotFoundException($this->get('translator')->trans('page404',[],'NetcastUrestMainBundle'));
-            }
+
 
             $mapOptions = $this->buildMapOptions($otherPosts);
             $postCategories = $categoryRepository->findAll();
