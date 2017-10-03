@@ -34,6 +34,25 @@
         {% endblock pageCss %}
     </head>
     <body>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '515265872145915',
+                cookie     : true,
+                xfbml      : true,
+                version    : '{latest-api-version}'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
         <div id="wrapper">
             {% block header %}
                 <header>
@@ -107,7 +126,7 @@
                             </div>
                             <div class="col-xs-4 col-sm-4 visible-xs visible-sm no-padd">
                                 {% if app.user %}
-                                    <a href="{{ url('netcast_urest_profile_view') }}" class="menu-user pull-right" ><i class="fa fa-user"></i></a>
+                                    <a href="" data-toggle="modal" data-target="#user-modal-mobile"  class="menu-user pull-right" ><i class="fa fa-user"></i></a>
                                 {% else %}
                                     <a href="" class="menu-user pull-right" id="jsUserLink" data-toggle="modal" data-target="#login-modal-mobile"><i class="fa fa-user"></i></a>
                                 {% endif %}

@@ -48,6 +48,7 @@
             </div>
             <div class="modal-body">
             {% set reg_form = reg_form() %}
+            {% set reg_form_m = reg_form() %}
             <form action="{{ path(reg_form.vars.action) }}" {{ form_enctype(reg_form) }} method="POST" id="regForm" autocapitalize="off" autocomplete="off">
                     <div class="box-input">
                         {{ form_label(reg_form.first_name) }}
@@ -112,36 +113,20 @@
             </div>
             <div class="modal-body">
                 <div class="registration switch-tab-on">
-                    <form action="{{ path('netcast_urest_register') }}" method="POST" id="regFormMob" autocapitalize="off" autocomplete="off">
+                    <form action="{{ path('netcast_urest_register') }}" class="mobile" method="POST" id="regFormMob" autocapitalize="off" autocomplete="off">
                         <div class="box-input">
                             <label class="title" for="name">{{ 'site.name'|trans({},'NetcastUrestMainBundle') }}</label>
-                            <input type="text" id="name" class="form-control">
-                        </div>
-                        <div class="col-sm-7 no-padd-left-sm no-padd-xs">
-                            <div class="birthday clearfix">
-                                <label class="title">{{ 'site.birdth'|trans({},'NetcastUrestMainBundle') }}</label>
-                                <div class="box-select">
-                                    <div class="col-xs-4 no-padd-left">
-                                        {{ form_widget(reg_form.dateOfBirth.day, { 'attr': {'class': 'day'} }) }}
-                                    </div>
-                                    <div class="col-xs-4 no-padd">
-                                        {{ form_widget(reg_form.dateOfBirth.month, { 'attr': {'class': 'month'} }) }}
-                                    </div>
-                                    <div class="col-xs-4 no-padd-right">
-                                        {{ form_widget(reg_form.dateOfBirth.year, { 'attr': {'class': 'year'} }) }}
-                                    </div>
-                                </div>
-                            </div>
+                            {{ form_widget(reg_form_m.first_name) }}
                         </div>
                         <div class="col-sm-5 no-padd-xs">
                             <div class="sex form-inline">
                                 <label class="title">Пол</label>
                                 <div class="box-radio">
                                     <label class="radio-inline">
-                                        <input type="radio" class="btn-radio" name="radio" id="men"  value="m"> муж
+                                        <input type="radio"  class="btn-radio" name="netcast_urest_user_registration[{{ reg_form_m.gender.vars.name }}]"  value="m"> муж
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" class="btn-radio" name="radio" id="women" checked value="f"> жен
+                                        <input type="radio" class="btn-radio" name="netcast_urest_user_registration[{{ reg_form_m.gender.vars.name }}]" id="women" checked value="f"> жен
                                     </label>
                                 </div>
                             </div>
@@ -149,16 +134,12 @@
                         <div class="clearfix"></div>
                         <div class="box-input">
                             <label class="title" for="login1">{{ 'site.login_name'|trans({},'NetcastUrestMainBundle') }}</label>
-                            <input type="text" id="login1" class="form-control">
+                            {{ form_widget(reg_form_m.email) }}
                         </div>
                         <div class="box-input">
-                            <label class="title" for="password1">{{ 'site.password'|trans({},'NetcastUrestMainBundle') }}</label>
-                            <input type="password" id="password1" class="form-control">
+                        {{ form_widget(reg_form_m.plainPassword) }}
                         </div>
-                        <div class="box-input no-margin-bot">
-                            <label class="title" for="password2">{{ 'site.re_password'|trans({},'NetcastUrestMainBundle') }}</label>
-                            <input type="password" id="password2" class="form-control">
-                        </div>
+                        {{ form_widget(reg_form_m._token) }}
                     </form>
                     <div class="clearfix"></div>
                     <div class="box-social text-center">
@@ -192,6 +173,23 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade modal-primary" id="user-modal-mobile">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {% if app.user %}
+                <br>
+                <a href="{{ url('netcast_urest_profile_view') }}"> {{ app.user.firstname }} {{ app.user.lastname }} </a> |
+                <a href="{{ url('sonata_user_security_logout') }}"> {{ 'site.logout'|trans({},'NetcastUrestMainBundle') }}</a>
+                <br>
+                <a href="{{ url('netcast_urest_profile_view') }}">Личный кабинет</a>
+                <br>
+                <br>
+            {% endif %}
         </div>
     </div>
 </div>

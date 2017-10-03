@@ -39,13 +39,18 @@ class FaqAdmin extends Admin {
         }
         $formMapper
             ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('question', 'textarea', [
-                'label' => 'form.label.question',
-                'required' => true
-            ])
-            ->add('answer', 'textarea', [
-                'label' => 'form.label.answer',
-                'required' => true
+            ->add('faqContent', 'urest_i18n_collection', [
+                'label' => 'form.label.content',
+                'type' => 'netcast_urest_faq_content_form',
+                'options' => [
+                    'label' => false,
+                    'required' => false,
+                    'data_class' => 'Netcast\Urest\MainBundle\Entity\FaqContent',
+                ],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => false,
+                'required' => false
             ])
             ->add('datePublish', 'sonata_type_date_picker', [
                 'label' => 'form.label.date_publish',

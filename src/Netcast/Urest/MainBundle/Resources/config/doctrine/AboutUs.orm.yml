@@ -4,8 +4,6 @@ Netcast\Urest\MainBundle\Entity\AboutUs:
     indexes:
         about_user_idx:
             columns: [ user_id ]
-        about_lang_idx:
-            columns: [ lang ]
         about_image_idx:
             columns: [ image_id ]
     repositoryClass: Netcast\Urest\MainBundle\Entity\AboutUsRepository
@@ -16,20 +14,19 @@ Netcast\Urest\MainBundle\Entity\AboutUs:
             generator:
                 strategy: AUTO
     fields:
-        lang:
-            type: string
-            length: '2'
-        title:
-            type: string
-            length: '255'
-        content:
-            type: text
         created:
             type: datetime
             nullable: false
         updated:
             type: datetime
             nullable: true
+
+    oneToMany:
+          about_content:
+              targetEntity: AboutUsContent
+              mappedBy: parent
+              cascade: ["all"]
+              orphanRemoval: true
 
     manyToOne:
          user:

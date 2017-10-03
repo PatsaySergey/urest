@@ -216,7 +216,199 @@ admin.btn.remove_img: Remove
 
 
 
+tags: "Тэги"
+records: "записей"
+total: "Всего"
+page: "Страница"
+page404: "Ой! А у нас нет такой страницы."
 
-not.unique.username: User with this name already exists
-not.unique.email: User with this email already exists
-invalid.request: An error occurred while creating the order
+admin.tour.left: ' '
+admin.tour.right: ' '
+admin.empty: ' '
+admin.tour.end: ' '
+admin.tour.center: ' '
+admin.contact.data: 'Контактные данные'
+
+action_delete_forever: Удалить навсегда
+action_restore: Восстановить
+admin.label.show_deleted: Показать удаленные записи
+
+admin.btn.select_img: Выбрать изображение
+admin.btn.change_img: Изменить
+admin.btn.remove_img: Удалить
+breadcrumb.link_currency_list: Курсы валют
+registration:
+    messages:
+      password:
+        mismatch: Пароли не совпадают
+    form:
+      label:
+        gender: Пол
+        email: E-mail
+        username: Имя
+        password: Пароль
+        password_repeat: Повторите пароль
+
+
+show:
+  label_from_country: Из страны
+  label_to_country: В страну
+  label_to_city: В город
+  label_date_start: Дата начала
+  label_date_end: Дата окончания
+  label_add_info: Дополнительная информация
+  label_room: Проживание
+  label_services: Услуги
+  label_tour_date: Дата тура
+  label_tour_date_tour: Название тура
+  label_date_create: Дата заказа
+  label_user: Заказал тур
+
+
+site:
+  search: Поиск по сайту
+  search_f: Поиск
+  search_g: Искать
+  search_all: По всему сайту
+  search_tour: По турам
+  search_blog: По блогам
+  search_info: По справочнику
+  hello: здравствуйте
+  logout: Выйти
+  login: Войти
+  registration: Регистрация
+  choice_language: Выбрать язык
+  choice_currency: Выбрать валюту
+  about_as: О нас
+  tours: Туры
+  bloug: Блог
+  info: Справочник
+  next: Далее
+  FAQ: FAQ
+  hot_tours: Горящие предложения
+  contacts: Контакты
+  registered: Зарегистрироваться
+  registered_from: Зарегистрироваться через
+  auth: Авторизация
+  login_name: Логин / Email
+  password: Пароль
+  re_password: Повторите пароль
+  no_accaunt: Нет аккаунта
+  forgot_pass: Забыли пароль?
+  name: Имя
+  birdth: День Рождение
+  login_from: Войти через
+  partners: ПАРТНЕРЫ
+  reviews: Отзывы
+  clients: наших клиентов
+  read_also: ЧИТАЙТЕ  ТАКЖЕ
+  day_out: дней назад
+  send: Отправить
+  country: СТРАНА
+  faq_text: ВОПРОСЫ И ОТВЕТЫ
+  addit: Подробнее
+  selected_option_available: ВЫБРАННЫЙ ВАРИАНТ ДОСТУПЕН
+  selected_option_not_available: ВЫБРАННЫЙ ВАРИАНТ НЕ ДОСТУПЕН
+  manager_recomend: РЕКОМЕНДАЦИИ ВАШЕГО МЕНЕДЖЕРА
+  new_article: Новые Статьи
+  auth_to_review: ЧТОБЫ ОСТАВИТЬ ОТЗЫВ, ПОЖАЛУЙСТА, АВТОРИЗИРУЙТЕСЬ
+  base_info: БАЗОВАЯ ИНФОРМАЦИЯ
+  reg_date: Дата регистрации
+  last_login_date: Дата последнего логина
+  order_num: Номер заказа
+  tour_type: Тип тура
+  amount: Сумма заказа
+  create_date: Дата создания
+  pay_to: Погасить счет до
+  status: Статус
+  not_set: не установлено
+  individual: Индивидуальный
+  to_order_list: К списку заказов
+  order: Заказ
+  hotel: Отель
+  apartment: Апартаменты
+  room: номер
+  cancel_order: Отменить заказ
+  approve_order: Подтвердить заказ
+  addit_info: Дополнительная информация
+  accommodation: ПРОЖИВАНИЕ
+  tour_date: Дата тура
+  addit_services: ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ
+  tour_city: Город тура
+  city: Город
+  tour_country: Страна тура
+  your_manager: Ваш менеджер
+  all: ВСЕ
+  on_maderate: НА МОДЕРАЦИИ
+  on_approve: НА УТВЕРЖДЕНИИ
+  pay: ОЖИДАЮТ ОПЛАТУ
+  no_pay: ПРОСРОЧЕННЫЕ
+  payed: ОПЛАЧЕННЫЕ
+  new_tour: Создать новый тур
+  invoice: Счет
+  open: Открытый
+  pre_pay: Предоплата
+  all_amount: Вся сумма
+  pay_to: Оплатить до
+  all_tours: Наши туры
+  any: Любая
+  every: Любой
+  tours_map: КАРТА ТУРОВ
+  other_dates: доступны другие даты
+
+
+
+breadcrumb.link_footer_gallery_v_list: Галерея видео в футере
+breadcrumb.link_footer_gallery_video_list: Галерея видео в футере
+breadcrumb.link_footer_gallery_images_list: Галерея изображений в футере
+breadcrumb.link_footer_gallery_i_list: Галерея изображений в футере
+
+
+not.unique.username: Пользователь с таким именем уже существует
+not.unique.email: Пользователь с таким email уже существует
+invalid.request: Ошибка при создании заказа
+
+
+
+
+tour_builder:
+    wellcome: Welcome to TourBuilder!
+    wellcome_text: The program TourBuilder will help you quicly and easily plan and book your private tour on-line.
+    new_tour: New tour
+    comment: Your comment
+    enter_text: Enter the text
+    create_order: Create order
+    finish_booking: Finish booking
+    login: To complate the booking, please login 
+    enter_name: Enter name
+    password: Password
+    enter_password: Enter the password
+    or_register: Or register
+    enter_email: Enter email
+    register: Register
+    route_and_dates: Route and dates
+    start_here: Your tour starting here
+    city_or_country: Enter city or country
+    arrival: Arrival
+    departure: Departute
+    accomodation: Accomodation
+    accomodation_type: Type of accommodation
+    all_types: All types
+    hotel: Hotels
+    appartment: Appartments
+    stars_count: Number of stars
+    category: Category
+    rooms: Rooms
+    price: Price
+    room_select: Select a room
+    select: Select
+    detail: Detail
+    add_services: Additional services
+    transport: Transport
+    entertainment: Entertainments
+    food: Food
+    other: Other
+    rent_time:  Time of rent
+    from: From
+    to: To
+    end_booking: Complate the booking

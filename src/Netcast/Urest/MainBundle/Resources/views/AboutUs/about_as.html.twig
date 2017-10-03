@@ -7,7 +7,7 @@
             <h2 class="header-title">{{ 'site.about_as'|trans({},'NetcastUrestMainBundle') }}</h2>
             <img src="{% path aboutPost.image, "reference"  %}" class="header-img img-responsive" alt="">
             <div class="inner-content about">
-                {{ aboutPost.content|raw }}
+                {{ aboutPost.content.content|raw }}
             </div>
         </div>
     </div>

@@ -17,6 +17,12 @@ services:
         tags:
           - {name: form.type, alias: netcast_urest_title_content_form}
 
+
+    netcast.urest.content.f.form.type:
+        class: Netcast\Urest\MainBundle\Form\Type\FaqContentFormType
+        tags:
+          - {name: form.type, alias: netcast_urest_faq_content_form}
+
     netcast.urest.content.t_one.form.type:
         class: Netcast\Urest\MainBundle\Form\Type\TitleOneContentFormType
         tags:

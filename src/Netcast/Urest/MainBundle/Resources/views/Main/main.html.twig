@@ -40,7 +40,7 @@
                 <div class="col-md-6 no-padd-xs no-padd-sm">
                     <h2 class="text-uppercase">{{ 'site.hot_tours'|trans({},'NetcastUrestMainBundle') }}</h2>
                     {% for tour in lastTours %}
-                    <div class="thumbnail">
+                    <div class="thumbnail tour">
                         {% if tour.tourImages[0] is defined %}
                             <a href="{{ url('netcast_urest_tour_view',{ id : tour.id }) }}">
                             {% media tour.tourImages[0].media,'reference' with {'class' : "img_responsive"} %}

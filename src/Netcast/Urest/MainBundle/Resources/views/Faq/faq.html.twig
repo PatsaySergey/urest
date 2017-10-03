@@ -22,11 +22,11 @@
                         {% for faq in faqs %}
                         <div class="box-question bg-white">
                             <div class="name-question">
-                                <h4>{{ faq.question }}</h4>
+                                <h4>{{ faq.content.question }}</h4>
                             </div>
                             <div class="question toggle-box">
                                 <hr/>
-                                {{ faq.answer }}
+                                {{ faq.content.answer }}
                             </div>
                             <a href="" class="dropdown" data-for=".toggle-box"><i class="fa fa-angle-down"></i></a>
                         </div>

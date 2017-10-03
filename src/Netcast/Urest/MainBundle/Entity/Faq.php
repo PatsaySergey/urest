@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Faq
  */
-class Faq
+class Faq extends HasI18NEntity
 {
     /**
      * @var integer
@@ -19,10 +19,6 @@ class Faq
      */
     private $userId;
 
-    /**
-     * @var string
-     */
-    private $lang;
 
     /**
      * @var boolean
@@ -39,20 +35,61 @@ class Faq
      */
     private $updated;
 
-    /**
-     * @var string
-     */
-    private $question;
-
-    /**
-     * @var string
-     */
-    private $answer;
 
     public function __toString()
     {
-        return $this->question ?: '';
+        return $this->getContent() ?: '';
     }
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $faq_content;
+
+    protected $contentField = 'faq_content';
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->faq_content = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add faq_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\FaqContent $faq_content
+     * @return Faq
+     */
+    public function addAboutContent(FaqContent $faq_content)
+    {
+        $this->faq_content[] = $faq_content;
+
+        return $this;
+    }
+
+    /**
+     * Remove faq_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\FaqContent $faq_content
+     */
+    public function removeAboutContent(FaqContent $faq_content)
+    {
+        $this->faq_content->removeElement($faq_content);
+    }
+
+    /**
+     * Get faq_content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFaqContent()
+    {
+        return $this->faq_content;
+    }
+
 
     /**
      * Get id
@@ -87,28 +124,6 @@ class Faq
         return $this->userId;
     }
 
-    /**
-     * Set lang
-     *
-     * @param string $lang
-     * @return Faq
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return string 
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
 
     /**
      * Set active
@@ -179,51 +194,6 @@ class Faq
         return $this->updated;
     }
 
-    /**
-     * Set question
-     *
-     * @param string $question
-     * @return Faq
-     */
-    public function setQuestion($question)
-    {
-        $this->question = $question;
-
-        return $this;
-    }
-
-    /**
-     * Get question
-     *
-     * @return string 
-     */
-    public function getQuestion()
-    {
-        return $this->question;
-    }
-
-    /**
-     * Set answer
-     *
-     * @param string $answer
-     * @return Faq
-     */
-    public function setAnswer($answer)
-    {
-        $this->answer = $answer;
-
-        return $this;
-    }
-
-    /**
-     * Get answer
-     *
-     * @return string 
-     */
-    public function getAnswer()
-    {
-        return $this->answer;
-    }
     /**
      * @var \Application\Sonata\UserBundle\Entity\User
      */

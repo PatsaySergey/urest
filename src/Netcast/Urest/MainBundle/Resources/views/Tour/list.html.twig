@@ -37,10 +37,12 @@
         <div class="col-md-3 col-sm-4 no-padd-xs">
             <div class="thumbnail thumbnail-small">
                 {% if tour.tourImages[0] is defined %}
+                    <a href="{{ url('netcast_urest_tour_view',{ id : tour.id }) }}" >
                     {% media tour.tourImages[0].media,'reference' with {'class' : "img_responsive"} %}
+                    </a>
                 {% endif %}
                 <div class="caption">
-                    <div class="inner-block">
+                    <div class="inner-block title">
                         <h4>{{ tour.content.title }}</h4>
                     </div>
                     <div class="inner-block">
@@ -64,7 +66,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="inner-block">
+                    <div class="inner-block announcement">
                         <p>{{ tour.content.announcement }}</p>
                     </div>
                     <div class="block-btn">

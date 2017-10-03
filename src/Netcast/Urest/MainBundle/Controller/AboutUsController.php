@@ -16,7 +16,7 @@
 
             $em = $this->getDoctrine()->getManager();
             $lang = $this->getRequest()->getLocale();
-            $aboutPosts = $em->getRepository('Netcast\Urest\MainBundle\Entity\AboutUs')->findBy(['lang' => $lang],[],1,0);
+            $aboutPosts = $em->getRepository('Netcast\Urest\MainBundle\Entity\AboutUs')->find(1);
 
             $partnersRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Partner');
             $partners = $partnersRepository->findBy(['lang' => $lang],[],4,0);
@@ -27,9 +27,8 @@
             $data['reviews'] = $reviews;
 
 
-            if(isset($aboutPosts[0])) {
-                $data['aboutPost'] = $aboutPosts[0];
-            }
+            $data['aboutPost'] = $aboutPosts;
+
             return $this->render('NetcastUrestMainBundle:AboutUs:about_as.html.twig', $data);
         }
 

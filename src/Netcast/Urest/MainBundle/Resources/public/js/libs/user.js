@@ -13,6 +13,7 @@ $(document).ready(function() {
     });
     $('#regForm, #regFormMob').submit(function() {
         var $self = $(this);
+        var isMobile = $(this).hasClass('mobile');
         $.ajax({
             url:     $self.prop('action'),
             type:    'post',

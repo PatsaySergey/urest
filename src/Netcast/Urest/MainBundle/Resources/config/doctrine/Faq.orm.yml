@@ -4,8 +4,6 @@ Netcast\Urest\MainBundle\Entity\Faq:
     indexes:
         faq_user_idx:
             columns: [ user_id ]
-        faq_lang_idx:
-            columns: [ lang ]
     repositoryClass: Netcast\Urest\MainBundle\Entity\FaqRepository
     id:
         id:
@@ -17,10 +15,6 @@ Netcast\Urest\MainBundle\Entity\Faq:
         userId:
             type: integer
             column: user_id
-            nullable: false
-        lang:
-            type: string
-            length: '2'
             nullable: false
         datePublish:
             type: date
@@ -39,13 +33,12 @@ Netcast\Urest\MainBundle\Entity\Faq:
         updated:
             type: datetime
             nullable: false
-        question:
-            type: text
-            nullable: false
-        answer:
-            type: text
-            nullable: false
-
+    oneToMany:
+          faq_content:
+              targetEntity: FaqContent
+              mappedBy: parent
+              cascade: ["all"]
+              orphanRemoval: true
     manyToOne:
           user:
             targetEntity: Application\Sonata\UserBundle\Entity\User

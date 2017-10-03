@@ -25,50 +25,52 @@ class AboutUsAdmin extends Admin {
     {
         $user = $this->getSecurityContext()->getToken()->getUser();
         $item->setUser($user);
-        $item->setLang($this->getLanguage());
         $item->setCreated(new \DateTime());
         $item->setUpdated(new \DateTime());
+
+        foreach($item->getAboutContent() as $aContent) {
+            if(!$aContent->getIsDeleted())
+                $aContent->setParent($item);
+            else
+                $item->removeAboutContent($aContent);
+        }
     }
 
     // перед обновлением
     public function preUpdate($item)
     {
         $item->setUpdated(new \DateTime());
+        foreach($item->getAboutContent() as $aContent) {
+            if(!$aContent->getIsDeleted())
+                $aContent->setParent($item);
+            else
+                $item->removeAboutContent($aContent);
+        }
     }
 
     // Поля, отображаемые в формах create/edit
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('admin.tour.left',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('title', 'text', [
-                'label' => 'form.label.title',
-                'trim' => true,
-                'required' => true,
-                'attr' => [
-                    'maxlength' => '255',
-                ],
-            ])
-            ->end()
-            ->with('admin.tour.right',['class' => 'col-md-6', 'translation_domain' => 'NetcastUrestMainBundle'])
             ->add('image', 'urest_media_type', [
                 'label' => 'form.label.image',
                 'provider' => 'sonata.media.provider.image',
                 'translation_domain' => 'NetcastUrestMainBundle',
                 'required' => false
             ])
-            ->end()
-            ->with('admin.empty',['class' => 'clear', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('clear','hidden',['mapped' => false])
-            ->end()
-            ->with('admin.tour.end',['class' => 'col-md-12', 'translation_domain' => 'NetcastUrestMainBundle'])
-            ->add('content', 'ckeditor', [
+            ->add('aboutContent', 'urest_i18n_collection', [
                 'label' => 'form.label.content',
-                'attr' => array('class' => 'ckeditor', 'rows' => 20),
-                'config_name' => 'admin_config',
-                'constraints' => [new NotBlank()]
+                'type' => 'netcast_urest_title_content_form',
+                'options' => [
+                    'label' => false,
+                    'required' => false,
+                    'data_class' => 'Netcast\Urest\MainBundle\Entity\AboutUsContent',
+                ],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => false,
+                'required' => false
             ])
-            ->end()
         ;
     }
 
@@ -101,7 +103,7 @@ class AboutUsAdmin extends Admin {
     {
         $listMapper
             ->add('id','text',['label' => 'form.label.number'])
-            ->add('title', null, ['label' => 'form.label.title'])
+            ->add('content', null, ['label' => 'form.label.title'])
             ->add('user', 'string', ['label' => 'form.label.author', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
             ->add('created', null, ['label' => 'form.label.created'])
             ->add('_action', 'actions', [

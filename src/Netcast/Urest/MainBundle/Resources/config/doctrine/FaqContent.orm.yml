@@ -1,0 +1,31 @@
+Netcast\Urest\MainBundle\Entity\FaqContent:
+    type: entity
+    table: faq_content
+    indexes:
+        tag_idx:
+            columns: [ parent_id ]
+        lang_idx:
+            columns: [ lang_id ]
+    id:
+        id:
+            type: integer
+            generator:
+              strategy: AUTO
+    fields:
+        question:
+            type: text
+            nullable: false
+        answer:
+            type: text
+            nullable: false
+    manyToOne:
+        parent:
+            targetEntity: Netcast\Urest\MainBundle\Entity\Faq
+            joinColumn:
+              name: parent_id
+              referenceColumnName: id
+        lang:
+            targetEntity: Netcast\Urest\MainBundle\Entity\Language
+            joinColumn:
+              name: lang_id
+              referenceColumnName: id

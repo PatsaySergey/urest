@@ -12,10 +12,8 @@ class FaqController extends Controller
     public function listAction(Request $request)
     {
         $em             = $this->getDoctrine()->getManager();
-        $lang           = $request->getLocale();
         $postRepository = $em->getRepository('Netcast\Urest\MainBundle\Entity\Faq');
         $faqs           = $postRepository->findBy(array(
-            'lang'   => $lang,
             'active' => 1,
         ));
         //$formBuilder = $this->createForm(new FaqFormType());

@@ -9,7 +9,8 @@
                 <h2 class="header-title"> {{ tour.content.title }} </h2>
 
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
+                        <div class="tour-map-img" >
                         {% for image in tour.tourImages %}
                             {% if image.main %}
                                 {% media image.media,'reference' with {'class' : "img_responsive main_img"} %}
@@ -47,26 +48,16 @@
                             <div class="block-map">
                                 <div id="map"></div>
                             </div>
-                            <div class="infobox-wrapper">
-                                <div id="infobox">
-                                    <div class="cell icon-tour">
-                                        <img id="infoImg" src="" alt="">
-                                    </div>
-                                    <div class="cell description-tour">
-                                        <p class="title">Phasellus ut tempor urna</p>
-                                        <p class="name-hotel">Отель «АТЛАНТ»</p>
-                                        <hr/>
-                                        <p class="description">Dolor sit amet, consectetur adipiscing elit. Phasellus ut tempor urna, id vestibulum lacus. </p>
-                                    </div>
-                                    <div class="cleafrix"></div>
-                                </div>
-                            </div>
+                        </div>
+                        </div>
+                        <div class="tour-description">
+                        {{ tour.content.description|raw }}
                         </div>
                     </div>
                     <div class="clearfix big-spacer visible-sm visible-xs"></div>
-                    <div class="col-md-4">
+                   {# <div class="col-md-4">
                        {{ tour.content.description|raw }}
-                    </div>
+                    </div>#}
                 </div>
                 <div class="clearfix big-spacer"></div>
                 <div class="clearfix big-spacer"></div>
@@ -74,7 +65,7 @@
             <div class="container">
                 <h2 class="header-title"> ФОТОГРАФИИ И ВИДЕО</h2>
                 <div class="fotorama"
-                     data-nav="thumbs">
+                     data-nav="thumbs" style="text-align: -webkit-center; padding-bottom: 20px">
                     {% for image in tour.tourImages %}
                         {% media image.media,'reference' with {'class' : "img_responsive"} %}
                     {% endfor %}

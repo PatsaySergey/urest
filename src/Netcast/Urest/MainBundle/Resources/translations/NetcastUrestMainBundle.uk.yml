@@ -1,0 +1,418 @@
+admin:
+    dataTable:
+        zeroRecords: Відсутні дані для відображення
+        records_per_page: _MENU_ записів на сторінці 
+        sSearch: Пошук
+        sInfo: Показано _START_ по _END_ з _TOTAL_ записів
+        sInfoEmpty: Показано 0 по 0 з 0 записів
+        sInfoFiltered: (відфільтровано з _MAX_ записів)
+        sZeroRecords: Збігів не знайдено
+    layout:
+        date_create: Дата замовлення
+        dashboard: "Приладова панель"
+        currency: "Курси валют"
+        language: "Мова"
+        accommodation: "Проживання"
+        tour: "Тур"
+        tour_builder: "Тур Білдер"
+        appartmens: "Апартаменти"
+        add_services: "Додаткові послуги"
+        hotels: "Готелі"
+        hotel: "Готель"
+        city: "Місто"
+        cities: "Міста"
+        country: "Країна"
+        countries: "Країни"
+        blog: "Блог"
+        posts: "Записи блога"
+        blog_categories: "Категорії блога"
+        dictionary: "Довідник"
+        dictionaries: "Довідник"
+        faq: "FAQ"
+        about: "Про нас"
+        review: "Відгуки"
+        reviews: "Відгуки"
+        contacts: "Контакти"
+        customer: "Клієнт"
+        customers: "Клієнти"
+        user: "Користувач"
+        users: "Користувачі"
+        tag: "Тег"
+        tags: "Теги"
+        gallery: "Галерея"
+        content: "Контент"
+        geo: "Географічне положення"
+        location_info: "Довідник"
+        wellcome_msg: "Текст призначення"
+        main_page: "Головна"
+        contact: "Контакти"
+        orders: "Замовлення"
+form:
+    error:
+        alias_exist: Не унікальний аліас
+    label:
+        pay_history: "Надійшла оплата"
+        take: "Взяти замовлення"
+        tour: Назва тура
+        invoice_add: "Сгенерувати рахунок"
+        invoice_update: "Оновити рахунок"
+        fromCountry: "З країни"
+        toCountry: "В країну"
+        currency_code: "Код  валюти"
+        currency_icon: "Іконка валюти"
+        rate: "Курс відносно Євро"
+        dateStart: "Дата початку"
+        isCancel: "Недоступно"
+        dateEnd: "Дата закінчення"
+        room: "Номер"
+        status: "Статус"
+        service: "Послуга"
+        options: "Опції"
+        isModerated: "Потрібне підтвердження"
+        userApprove: "Підтверджене користувачем"
+        prePay: "Сума передоплати"
+        prePayDefault: "Сума передоплати за замовчуванням"
+        services: "Послуги"
+        active: "Активно"
+        on_main: "На головну"
+        genderы: "Стать"
+        images: "Галерея"
+        stars: "Зірки"
+        hotel: "Готель"
+        firstname: "Ім'я"
+        lastname: "Прізвище"
+        icon: "Іконка для карти"
+        service_icon: "Іконка послуги"
+        announcement: "Короткий опис"
+        description: "Контент"
+        date_publish: "Дата публікації"
+        title: "Назва"
+        show_in_builder: "Відображати в ТурБілдере"
+        active_lang: "Увімкнути в админці"
+        show_lang: "Увімкнути на сайті"
+        alias: "Аліас"
+        question: "Питання"
+        answer: "Відповідь"
+        lang: "Мова"
+        coordinates: "Координати"
+        accommodation: "Проживання"
+        hot_offer: 'Відображати як "Горяча пропозиція"'
+        created: "Створено"
+        updated: "Змінено"
+        date_start: "Початок"
+        date_end: "Кінець"
+        price: "Вартість"
+        dates: "Дати"
+        add: "Додати"
+        coordinates: "Координати"
+        country: "Країна"
+        region: "Регіон"
+        city: "Місто"
+        link: "Посилання"
+        video: "Відео"
+        image: "Картинка"
+        main: "Основне"
+        blog_category: "Категорія блога"
+        blog_content: "Текст запису блога"
+        blog_locator_icon: "Іконка для позиціонування на карті"
+        blog_preview_image: "Картинка для прев'ю"
+        blog_preview_video: "Відео для прев'ю"
+        blog_tags: "Теги блога"
+        blog_preview_text: "Короткий опис"
+        message_guest: "Текст для гостя"
+        message_user: "Текст для користувача"
+        content: "Вміст"
+        dateOfBirth: "День народження"
+        gender: "Стать"
+        apartment: "Апартаменти"
+        add_home: "Альтернативне житло"
+        type: "Оберіть тип"
+        text: "Текст"
+        icon: "Іконка"
+        cost: "Ціна"
+        rooms: "Кімнати"
+        apartment_type: "Тип апартаментів"
+        author: Автор
+        avatar: Аватарка
+        nickname: Відображене ім'я на сайті 
+        number: №
+        adress: Адреса
+        fax: Факс
+        phone: Телефон
+        email: E-mail
+        work_time: Режим работи
+        save: Зберегти
+breadcrumb:
+  link_tour_order_list: Замовлення турів
+  link_tour_city_list: "Управління містами"
+  link_currency_rate_list: "Курси валют"
+  link_tour_list: "Тури"
+  link_tour_delete: "Тури видалення"
+  link_language_list: "Мови"
+  link_language_delete: "Мови видалення"
+  link_faq_list: "FAQ"
+  link_faq_delete: "FAQ видалення"
+  link_country_list: "Країни"
+  link_country_delete: "Країни видалення"
+  link_region_list: "Регіони"
+  link_region_delete: "Регіони видалення"
+  link_city_list: "Міста"
+  link_city_delete: "Міста видалення"
+  link_blog_category_list: "Категорії блогу"
+  link_blog_category_delete: "Категорії блогу видалення"
+  link_blog_tag_list: "Теги записів блогу"
+  link_blog_tag_delete: "Теги записів блогу видалення"
+  link_blog_post_list: "Записи блогу"
+  link_blog_post_delete: "Записи блогу видалення"
+  link_location_info_list: "Довідник"
+  link_location_info_delete: "Довідник видалення"
+  link_location_info_country_list: "Довідник країн"
+  link_locationinfo_country_list: "Довідник країн"
+  link_location_info_country_delete: "Довідник країн видалення"
+  link_locationinfo_country_delete: "Довідник країн видалення"
+  link_location_info_city_list: "Довідник міст"
+  link_locationinfo_city_list: "Довідник міст"
+  link_location_info_city_delete: "Довідник міст видалення"
+  link_locationinfo_city_delete: "Довідник міст видалення"
+  link_hotel_list: Готелі
+  link_custom_tour_list: Нові замовлення
+  link_custom_tour_order_list: Нові замовлення
+  link_my_custom_tour_list: Мої замовлення
+  link_mytours_list: Мої замовлення
+  link_hotel_delete: Готелі видалення
+  link_hotel_room_list: Номери
+  link_hotel_room_delete: Номери видалення
+  link_hotels_list: Готелі
+  link_hotels_delete: Готелі видалення
+  link_hotel_rooms_list: Номери
+  link_hotel_rooms_delete: Номери видалення
+  link_wellcome_msg_list: "Текст привітання в ТурБілдері"
+  link_wellcome_msg_delete: "Текст привітання в ТурБілдері видалення"
+  link_main_gallery_list: "Галерея"
+  link_main_gallery_delete: "Галерея видалення"
+  link_main_block_list: "Послуги"
+  link_main_block_delete: "Послуги видалення"
+  link_apartment_list: "Апартаменти"
+  link_apartment_delete: "Апартаменти видалення"
+  link_service_list: Послуги
+  link_service_delete: Послуги видалення
+  link_options_list: Опції послуг
+  link_options_delete: Опціїпослуг видалення
+  link_review_list: Відгуки
+  link_review_delete: Відгуки видалення
+  link_about_us_list: Про нас
+  link_about_us_delete: Про нас видалення
+  link_partner_list: Партнери
+  link_partner_delete: Партнери видалення
+  link_contact_list: Контакти
+  link_contact_delete: Контакти видалення
+  link_contact_tour_city: Управління містами
+  service: Послуга
+  type: Тип послуги
+list:
+  label__action: "Дії"
+no_data: "Відсутні дані для відображення."
+no_photo: "Фото відсутнє"
+date_publish: "Дата публікації"
+read_more: "Читати"
+category: "Категоріяя"
+
+btn_create_and_show_parent: Створити та повернутися назад
+btn_update_and_show_parent: Зберегти та повернутися назад
+urest_admin_dashboard: Приладова панель
+tags: "Теги"
+records: "записів"
+total: "Всьогого"
+page: "Сторінка"
+page404: "Ой! А у нас немає такої сторінки."
+
+admin.tour.left: ' '
+admin.tour.right: ' '
+admin.empty: ' '
+admin.tour.end: ' '
+admin.tour.center: ' '
+admin.contact.data: 'Контактні дані'
+
+action_delete_forever: Видалити назавжди
+action_restore: Відновити
+admin.label.show_deleted: Показати видаленні записи
+
+admin.btn.select_img: Обрати зображення
+admin.btn.change_img: Змінити
+admin.btn.remove_img: Видалити
+breadcrumb.link_currency_list: Курси валют
+registration:
+    messages:
+      password:
+        mismatch: Паролі не співпадають
+    form:
+      label:
+        gender: Стать
+        email: E-mail
+        username: Ім'я
+        password: Пароль
+        password_repeat: Повторіть пароль
+
+
+show:
+  label_from_country: З країни
+  label_to_country: В країну
+  label_to_city: В місто
+  label_date_start: Дата початку
+  label_date_end: Дата закінчення
+  label_add_info: Додатково інформація
+  label_room: Проживання
+  label_services: Послуги
+  label_tour_date: Дата туру
+  label_tour_date_tour: Назва туру
+  label_date_create: Дата замовлення
+  label_user: Замовив тур
+
+
+site:
+  search: Пошук по сайту
+  search_f: Пошук
+  search_g: Шукати
+  search_all: По всьому сайту
+  search_tour: По турам
+  search_blog: По блогам
+  search_info: По довіднику
+  hello: вітаю
+  logout: Вийти
+  login: Увійти
+  registration: Реєстрація
+  choice_language: Обрати мову
+  choice_currency: Обрати валюту
+  about_as: Про нас
+  tours: Тури
+  bloug: Блог
+  info: Довідник
+  next: Далі
+  FAQ: FAQ
+  hot_tours: Гарячі пропозиції
+  contacts: Контакти
+  registered: Зареєструватися
+  registered_from: Зареєструватися через
+  auth: Авторизація
+  login_name: Логін / Email
+  password: Пароль
+  re_password: Повторіть пароль
+  no_accaunt: Немає облікового запису
+  forgot_pass: Забули пароль?
+  name: Ім'я
+  birdth: День Народження
+  login_from: Увійти через
+  partners: ПАРТНЕРИ
+  reviews: Відгуки
+  clients: наших клієнтів
+  read_also: ЧИТАЙТЕ  ТАКОЖ
+  day_out: днів назад
+  send: Відправити
+  country: СТРАНА
+  faq_text: ПИТАННЯ ТА ВІДПОВІДІ
+  addit: Детальніше
+  selected_option_available: ОБРАННИЙ ВАРІАНТ ДОСТУПНИЙ
+  selected_option_not_available: ОБРАННИЙ ВАРІАНТ НЕ ДОСТУПНИЙ
+  manager_recomend: РЕКОМЕНДАЦІЇ ВАШЕГО МЕНЕДЖЕРА
+  new_article: Нові Статті
+  auth_to_review: ЩОБ ЗАЛИШИТИ ВІДГУК, БУДЬЛАСКА, АВТОРИЗУЙТЕСЬ
+  base_info: БАЗОВАЯ ІНФОРМАЦІЯ
+  reg_date: Дата реєстрації
+  last_login_date: Дата останього логіна
+  order_num: Номер замовлення
+  tour_type: Тип туру
+  amount: Сума замовлення
+  create_date: Дата створення
+  pay_to: Погасити рахунок до
+  status: Статус
+  not_set: не встановлено
+  individual: Індивідуальный
+  to_order_list: До списку замовлень
+  order: Замовлення
+  hotel: Готель
+  apartment: Апартаменти
+  room: номер
+  cancel_order: Скасувати замовлення
+  approve_order: Підтвердити замовлення
+  addit_info: Додаткова інформація
+  accommodation: ПРОЖИВАННЯ
+  tour_date: Дата туру
+  addit_services: ДОДАТКОВІ ПОСЛУГИ
+  tour_city: Місто туру
+  city: Місто
+  tour_country: Країна туру
+  your_manager: Ваш менеджер
+  all: Усе
+  on_maderate: НА МОДЕРАЦІЇ
+  on_approve: НА ЗАТВЕРДЖЕННІ
+  pay: ОЧІКУЮТЬ ОПЛАТУ
+  no_pay: ПРОСТРОЧЕНІ
+  payed: ОПЛАЧЕНІ
+  new_tour: Створити новий тур
+  invoice: Рахунок
+  open: Відкритий
+  pre_pay: Передоплата
+  all_amount: Вся сума
+  pay_to: Оплатити до
+  all_tours: Наші тури
+  any: Будь-яка
+  every: Будь-який
+  tours_map: КАРТА ТУРІВ
+  other_dates: доступні інші дати
+
+
+
+breadcrumb.link_footer_gallery_v_list: Галерея відео в футере
+breadcrumb.link_footer_gallery_video_list: Галерея відео в футере
+breadcrumb.link_footer_gallery_images_list: Галерея зображення в футере
+breadcrumb.link_footer_gallery_i_list: Галерея зображень в футере
+
+
+not.unique.username: Користувач з таким ім'ям вже існує
+not.unique.email: Користувач з таким email вже існує
+invalid.request: Помилка при створенні замовлення
+
+
+
+
+tour_builder:
+    wellcome: Ласкаво просимо в TourBuilder!
+    wellcome_text: Програма TourBuilder допоможе Вам швидкл і зручно спланувати та забронювати свій індивідуальний тур в on-line режимі.
+    new_tour: Новий тур
+    comment: Ваш коментар
+    enter_text: Введіть текст
+    create_order: Оформити замовлення
+    finish_booking: Завеpшити бронювання
+    login: Для завершення бронювання увійдіть
+    enter_name: Введіть им'я
+    password: Пароль
+    enter_password: Введіть пароль
+    or_register: Або зареєструйтесь
+    enter_email: Введіть почту
+    register: Зареєструватися
+    route_and_dates: МАРШРУТ І ДАТИ
+    start_here: Ваш тур починається тут
+    city_or_country: Введіть місто та країну
+    arrival: Приїзд
+    departure: Відбуття
+    accomodation: Проживання
+    accomodation_type: Вид житла
+    all_types: Всі види
+    hotel: Готелі
+    appartment: Апартаменти
+    stars_count: Кількість зірок
+    category: Категорія
+    rooms: Кімнати
+    price: Ціна
+    room_select: Вибір номеру
+    select: Обрати
+    detail: Детальніше
+    add_services: Додаткові послуги
+    transport: Транспорт
+    entertainment: Розваги
+    food: Їжа
+    other: Інше
+    rent_time: Час оренди
+    from: З
+    to: По
+    end_booking: Завершити бронювання

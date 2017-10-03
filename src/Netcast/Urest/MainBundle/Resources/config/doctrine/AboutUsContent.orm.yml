@@ -1,0 +1,30 @@
+Netcast\Urest\MainBundle\Entity\AboutUsContent:
+    type: entity
+    table: about_us_content
+    indexes:
+        tag_idx:
+            columns: [ parent_id ]
+        lang_idx:
+            columns: [ lang_id ]
+    id:
+        id:
+            type: integer
+            generator:
+              strategy: AUTO
+    fields:
+      title:
+         type: string
+         length: 255
+      content:
+         type: text
+    manyToOne:
+      parent:
+        targetEntity: Netcast\Urest\MainBundle\Entity\AboutUs
+        joinColumn:
+          name: parent_id
+          referenceColumnName: id
+      lang:
+        targetEntity: Netcast\Urest\MainBundle\Entity\Language
+        joinColumn:
+          name: lang_id
+          referenceColumnName: id

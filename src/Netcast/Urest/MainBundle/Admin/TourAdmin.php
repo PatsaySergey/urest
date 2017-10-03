@@ -31,10 +31,14 @@ class TourAdmin extends Admin {
                 $post->removeTourDate($tourDate);
         }
         foreach($post->getTourContent() as $tourContent) {
-            if(!$tourContent->getIsDeleted())
+            if(!$tourContent->getIsDeleted()) {
                 $tourContent->setParent($post);
-            else
+                $tourContent->setDescription(str_replace('&nbsp;',' ',$tourContent->getDescription()));
+            }
+            else {
                 $post->removeTourContent($tourContent);
+            }
+
         }
         foreach($post->getTourImages() as $tourImages) {
             if($tourImages->getMedia() !== null)
@@ -59,10 +63,13 @@ class TourAdmin extends Admin {
                 $post->removeTourDate($tourDate);
         }
         foreach($post->getTourContent() as $tourContent) {
-            if(!$tourContent->getIsDeleted())
+            if(!$tourContent->getIsDeleted()) {
                 $tourContent->setParent($post);
-            else
+                $tourContent->setDescription(str_replace('&nbsp;',' ',$tourContent->getDescription()));
+            }
+            else {
                 $post->removeTourContent($tourContent);
+            }
         }
         foreach($post->getTourImages() as $tourImages) {
             if($tourImages->getMedia() !== null)

@@ -2,8 +2,13 @@
 
 namespace Netcast\Urest\MainBundle\Twig;
 
+use Symfony\Component\Form\FormFactory;
+
 class RegistrationExtension extends \Twig_Extension
 {
+    /**
+     * @var FormFactory
+     */
     private $formFactory = null;
 
     private $formType    = null;

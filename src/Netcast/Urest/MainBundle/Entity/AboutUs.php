@@ -7,22 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AboutUs
  */
-class AboutUs
+class AboutUs extends HasI18NEntity
 {
     /**
      * @var integer
      */
     private $id;
-
-    /**
-     * @var string
-     */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $title;
 
     /**
      * @var \DateTime
@@ -44,65 +34,74 @@ class AboutUs
      */
     private $image;
 
-    public function __toString() {
-        return $this->title ?: '';
+
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    protected $about_content;
+
+    protected $contentField = 'about_content';
+
+
+    /**
+     * Add about_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\AboutUsContent $about_content
+     * @return AboutUs
+     */
+    public function addAboutContent(AboutUsContent $about_content)
+    {
+        $this->about_content[] = $about_content;
+
+        return $this;
+    }
+
+    /**
+     * Remove about_content
+     *
+     * @param \Netcast\Urest\MainBundle\Entity\AboutUsContent $about_content
+     */
+    public function removeAboutContent(AboutUsContent $about_content)
+    {
+        $this->about_content->removeElement($about_content);
+    }
+
+    /**
+     * Get about_content
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAboutContent()
+    {
+        return $this->about_content;
+    }
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->about_content = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    public function __toString()
+    {
+        return $this->getContent() ? $this->getContent()->getTitle() : '';
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set lang
-     *
-     * @param string $lang
-     * @return AboutUs
-     */
-    public function setLang($lang)
-    {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    /**
-     * Get lang
-     *
-     * @return string 
-     */
-    public function getLang()
-    {
-        return $this->lang;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     * @return AboutUs
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
 
     /**
      * Set created
@@ -120,7 +119,7 @@ class AboutUs
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -143,7 +142,7 @@ class AboutUs
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -166,7 +165,7 @@ class AboutUs
     /**
      * Get user
      *
-     * @return \Application\Sonata\UserBundle\Entity\User 
+     * @return \Application\Sonata\UserBundle\Entity\User
      */
     public function getUser()
     {
@@ -189,38 +188,11 @@ class AboutUs
     /**
      * Get image
      *
-     * @return \Application\Sonata\MediaBundle\Entity\Media 
+     * @return \Application\Sonata\MediaBundle\Entity\Media
      */
     public function getImage()
     {
         return $this->image;
     }
-    /**
-     * @var string
-     */
-    private $content;
 
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     * @return AboutUs
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string 
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
 }

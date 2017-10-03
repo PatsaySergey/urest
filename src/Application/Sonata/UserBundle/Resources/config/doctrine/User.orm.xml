@@ -15,6 +15,7 @@
         </id>
 
         <field name="country" type="text" column="country" nullable="true"/>
+        <field name="facebookId" type="text" column="facebookId" nullable="true"/>
         <field name="city" type="text" column="city" nullable="true"/>
         <field name="isModerator" type="boolean" column="isModerator" nullable="true">
             <options>
