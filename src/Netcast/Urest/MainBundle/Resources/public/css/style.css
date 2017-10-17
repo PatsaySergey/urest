@@ -3544,6 +3544,11 @@ footer {
 }
 
 
+.reg-error p.error {
+  color:red;
+}
+
+
 .inner-content.about ul li {
   list-style-type: disc;
 }

@@ -66,9 +66,8 @@ TourBuilder.prototype.initEvents = function() {
 
 TourBuilder.prototype.init = function (items) {
     var that = this;
-    var dateFrom = new Date();
-    var dateTo = new Date();
-    dateTo.setDate(dateFrom.getDate()+1);
+    var dateFrom = (this.params.from) ? new Date(this.params.from) : new Date();
+    var dateTo = (this.params.till) ? new Date(this.params.till) : new Date();
     this.vBuilder = new Vue({
         el: '#builder',
         data: {
@@ -194,7 +193,6 @@ TourBuilder.prototype.init = function (items) {
                     this.authBlock = true;
                     this.showOrder = false;
                     return;
-                    console.log('dsas');
                 }
                 this.addTour();
             },

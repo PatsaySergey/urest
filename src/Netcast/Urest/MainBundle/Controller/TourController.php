@@ -69,6 +69,18 @@ class TourController extends Controller
         $tours = $tourRepository->getAllTours($tourCity, 0, 8);
         $data['tours'] = $tours;
 
+        $urlParams = [
+            'city' => $this->getRequest()->get('tourCity')
+        ];
+        $dates = $this->getRequest()->get('date');
+        if($dates) {
+            $dates = explode('-',$dates);
+            $urlParams['from'] = date('Y-m-d',strtotime(trim($dates[0])));
+            $urlParams['till'] = date('Y-m-d',strtotime(trim($dates[1])));
+        }
+
+        $builderLink = $this->get('router')->generate('netcast_urest_tour_builder',$urlParams);
+        $data['bUrl'] = $builderLink;
         $mapOptions = $this->buildMapOptions($tours);
 
         $cities = $tourRepository->getTourCities();

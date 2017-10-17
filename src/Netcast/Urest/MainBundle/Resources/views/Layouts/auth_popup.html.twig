@@ -114,6 +114,11 @@
             <div class="modal-body">
                 <div class="registration switch-tab-on">
                     <form action="{{ path('netcast_urest_register') }}" class="mobile" method="POST" id="regFormMob" autocapitalize="off" autocomplete="off">
+                        <div class="reg-error">
+
+
+                        </div>
+
                         <div class="box-input">
                             <label class="title" for="name">{{ 'site.name'|trans({},'NetcastUrestMainBundle') }}</label>
                             {{ form_widget(reg_form_m.first_name) }}

@@ -13,9 +13,14 @@ class FaqAdmin extends Admin {
     // перед созданием
     public function prePersist($item)
     {
+        foreach($item->getFaqContent() as $faqContent) {
+            if(!$faqContent->getIsDeleted())
+                $faqContent->setParent($item);
+            else
+                $item->removeFaqContent($faqContent);
+        }
         $user = $this->getSecurityContext()->getToken()->getUser();
         $item->setUser($user);
-        $item->setLang($this->getLanguage());
         $item->setCreated(new \DateTime());
         $item->setUpdated(new \DateTime());
     }
@@ -23,6 +28,12 @@ class FaqAdmin extends Admin {
     // перед обновлением
     public function preUpdate($item)
     {
+        foreach($item->getFaqContent() as $faqContent) {
+            if(!$faqContent->getIsDeleted())
+                $faqContent->setParent($item);
+            else
+                $item->removeFaqContent($faqContent);
+        }
         $item->setUpdated(new \DateTime());
     }
 
@@ -95,7 +106,7 @@ class FaqAdmin extends Admin {
     {
         $listMapper
             ->add('id','text',['label' => 'form.label.number'])
-            ->add('question', null, ['label' => 'form.label.question'])
+            ->add('content', null, ['label' => 'form.label.question'])
             ->add('user', 'string', ['label' => 'form.label.author', 'template' => 'SonataMediaBundle:MediaAdmin:list_custom.html.twig'])
             ->add('created', null, ['label' => 'form.label.created'])
             ->add('active', null, ['label' => 'form.label.active'])

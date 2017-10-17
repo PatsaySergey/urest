@@ -453,7 +453,10 @@
             servicesPath: '{{ path('netcast_urest_tour_builder_get_services_new',{id:'__id__'}) }}',
             types: {{ itemTypes|json_encode|raw }},
             apTypes: {{ apTypes|json_encode|raw }},
-            currencyIcon: '{{ icon|raw }}'
+            currencyIcon: '{{ icon|raw }}',
+            city: '{{ app.request.get('city') }}',
+            from: '{{ app.request.get('from') }}',
+            till: '{{ app.request.get('till') }}'
        },{{ items|json_encode|raw }});
     </script>
 {% endblock pageScripts %}

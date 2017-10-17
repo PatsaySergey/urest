@@ -38,7 +38,7 @@ class Faq extends HasI18NEntity
 
     public function __toString()
     {
-        return $this->getContent() ?: '';
+        return (string) $this->getContent() ?: '';
     }
 
     /**
@@ -63,7 +63,7 @@ class Faq extends HasI18NEntity
      * @param \Netcast\Urest\MainBundle\Entity\FaqContent $faq_content
      * @return Faq
      */
-    public function addAboutContent(FaqContent $faq_content)
+    public function addFaqContent(FaqContent $faq_content)
     {
         $this->faq_content[] = $faq_content;
 
@@ -75,7 +75,7 @@ class Faq extends HasI18NEntity
      *
      * @param \Netcast\Urest\MainBundle\Entity\FaqContent $faq_content
      */
-    public function removeAboutContent(FaqContent $faq_content)
+    public function removeFaqContent(FaqContent $faq_content)
     {
         $this->faq_content->removeElement($faq_content);
     }

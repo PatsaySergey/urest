@@ -14,6 +14,7 @@ $(document).ready(function() {
     $('#regForm, #regFormMob').submit(function() {
         var $self = $(this);
         var isMobile = $(this).hasClass('mobile');
+        $('.reg-error').empty();
         $.ajax({
             url:     $self.prop('action'),
             type:    'post',
@@ -27,7 +28,11 @@ $(document).ready(function() {
                     $self.find('.errorReg').remove();
                     for (var id in response.errors) {
                         for (var i in response.errors[id]) {
-                            $('#' + id).after('<div class="errorReg" style="color: red">' + response.errors[id][i] + '</div>');
+                            if(isMobile) {
+                                $('.reg-error').append('<p class="error">'+response.errors[id][i]+'</p>')
+                            } else {
+                                $('#' + id).after('<div class="errorReg" style="color: red">' + response.errors[id][i] + '</div>');
+                            }
                         }
                     }
                 }
